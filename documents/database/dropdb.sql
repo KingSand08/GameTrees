@@ -1,0 +1,15 @@
+DROP TABLE
+    Users,
+    Emails,
+    Basic_Users,
+    Connected_Platforms,
+    Catalog_Mgrs,
+    Admins,
+    Business,
+    Stores,
+    Games,
+    Gernes,
+    Platforms,
+    Inventories,
+    PublishedBy,
+    Wishlists;
