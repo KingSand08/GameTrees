@@ -1,9 +1,9 @@
 DROP TABLE
     Users,
     Emails,
-    Basic_Users,
-    Connected_Platforms,
-    Catalog_Mgrs,
+    Customers,
+    Systems_Owned,
+    StoreMgrs,
     Admins,
     Business,
     Stores,
