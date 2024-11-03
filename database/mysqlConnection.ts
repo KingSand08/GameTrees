@@ -1,4 +1,4 @@
-import mysql, { Pool, PoolConnection, RowDataPacket } from 'mysql2/promise';
+import mysql, { FieldPacket, Pool, PoolConnection, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 
 
 /**
@@ -36,18 +36,34 @@ export class MysqlCon {
     }
 
     /**
-     * Executes a SQL query against the database.
+     * Executes a SELECT SQL query against the database.
      * @param query - The SQL query string to execute.
      * @returns An array of rows returned by the query.
      * @throws Will throw an error if the connection is not open.
-    */
-    async query<T extends RowDataPacket>(query: string): Promise<T[]> {
+     */
+    async selQuery(query: string): Promise<RowDataPacket[]> {
         if (!this.connection) {
             throw new Error('Connection is not open. Call open() first.');
         }
 
-        const [rows]: [T[], mysql.FieldPacket[]] = await this.connection.query(query);
+        const [rows]: [RowDataPacket[], mysql.FieldPacket[]] = await this.connection.query(query);
         return rows;
+    }
+
+    /**
+     * Executes a non-SELECT SQL query against the database (like INSERT).
+     * @param query - The SQL query string to execute.
+     * @param values - The values to replace placeholders in the query.
+     * @returns A ResultSetHeader for non-SELECT queries.
+     * @throws Will throw an error if the connection is not open.
+     */
+    async exQuery(query: string, values: (string | number)[] = []): Promise<ResultSetHeader> {
+        if (!this.connection) {
+            throw new Error('Connection is not open. Call open() first.');
+        }
+
+        const [result]: [ResultSetHeader, FieldPacket[]] = await this.connection.execute(query, values);
+        return result; // Return ResultSetHeader for INSERT/UPDATE queries
     }
 
     /**

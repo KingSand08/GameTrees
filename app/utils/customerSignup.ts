@@ -1,4 +1,3 @@
-// utils/customerSignup.ts
 import { isValidEmail } from "@/app/utils/validation";
 import { FormEvent } from "react";
 
@@ -14,6 +13,7 @@ export const SubmitSignup = (
     setEmailValidity: React.Dispatch<React.SetStateAction<boolean>>,
     setBirthDayValidity: React.Dispatch<React.SetStateAction<boolean>>,
     setPhoneNumValidity: React.Dispatch<React.SetStateAction<boolean>>,
+    setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
     refs: {
         nameRef: React.RefObject<HTMLInputElement>;
         usernameRef: React.RefObject<HTMLInputElement>;
@@ -22,47 +22,56 @@ export const SubmitSignup = (
         phoneNumRef: React.RefObject<HTMLInputElement>;
     }
 ): void => {
-    event.preventDefault(); // Prevent the default form submission behavior
+    // Prevent the default form submission behavior
+    event.preventDefault();
 
-    // Validate fields in order and focus on the first invalid one
+    // Reset the Error message
+    setErrorMessage("");
+
     if (name.trim() === "") {
-        alert("Name field cannot be empty!"); // Alert if empty
-        refs.nameRef.current?.focus(); // Focus the name input
+        alert("Name field cannot be empty!");
         setNameValidity(false);
+        setErrorMessage("Name field cannot be empty!");
+        refs.nameRef.current?.focus();
         return;
     }
 
     if (username.trim() === "") {
-        alert("Username field cannot be empty!"); // Alert if empty
-        refs.usernameRef.current?.focus(); // Focus the username input
+        alert("Username field cannot be empty!");
         setUsernameValidity(false);
+        setErrorMessage("Username field cannot be empty!");
+        refs.usernameRef.current?.focus();
         return;
     }
 
     if (email.trim() === "") {
-        alert("Email field cannot be empty!"); // Alert if empty
-        refs.emailRef.current?.focus(); // Focus the email input
+        alert("Email field cannot be empty!");
         setEmailValidity(false);
+        setErrorMessage("Email field cannot be empty!");
+        refs.emailRef.current?.focus();
         return;
 
     } else if (!isValidEmail(email)) {
-        alert("Please enter a valid email address!"); // Alert for invalid email format
+        alert("Please enter a valid email address!");
         setEmailValidity(false);
-        refs.emailRef.current?.focus(); // Focus the email input
+        setErrorMessage("Email field is invalid!");
+        refs.emailRef.current?.focus();
         return;
     }
 
     if (birthDay.trim() === "") {
-        alert("Birth Day field cannot be empty!"); // Alert if empty
-        refs.birthDayRef.current?.focus(); // Focus the birthday input
+        alert("Birth Day field cannot be empty!");
         setBirthDayValidity(false);
+        setErrorMessage("Birthday field cannot be empty!");
+        refs.birthDayRef.current?.focus();
         return;
     }
 
     if (phoneNum.trim() === "") {
-        alert("Phone Number field cannot be empty!"); // Alert if empty
-        refs.phoneNumRef.current?.focus(); // Focus the phone number input
+        alert("Phone Number field cannot be empty!");
+        setErrorMessage("Phone Number field cannot be empty!");
         setPhoneNumValidity(false);
+        refs.phoneNumRef.current?.focus();
         return;
     }
 
@@ -72,4 +81,5 @@ export const SubmitSignup = (
     setEmailValidity(true);
     setBirthDayValidity(true);
     setPhoneNumValidity(true);
+    // route to the server here
 };

@@ -18,6 +18,7 @@ export default function Page() {
     const [isEmailValid, setEmailValidity] = useState<boolean>(true);
     const [isBirthDayValid, setBirthDayValidity] = useState<boolean>(true);
     const [isPhoneNumValid, setPhoneNumValidity] = useState<boolean>(true);
+    const [errorMessage, setErrorMessage] = useState<string>(""); // Error message state
 
     // Refs for input fields
     const nameRef = useRef<HTMLInputElement | null>(null);
@@ -39,6 +40,7 @@ export default function Page() {
             birthDay,
             phoneNum,
             setNameValidity, setUsernameValidity, setEmailValidity, setBirthDayValidity, setPhoneNumValidity,
+            setErrorMessage,
             {
                 nameRef,
                 usernameRef,
@@ -144,6 +146,15 @@ export default function Page() {
                                 Submit
                             </button>
                         </form>
+                        {/* Conditional rendering of the error message */}
+                        {errorMessage && (
+                            <>
+                                <div className="py-1" />
+                                <div className="opacity-85 flex justify-center text-center bg-red-600 rounded-lg w-fit mx-auto py-2 px-4 mt-[10em]">
+                                    <p className="text-white">{errorMessage}</p>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
                 <p className="text-lg">or</p>

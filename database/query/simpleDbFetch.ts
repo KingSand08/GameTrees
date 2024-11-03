@@ -10,7 +10,7 @@ export const fetchUsersFromDB = async () => {
     console.log("Connected to the database");
 
     // Query to select all users
-    const rows = await dbConnection.query("SELECT * FROM Users");
+    const rows = await dbConnection.selQuery("SELECT * FROM Users");
     console.log("Fetched data: ", rows);
     // Return the fetched data
     return rows;
