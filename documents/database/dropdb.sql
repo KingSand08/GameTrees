@@ -12,4 +12,17 @@ DROP TABLE
     Platforms,
     Inventories,
     PublishedBy,
-    Wishlists;
+    Wishlists,
+    Contents,
+    G_Contents,
+    Photos,
+    Acc_Photos,
+    Store_Photos,
+    Biz_Photos,
+    Reviews,
+    S_Reviews,
+    G_Reviews,
+    Removed_Reviews,
+    Comments,
+    Warnings,
+    Ban_List;

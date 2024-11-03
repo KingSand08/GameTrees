@@ -1,6 +1,6 @@
 CREATE TABLE Users (
-    UID INT PRIMARY KEY,
-    Username VARCHAR(100) NOT NULL,
+    UID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(100) NOT NULL UNIQUE,
     Name VARCHAR(100) NOT NULL,
     DOB DATE,
     Phone VARCHAR(15)
@@ -152,7 +152,7 @@ CREATE TABLE Wishlists(
 
 CREATE TABLE Contents(
     Content_ID VARCHAR(10) PRIMARY KEY,
-    Text_Desc TEXT DEFAULT ''
+    Text_Desc TEXT
 );
 
 CREATE TABLE G_Contents(
@@ -217,7 +217,7 @@ CREATE TABLE Reviews(
     Content_ID VARCHAR(10) NOT NULL,
     FOREIGN KEY (UID) REFERENCES Users(UID)
         ON DELETE SET NULL
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE,
     FOREIGN KEY (Content_ID) REFERENCES Contents(Content_ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE
@@ -236,7 +236,7 @@ CREATE TABLE S_Reviews(
 
 CREATE TABLE G_Reviews(
     RID VARCHAR(10) PRIMARY KEY,
-    Title VARCHAR(50) NOT NULL 
+    Title VARCHAR(50) NOT NULL, 
     Dev_ID VARCHAR(10) NOT NULL,
     FOREIGN KEY (RID) REFERENCES Reviews(RID)
         ON DELETE CASCADE
@@ -291,7 +291,7 @@ CREATE TABLE Warnings(
 );
 
 CREATE TABLE Ban_List(
-    Ban_ID INT PRIMARY KEY,
+    Ban_ID INT AUTO_INCREMENT PRIMARY KEY,
     User_ID INT,
     Admin_ID INT,
     FOREIGN KEY (User_ID) REFERENCES Users(UID)
@@ -308,18 +308,49 @@ CREATE TRIGGER businessBecomesDeveloper -- This trigger ensures only a Developer
     AFTER INSERT ON Games 
     FOR EACH ROW
     BEGIN
-        UPDATE Business B
-        SET B.D_Flag = 'Y'
-        WHERE B.BID = NEW.Dev_ID;
+        IF ((SELECT B.D_Flag 
+            FROM Business B
+            WHERE B.BID = NEW.Dev_ID) <> 'Y')
+            THEN UPDATE Business B2
+                SET B2.D_Flag = 'Y'
+                WHERE B2.BID = NEW.Dev_ID;
+            END IF;
     END//
+
+CREATE TRIGGER businessBecomesDistributor -- This ensures a business owning any store is a Parent Company
+    AFTER INSERT ON Stores
+    FOR EACH ROW
+    BEGIN
+        IF ((SELECT B.PC_Flag
+            FROM Business B
+            WHERE B.BID = NEW.BID) <> 'Y')
+            THEN UPDATE Business B2
+                SET B2.PC_Flag = 'Y'
+                WHERE B2.BID = NEW.BID;
+        END IF;
+    END//    
 
 CREATE TRIGGER businessBecomesPublisher -- This trigger ensures only a Publisher can publish a game
     AFTER INSERT ON PublishedBy 
     FOR EACH ROW
     BEGIN
-        UPDATE Business B
-        SET B.P_Flag = 'Y'
-        WHERE B.BID = NEW.Publisher_ID;
+        IF ((SELECT B.P_Flag
+            FROM Business B
+            WHERE B.BID = NEW.Publisher_ID) <> 'Y')
+        THEN UPDATE Business B2
+            SET B2.P_Flag = 'Y'
+            WHERE B2.BID = NEW.Publisher_ID;
+        END IF;
+    END//
+
+CREATE TRIGGER autoBansUserAfterThreeWarnings -- This trigger ensures an UID is banned upon receiving the third warning
+    AFTER INSERT ON Warnings
+    FOR EACH ROW
+    BEGIN
+        IF (NEW.IssuedNum = 3)
+        THEN INSERT INTO Ban_List (User_ID, Admin_ID)
+        VALUES (NEW.UID, NEW.Adm_ID);
+        END IF;
     END//
 
 DELIMITER ;
