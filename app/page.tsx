@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-// import { fetchDataFromDB } from "../lib/simpleDbFetch"
-// fetchDataFromDB();
+import { fetchUsersFromDB } from "@/database/query/simpleDbFetch"
+fetchUsersFromDB();
 
 export default function Home() {
   return (

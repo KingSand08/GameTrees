@@ -1,25 +1,37 @@
-import pool from "../../utils/mysql";
+import { MysqlCon } from "@/database/mysqlConnection";
 
-export const fetchDataFromDB = async () => {
+// Create an instance of MysqlCon
+const dbConnection = new MysqlCon();
+
+// Function to fetch users from the database
+export const fetchUsersFromDB = async () => {
   try {
-    const connection = await pool.getConnection();
+    await dbConnection.open(); // Open the connection
     console.log("Connected to the database");
 
-    const [rows] = await connection.query("SELECT * FROM Product");
+    // Query to select all users
+    const rows = await dbConnection.query("SELECT * FROM Users");
     console.log("Fetched data: ", rows);
-
-    connection.release(); // Release connection back to pool
+    // Return the fetched data
     return rows;
   } catch (error) {
+    // Handle any errors
     console.error("Error fetching data: ", error);
+    // Re-throw the error for further handling if needed
     throw error;
+  } finally {
+    // Ensure the connection is closed after the operation
+    await dbConnection.close();
   }
 }
 
-fetchDataFromDB().then(data => {
-  // Handle received data here
-  console.log("Recieved data:", data);
-}).catch(error => {
-  // Handle the error here
-  console.error("Error fetching data:", error);
-})
+// Call the fetch function and handle the received data
+fetchUsersFromDB()
+  .then(data => {
+    // Handle received data here
+    console.log("Received data:", data);
+  })
+  .catch(error => {
+    // Handle the error here
+    console.error("Error fetching data:", error);
+  });
