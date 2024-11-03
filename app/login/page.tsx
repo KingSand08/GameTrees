@@ -5,14 +5,19 @@ import React, { useState, ChangeEvent, useRef, FormEvent } from "react";
 import { SubmitLogin } from "@/app/utils/customerLogin";
 
 export default function Page() {
+    // State variables
     const [email, setEmail] = useState<string>("");
+
+    // Validity states for input fields
     const [isEmailValid, setValidity] = useState<boolean>(true);
 
+    // Refs for input fields
     const emailRef = useRef<HTMLInputElement | null>(null);
 
+    // Setup app Router
     const router = useRouter();
 
-
+    // Submission Handler
     const handleEmailSubmit = (event: FormEvent<HTMLFormElement>) => {
         SubmitLogin(
             event,
