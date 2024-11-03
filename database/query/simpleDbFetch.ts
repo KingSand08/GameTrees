@@ -1,4 +1,4 @@
-import pool from "../utils/mysql";
+import pool from "../../utils/mysql";
 
 export const fetchDataFromDB = async () => {
   try {
