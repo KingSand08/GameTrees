@@ -1,4 +1,4 @@
-import mysql from "mysql2.promise";
+import mysql from "mysql2/promise";
 
 class Database {
     static db;
@@ -12,7 +12,7 @@ class Database {
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASS,
-            database: "testDB", //process.env.DB_NAME,
+            database: process.env.DB_NAME,
             waitForConnections: true,
             connectionLimit: 10,
             queueLimit: 0

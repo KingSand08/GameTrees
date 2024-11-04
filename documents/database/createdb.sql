@@ -51,9 +51,9 @@ CREATE TABLE Admins(
 CREATE TABLE Business(
     BID VARCHAR(10) PRIMARY KEY,
     Name VARCHAR(50) NOT NULL,
-    PC_Flag ENUM('Y', 'N') NOT NULL, -- Parent Company
-    D_Flag ENUM('Y', 'N') NOT NULL, -- Developer
-    P_Flag ENUM('Y', 'N') NOT NULL, -- Publisher
+    PC_Flag ENUM('N', 'Y') NOT NULL, -- Parent Company
+    D_Flag ENUM('N', 'Y') NOT NULL, -- Developer
+    P_Flag ENUM('N', 'Y') NOT NULL, -- Publisher
     Street VARCHAR(100),
     City VARCHAR(25),
     State CHAR(2),
@@ -90,22 +90,38 @@ CREATE TABLE Games(
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Gernes(
+CREATE TABLE Genre_List(
+    Genre_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Type VARCHAR(30) NOT NULL UNIQUE
+);
+
+CREATE TABLE Genres(
     Title VARCHAR(50),
     Dev_ID VARCHAR(10),
-    Description VARCHAR(20),
-    PRIMARY KEY (Title, Dev_ID, Description),
+    Genre_ID INT NOT NULL,
+    PRIMARY KEY (Title, Dev_ID, Genre_ID),
     FOREIGN KEY (Title, Dev_ID) REFERENCES Games(Title, Dev_ID)
         ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Genre_ID) REFERENCES Genre_List(Genre_ID)
+        ON DELETE CASCADE
         ON UPDATE CASCADE
+);
+
+CREATE TABLE Platform_list(
+    Platform_ID VARCHAR(10) PRIMARY KEY,
+    Platform VARCHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE Platforms(
     Title VARCHAR(50),
     Dev_ID VARCHAR(10),
-    Description VARCHAR(30),
-    PRIMARY KEY (Title, Dev_ID, Description),
+    Platform_ID VARCHAR(10) NOT NULL,
+    PRIMARY KEY (Title, Dev_ID, Platform_ID),
     FOREIGN KEY (Title, Dev_ID) REFERENCES Games(Title, Dev_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Platform_ID) REFERENCES Platform_List(Platform_ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -354,3 +370,122 @@ CREATE TRIGGER autoBansUserAfterThreeWarnings -- This trigger ensures an UID is 
     END//
 
 DELIMITER ;
+
+-- Populate Data
+
+-- Populate Users
+INSERT INTO Users(UID, Username, Name) VALUES	
+	(1, 'pikalot','Pikalot'),
+	(2, 'sandking','Connor'),
+	(3, 'aman','Aman'),
+	(4, 'genie','Alex'),
+	(5, 'splendid','Steve'),
+	(6, 'peasant','Jon Snow'),
+	(7, 'manager','Joker');
+
+INSERT INTO Emails VALUES	
+	(1, 'pikalot@hotmail.com'),
+	(2, 'clinvil2@gmail.com'),
+	(3, 'aman.imran@sjsu.edu'),
+	(4, 'alimalex1525@gmail.com'),
+	(5, 'stevenlu156@gmail.com'),
+	(6, 'thepikalot@yahoo.com'),
+	(7, 'tuananh.ho@sjsu.edu');
+
+INSERT INTO Admins VALUES	
+	(1, 'Admin@123'),
+	(2, 'Admin@123'),
+	(3, 'Admin@123'),
+	(4, 'Admin@123'),
+	(5, 'Admin@123');
+
+INSERT INTO StoreMgrs VALUES
+    (6, 'Manager@123'),
+    (7, 'Manager@123');
+
+-- Populate Business
+INSERT INTO Business(BID, Name, Street, City, State, Zip_Code, Country) VALUES	
+	('B01', 'GameStop', '625 Westport Pkwy', 'Grapevine', 'TX', 76051, 'US'),
+	('B02', 'SJSU', '1 Washington Sq', 'San Jose', 'CA', 95192, 'US'),
+	('B03', 'Steam', '10400 NE 4th St, Floor 14', 'Bellevue', 'WA', 98004, 'US'),
+	('B04', 'Valve Corporation', 'P.O. Box 1688', 'Bellevue', 'WA', 98004, 'US'),
+	('B05', 'Nintendo', '4600 150th Ave', 'NE Redmond', 'WA', 98052, 'US'),
+	('B06', 'Creative Assembly', 'Spire Court, Albion Way, Horsham', 'West Sussex', '', NULL, 'UK'),
+	('B07', 'Sega', 'Sumitomo Fudosan Osaki Garden Tower 9F, 1-1-1. Nishi-Shinagawa, Shinagawa-ku', 'Tokyo', '', NULL, 'Japan'),
+	('B08', 'FromSoftware', '21-1,Kita-Shinjuku 2-chome,Shinjuku-ku', 'Tokyo', '', NULL, 'Japan'),
+	('B09', 'Activision', '2701 Olympic Blvd # B', 'Santa Monica', 'CA', 90401, 'US'),
+	('B10', 'Square Enix', 'Shinjuku Eastside Square, 6-27-30 Shinjuku, Shinjuku-ku', 'Tokyo', '', NULL, 'Japan'),
+	('B11', 'Square Electronic Arts', '209 Redwood Shores Pkwy', 'Redwood City', 'CA', 94065, 'US');
+
+
+-- Populate Genre and Platform list
+INSERT INTO Genre_List(Type) VALUES	
+	('Action'),
+	('Adventure'),
+	('Action-Adventure'),
+	('Puzzle'),
+	('Role-Playing'),
+	('Simulation'),
+	('Strategy'),
+	('Sports'),
+	('MMO'),
+	('Platformer video game genres');
+
+INSERT INTO Platform_List VALUES	
+	('P01', 'PC'),
+	('P02', 'Playstation 3'),
+	('P03', 'Playstation 4'),
+	('P04', 'Playstation 5'),
+	('P05', 'Xbox'),
+	('P06', 'Nintendo Switch'),
+	('P07', 'Nintendo DS'),
+	('P08', 'Wii'),
+	('P09', 'IOS'),
+	('P10', 'Android');
+
+-- Populate Games
+
+INSERT INTO Games VALUES	
+	('Dota 2', 'B04', '0'),
+	('Fire Emblem: Three Houses', 'B05', '59.99'),
+	('Total War: THREE KINGDOMS', 'B06', '59.99'),
+	('Sekiro: Shadows Die Twice', 'B08', '59.99'),
+	('Xenogears', 'B10', '9.99');
+
+INSERT INTO Genres VALUES	
+	('Dota 2', 'B04', 7),
+	('Fire Emblem: Three Houses', 'B05', 5),
+	('Fire Emblem: Three Houses', 'B05', 7),
+	('Total War: THREE KINGDOMS', 'B06', 7),
+	('Sekiro: Shadows Die Twice', 'B08', 3),
+	('Xenogears', 'B10', 2),
+	('Xenogears', 'B10', 5);
+
+INSERT INTO Platforms VALUES	
+	('Dota 2', 'B04', 'P01'),
+	('Fire Emblem: Three Houses', 'B05', 'P06'),
+	('Fire Emblem: Three Houses', 'B05', 'P07'),
+	('Total War: THREE KINGDOMS', 'B06', 'P01'),
+	('Sekiro: Shadows Die Twice', 'B08', 'P01'),
+	('Sekiro: Shadows Die Twice', 'B08', 'P03'),
+	('Sekiro: Shadows Die Twice', 'B08', 'P04'),
+	('Xenogears', 'B10', 'P02');
+
+-- Populate Stores
+INSERT INTO Stores(Store_ID, BID, MID, Ops_Hour, Street, City, State, Zip_Code, Country) VALUES	
+	('S001', 'B01', 6, 'Business Hours', '1110 S King Rd #30', 'San Jose', 'CA', '95122', 'US'),
+	('S002', 'B01', 7, 'Weekends', '579 Coleman Ave #90', 'San Jose', 'CA', '95110', 'US'),
+	('S003', 'B03', NULL, 'Online Platform', '<Web URL>', NULL, NULL, NULL, NULL);
+
+-- Populate Inventories
+INSERT INTO Inventories VALUES	
+	('S001', 'Fire Emblem: Three Houses', 'B05', 0),
+	('S001', 'Total War: THREE KINGDOMS', 'B06', 0.3),
+	('S001', 'Sekiro: Shadows Die Twice', 'B08', 0),
+	('S001', 'Xenogears', 'B10', 0),
+	('S002', 'Fire Emblem: Three Houses', 'B05', 0),
+	('S002', 'Sekiro: Shadows Die Twice', 'B08', 0.5),
+	('S003', 'Dota 2', 'B04', 0),
+	('S003', 'Total War: THREE KINGDOMS', 'B06', 0.15),
+	('S003', 'Sekiro: Shadows Die Twice', 'B08', 0),
+	('S003', 'Xenogears', 'B10', 0);
