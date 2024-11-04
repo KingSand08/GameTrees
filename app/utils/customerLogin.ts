@@ -19,16 +19,19 @@ export const SubmitLogin = (
         lastInputRef.current?.focus();
         setValidity(false);
         setErrorMessage("Email field cannot be empty!");
+        return;
     } else if (!isValidEmail(email)) {
         alert("Please enter a valid email address!");
         setValidity(false);
         setErrorMessage("Email field is invalid!");
         lastInputRef.current?.focus();
-    } else {
-        alert(`Added the user ${email}`);
-        console.log("Form submitted with email:", email);
-        setValidity(true);
+        return;
     }
+
+
+    alert(`Correct login ${email}`);
+    console.log("Form submitted with email:", email);
+    setValidity(true);
 
     // Make API request to send MagicLink
     fetch('/api/auth/magiclink', {
