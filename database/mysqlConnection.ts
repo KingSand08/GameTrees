@@ -41,12 +41,12 @@ export class MysqlCon {
      * @returns An array of rows returned by the query.
      * @throws Will throw an error if the connection is not open.
      */
-    async selQuery(query: string): Promise<RowDataPacket[]> {
+    async selQuery(query: string, params: (string | number)[] = []): Promise<RowDataPacket[]> {
         if (!this.connection) {
             throw new Error('Connection is not open. Call open() first.');
         }
 
-        const [rows]: [RowDataPacket[], mysql.FieldPacket[]] = await this.connection.query(query);
+        const [rows]: [RowDataPacket[], FieldPacket[]] = await this.connection.query(query, params);
         return rows;
     }
 
@@ -57,12 +57,12 @@ export class MysqlCon {
      * @returns A ResultSetHeader for non-SELECT queries.
      * @throws Will throw an error if the connection is not open.
      */
-    async exQuery(query: string, values: (string | number)[] = []): Promise<ResultSetHeader> {
+    async exQuery(query: string, params: (string | number)[] = []): Promise<ResultSetHeader> {
         if (!this.connection) {
             throw new Error('Connection is not open. Call open() first.');
         }
 
-        const [result]: [ResultSetHeader, FieldPacket[]] = await this.connection.execute(query, values);
+        const [result]: [ResultSetHeader, FieldPacket[]] = await this.connection.execute(query, params);
         return result; // Return ResultSetHeader for INSERT/UPDATE queries
     }
 
