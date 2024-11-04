@@ -11,6 +11,9 @@ export default function Page() {
     // Validity states for input fields
     const [isEmailValid, setValidity] = useState<boolean>(true);
 
+    // Error message state variable
+    const [errorMessage, setErrorMessage] = useState<string>("");
+
     // Refs for input fields
     const emailRef = useRef<HTMLInputElement | null>(null);
 
@@ -21,8 +24,9 @@ export default function Page() {
     const handleEmailSubmit = (event: FormEvent<HTMLFormElement>) => {
         SubmitLogin(
             event,
-            email, setEmail,
+            email,
             setValidity,
+            setErrorMessage,
             emailRef
         );
     };
@@ -58,6 +62,16 @@ export default function Page() {
                                 Submit
                             </button>
                         </form>
+                        {/* Conditional rendering of the error message */}
+                        {errorMessage && (
+                            <>
+                                <div className="py-1" />
+                                <div className="opacity-85 flex justify-center text-center bg-red-600 rounded-lg w-fit mx-auto py-2 px-4 mt-[10em]">
+                                    <p className="text-white">{errorMessage}</p>
+                                </div>
+                            </>
+                        )}
+
                     </div>
                 </div>
                 <p className="text-lg">

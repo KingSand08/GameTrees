@@ -18,7 +18,9 @@ export default function Page() {
     const [isEmailValid, setEmailValidity] = useState<boolean>(true);
     const [isBirthDayValid, setBirthDayValidity] = useState<boolean>(true);
     const [isPhoneNumValid, setPhoneNumValidity] = useState<boolean>(true);
-    const [errorMessage, setErrorMessage] = useState<string>(""); // Error message state
+
+    // Error message state variable
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
     // Refs for input fields
     const nameRef = useRef<HTMLInputElement | null>(null);

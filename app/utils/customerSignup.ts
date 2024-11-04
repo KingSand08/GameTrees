@@ -76,12 +76,15 @@ export const SubmitSignup = (
         return;
     }
 
+    alert(`Added the user ${username}, ${name}, ${email}, ${birthDay}, ${phoneNum}`);
     console.log("Form submitted with:", username, name, email, birthDay, phoneNum);
     setNameValidity(true);
     setUsernameValidity(true);
     setEmailValidity(true);
     setBirthDayValidity(true);
     setPhoneNumValidity(true);
+
+    // Submit to DB
     fetch('/api/signup', {
         method: 'POST',
         headers: {
