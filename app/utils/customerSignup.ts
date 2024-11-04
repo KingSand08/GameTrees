@@ -1,4 +1,5 @@
 import { isValidEmail } from "@/app/utils/validation";
+// import { redirect } from "next/navigation";
 import { FormEvent } from "react";
 
 export const SubmitSignup = (
@@ -81,5 +82,11 @@ export const SubmitSignup = (
     setEmailValidity(true);
     setBirthDayValidity(true);
     setPhoneNumValidity(true);
-    // route to the server here
+    fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, username, email, birthDay, phoneNum }),
+    })
 };

@@ -1,19 +1,23 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { registerCustomer } from '@/database/query/registerCustomer';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method === 'POST') {
-        const { name, username, email, birthDay, phoneNum } = req.body;
+export async function POST(req: NextRequest) {
+    try {
+        // Parse JSON data from the request
+        const { name, username, email, birthDay, phoneNum } = await req.json();
 
-        try {
-            const userId = await registerCustomer(name, username, email, birthDay, phoneNum);
-            res.status(200).json({ userId });
-        } catch (error) {
-            console.error('Registration error:', error);
-            res.status(500).json({ message: 'Registration failed. Please try again.' });
-        }
-    } else {
-        res.setHeader('Allow', ['POST']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
+        // Call the database function to register a customer
+        const userId = await registerCustomer(name, username, email, birthDay, phoneNum);
+
+        // Return a successful JSON response with the userId
+        return NextResponse.json({ userId }, { status: 200 });
+    } catch (error) {
+        console.error('Registration error:', error);
+
+        // Return a JSON error response
+        return NextResponse.json(
+            { message: 'Registration failed. Please try again.' },
+            { status: 500 }
+        );
     }
 }
