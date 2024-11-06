@@ -1,6 +1,7 @@
 CREATE TABLE Users (
     UID INT AUTO_INCREMENT PRIMARY KEY,
     Username VARCHAR(100) NOT NULL UNIQUE,
+    Password VARCHAR(35) NOT NULL,
     Name VARCHAR(100) NOT NULL,
     DOB DATE,
     Phone VARCHAR(15)
@@ -34,7 +35,6 @@ CREATE TABLE Systems_Owned(
 
 CREATE TABLE StoreMgrs(
     UID INT PRIMARY KEY,
-    Password VARCHAR(20) NOT NULL,
     FOREIGN KEY (UID) REFERENCES Users(UID) 
         ON DELETE CASCADE
         ON UPDATE CASCADE
@@ -42,7 +42,6 @@ CREATE TABLE StoreMgrs(
 
 CREATE TABLE Admins(
     UID INT PRIMARY KEY,
-    Password VARCHAR(20) NOT NULL,
     FOREIGN KEY (UID) REFERENCES Users(UID) 
         ON DELETE CASCADE
         ON UPDATE CASCADE
@@ -374,14 +373,14 @@ DELIMITER ;
 -- Populate Data
 
 -- Populate Users
-INSERT INTO Users(UID, Username, Name) VALUES	
-	(1, 'pikalot','Pikalot'),
-	(2, 'sandking','Connor'),
-	(3, 'aman','Aman'),
-	(4, 'genie','Alex'),
-	(5, 'splendid','Steve'),
-	(6, 'peasant','Jon Snow'),
-	(7, 'manager','Joker');
+INSERT INTO Users(UID, Username, Password, Name) VALUES	
+	(1, 'pikalot', 'Admin@123', 'Pikalot'),
+	(2, 'sandking', 'Admin@123','Connor'),
+	(3, 'aman', 'Admin@123','Aman'),
+	(4, 'genie', 'Admin@123', 'Alex'),
+	(5, 'splendid', 'Admin@123', 'Steve'),
+	(6, 'peasant', 'Manager@123', 'Jon Snow'),
+	(7, 'manager', 'Manager@123', 'Joker');
 
 INSERT INTO Emails VALUES	
 	(1, 'pikalot@hotmail.com'),
@@ -393,15 +392,15 @@ INSERT INTO Emails VALUES
 	(7, 'tuananh.ho@sjsu.edu');
 
 INSERT INTO Admins VALUES	
-	(1, 'Admin@123'),
-	(2, 'Admin@123'),
-	(3, 'Admin@123'),
-	(4, 'Admin@123'),
-	(5, 'Admin@123');
+	(1),
+	(2),
+	(3),
+	(4),
+	(5);
 
 INSERT INTO StoreMgrs VALUES
-    (6, 'Manager@123'),
-    (7, 'Manager@123');
+    (6),
+    (7);
 
 -- Populate Business
 INSERT INTO Business(BID, Name, Street, City, State, Zip_Code, Country) VALUES	
