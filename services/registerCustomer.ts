@@ -1,4 +1,4 @@
-import { MysqlCon } from "@/database/mysqlConnection";
+import { mysqlConn } from "@/database/mysqlConnection";
 import { ResultSetHeader } from "mysql2/promise";
 
 /**
@@ -12,14 +12,13 @@ export const registerCustomer = async (
     birthDay: string,
     phoneNum: string
 ): Promise<number> => {
-    const db = MysqlCon.getInstance();
-    await db.open();
+    await mysqlConn.open();
 
     const query = 'INSERT INTO Users (name, username, email, birthdate, phoneNum) VALUES (?, ?, ?, ?, ?)';
 
     try {
         // Execute the insert query with provided values
-        const result: ResultSetHeader = await db.exQuery(query, [name, username, email, birthDay, phoneNum]);
+        const result: ResultSetHeader = await mysqlConn.exQuery(query, [name, username, email, birthDay, phoneNum]);
 
         // Return the inserted user ID on success
         return result.insertId;
@@ -28,6 +27,6 @@ export const registerCustomer = async (
         throw new Error("Failed to insert new user.");
     } finally {
         // Ensure the connection is closed after the query
-        await db.close();
+        await mysqlConn.close();
     }
 };

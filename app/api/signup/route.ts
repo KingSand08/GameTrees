@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { registerCustomer } from '@/database/query/registerCustomer';
+import { registerCustomer } from '@/services/registerCustomer';
 
 export async function POST(req: NextRequest) {
     try {

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { fetchUsersFromDB } from "@/database/query/simpleDbFetch"
+import { fetchUsersFromDB } from "@/services/simpleDbFetch"
 fetchUsersFromDB();
 
 export default function Home() {

@@ -1,14 +1,16 @@
 import mysql, { FieldPacket, Pool, PoolConnection, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
-
+import { Mysql2Adapter } from "@lucia-auth/adapter-mysql";
 
 /**
  * MysqlCon is a class that manages a MySQL database connection using a connection pool.
  * It provides methods to open a connection, execute queries, and manage connection resources.
 */
-export class MysqlCon {
+class MysqlCon {
     private pool: Pool;
     private connection: PoolConnection | null = null;
-    private static db: MysqlCon;;
+    private static db: MysqlCon;
+    private adapter: Mysql2Adapter;
+
     /**
      * Constructs a MysqlCon instance and initializes the connection pool.
      * It reads database connection parameters from environment variables.
@@ -22,6 +24,12 @@ export class MysqlCon {
             waitForConnections: true,
             connectionLimit: 10,
             queueLimit: 0,
+        });
+
+        // Initialize the adapter with the pool and user/session details
+        this.adapter = new Mysql2Adapter(this.pool, {
+            user: "user",
+            session: "user_session"
         });
     }
 
@@ -52,7 +60,7 @@ export class MysqlCon {
      * @returns An array of rows returned by the query.
      * @throws Will throw an error if the connection is not open.
      */
-    async selQuery(query: string, params: (string | number)[] = []): Promise<RowDataPacket[]> {
+    async selQuery(query: string, params: (string | number | Date)[] = []): Promise<RowDataPacket[]> {
         if (!this.connection) {
             throw new Error('Connection is not open. Call open() first.');
         }
@@ -67,12 +75,19 @@ export class MysqlCon {
      * @returns A ResultSetHeader for non-SELECT queries.
      * @throws Will throw an error if the connection is not open.
      */
-    async exQuery(query: string, values: (string | number)[] = []): Promise<ResultSetHeader> {
+    async exQuery(query: string, values: (string | number | Date)[] = []): Promise<ResultSetHeader> {
         if (!this.connection) {
             throw new Error('Connection is not open. Call open() first.');
         }
         const [result]: [ResultSetHeader, FieldPacket[]] = await this.connection.execute(query, values);
         return result; // Return ResultSetHeader for INSERT/UPDATE queries
+    }
+
+    /**
+     * Returns the instance of the Mysql2Adapter.
+    */
+    public getAdapter(): Mysql2Adapter {
+        return this.adapter;
     }
 
     /**
@@ -94,3 +109,5 @@ export class MysqlCon {
         await this.pool.end();
     }
 }
+
+export const mysqlConn = MysqlCon.getInstance();

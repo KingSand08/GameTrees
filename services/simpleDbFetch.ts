@@ -1,16 +1,13 @@
-import { MysqlCon } from "@/database/mysqlConnection";
-
-// Create an instance of MysqlCon
-const dbConnection = MysqlCon.getInstance();
+import { mysqlConn } from "@/database/mysqlConnection";
 
 // Function to fetch users from the database
 export const fetchUsersFromDB = async () => {
   try {
-    await dbConnection.open(); // Open the connection
+    await mysqlConn.open(); // Open the connection
     console.log("Connected to the database");
 
     // Query to select all users
-    const rows = await dbConnection.selQuery("SELECT * FROM Users");
+    const rows = await mysqlConn.selQuery("SELECT * FROM Users");
     console.log("Fetched data: ", rows);
     // Return the fetched data
     return rows;
@@ -21,7 +18,7 @@ export const fetchUsersFromDB = async () => {
     throw error;
   } finally {
     // Ensure the connection is closed after the operation
-    await dbConnection.close();
+    await mysqlConn.close();
   }
 }
 
