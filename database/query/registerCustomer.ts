@@ -12,8 +12,8 @@ export const registerCustomer = async (
     birthDay: string,
     phoneNum: string
 ): Promise<number> => {
-    const db = new MysqlCon();
-    await db.open(); // Open a connection
+    const db = MysqlCon.getInstance();
+    await db.open();
 
     const query = 'INSERT INTO Users (name, username, email, birthdate, phoneNum) VALUES (?, ?, ?, ?, ?)';
 

@@ -8,12 +8,12 @@ import mysql, { FieldPacket, Pool, PoolConnection, ResultSetHeader, RowDataPacke
 export class MysqlCon {
     private pool: Pool;
     private connection: PoolConnection | null = null;
-
+    private static db: MysqlCon;;
     /**
      * Constructs a MysqlCon instance and initializes the connection pool.
      * It reads database connection parameters from environment variables.
     */
-    constructor() {
+    private constructor() {
         this.pool = mysql.createPool({
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
@@ -23,6 +23,17 @@ export class MysqlCon {
             connectionLimit: 10,
             queueLimit: 0,
         });
+    }
+
+    /**
+     * Returns the singleton instance of the MysqlCon class.
+     * If the instance does not exist, it creates one.
+    */
+    public static getInstance(): MysqlCon {
+        if (!MysqlCon.db) {
+            MysqlCon.db = new MysqlCon();
+        }
+        return MysqlCon.db;
     }
 
     /**
@@ -45,7 +56,6 @@ export class MysqlCon {
         if (!this.connection) {
             throw new Error('Connection is not open. Call open() first.');
         }
-
         const [rows]: [RowDataPacket[], mysql.FieldPacket[]] = await this.connection.query(query, params);
         return rows;
     }
@@ -61,7 +71,6 @@ export class MysqlCon {
         if (!this.connection) {
             throw new Error('Connection is not open. Call open() first.');
         }
-
         const [result]: [ResultSetHeader, FieldPacket[]] = await this.connection.execute(query, values);
         return result; // Return ResultSetHeader for INSERT/UPDATE queries
     }

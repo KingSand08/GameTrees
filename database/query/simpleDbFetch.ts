@@ -1,7 +1,7 @@
 import { MysqlCon } from "@/database/mysqlConnection";
 
 // Create an instance of MysqlCon
-const dbConnection = new MysqlCon();
+const dbConnection = MysqlCon.getInstance();
 
 // Function to fetch users from the database
 export const fetchUsersFromDB = async () => {
