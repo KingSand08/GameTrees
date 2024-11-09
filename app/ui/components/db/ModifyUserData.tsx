@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useFormStatus, useFormState } from "react-dom";
-import mysqlServerAction from "@/database/mysqlServerAction";
+import MysqlSignUpAction from "@/database/mysqlSignUpAction";
 
 const initialState = {
   message: "",
@@ -10,11 +10,12 @@ const initialState = {
 
 const ModifyUserData = () => {
   const { pending } = useFormStatus();
-  const [state, formAction] = useFormState(mysqlServerAction, initialState);
+  const [state, formAction] = useFormState(MysqlSignUpAction, initialState);
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="flex flex-col items-center justify-center">
         <div className="flex flex-col w-1/2 p-8 bg-slate-800 rounded-lg shadow-lg">
           <h1 className="text-3xl mb-4 text-white font-semibold text-center">
             Form MySQL Data Changer Page
@@ -33,6 +34,7 @@ const ModifyUserData = () => {
                 name="username"
                 placeholder="new username"
                 className="py-2 px-4 rounded-lg border text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                required
               />
             </div>
 
@@ -60,7 +62,7 @@ const ModifyUserData = () => {
                 Email:
               </label>
               <input
-                type="text"
+                type="email"
                 id="email"
                 name="email"
                 placeholder="new type email"
@@ -76,12 +78,21 @@ const ModifyUserData = () => {
                 Password:
               </label>
               <input
-                type="text"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 placeholder="new type password"
                 className="py-2 px-4 rounded-lg border text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
               />
+              <button
+                type="button"
+                className="text-black dark:text-white"
+                onClick={() => {
+                  setShowPassword((prev) => !prev);
+                }}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
             </div>
 
             {/* Error Message */}
@@ -102,6 +113,16 @@ const ModifyUserData = () => {
               className="mt-4 w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-medium hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
             >
               {pending ? "Inserting..." : "Insert"}
+            </button>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              name="submit"
+              id="submit"
+              value="update"
+              className="mt-4 w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-medium hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+            >
+              {pending ? "Updating..." : "Update"}
             </button>
           </form>
         </div>

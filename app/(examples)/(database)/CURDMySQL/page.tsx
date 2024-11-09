@@ -1,13 +1,15 @@
 import React from "react";
-import DisplayUserData from "@/database/DisplayUserData";
-import ModifyUserData from "@/database/ModifyUserData";
+import DisplayUserData from "@/app/ui/components/db/DisplayUserData";
+import ModifyUserData from "@/app/ui/components/db/ModifyUserData";
 
 const Page = async () => {
   return (
     <div>
       <h2 className="text-2xl">MySQL with Server Action in Next.js</h2>
-      <ModifyUserData />
-      <DisplayUserData />
+      <div className="flex flex-col space-y-[8em] pt-[5em]">
+        <ModifyUserData />
+        <DisplayUserData />
+      </div>
     </div>
   );
 };
