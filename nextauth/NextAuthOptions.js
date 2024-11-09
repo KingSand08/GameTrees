@@ -72,7 +72,7 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: "/login", // Your custom sign-in page
+    // signIn: "/login", // Your custom sign-in page
     // signOut: "/auth/signout", // Your custom sign-out page
   },
 };

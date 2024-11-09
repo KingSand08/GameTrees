@@ -4,11 +4,19 @@ import Link from 'next/link';
 import LogoIcon from "@/public/icons/ours/GameTreesLogo.png";
 import Hamburger from "@/app/ui/svg/Hamburger";
 import Image from 'next/image';
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from 'next/navigation';
+
 
 export default function Navbar() {
+    const router = useRouter()
+
     const [open, setOpen] = useState(false);
     const [showButtons, setShowButtons] = useState(true);
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Get session status and user info
+    const { data: session, status } = useSession();
 
     function handleBurgerClick() {
         setOpen(prevOpen => !prevOpen);
@@ -18,7 +26,7 @@ export default function Navbar() {
     useEffect(() => {
         const handleResize = () => {
             const width = window.innerWidth;
-            setShowButtons(width >= 2000); // Show buttons if width is >= 875px
+            setShowButtons(width >= 2000); // Show buttons if width is >= 2000px
         };
         window.addEventListener('resize', handleResize);
         handleResize();
@@ -47,7 +55,12 @@ export default function Navbar() {
                     {/* Logo */}
                     <div className='flex items-center flex-grow'>
                         <Link href='/'>
-                            <Image src={LogoIcon} alt="Game Trees Logo" quality={100} className="w-[5em] h-auto" />
+                            <Image
+                                src={LogoIcon}
+                                alt="Game Trees Logo"
+                                quality={100}
+                                className="w-[5em] h-auto"
+                            />
                         </Link>
                     </div>
 
@@ -61,9 +74,38 @@ export default function Navbar() {
                                 <PageButton page="Database Accessor" route="/CURDMySQL" className='flex-shrink-0' />
                             </>
                         )}
-                        <SessionButton status="Sign in" route="/api/auth/signin" className='flex-shrink-0' />
-                        <SessionButton status="Sign up" route="/signup" className='flex-shrink-0' />
-                        <SessionButton status="Sign out" route="/api/auth/signout" className='flex-shrink-0' />
+
+                        {/* Conditional Rendering based on session */}
+                        {session && session.user ? (
+                            <>
+                                <Link href={"/account-settings"} className='cursor-pointer'>
+                                    <div
+                                        className="flex items-center gap-3 bg-black bg-opacity-35 rounded-lg px-4 py-[0.45em]"
+                                    >
+                                        <Image
+                                            src={session.user.image || "/default/defaultProfilePhoto.png"}
+                                            alt="Profile"
+                                            quality={100}
+                                            width={100}
+                                            height={100}
+                                            className="w-[3em] h-[3em] rounded-full"
+                                        />
+                                        <span className="text-white">{session.user.username || session.user.name}</span>
+                                    </div>
+                                </Link>
+                                <SessionButton
+                                    status="Sign out"
+                                    route="#"
+                                    className='flex-shrink-0'
+                                    onClick={() => signOut()} // Add sign out functionality
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <SessionButton status="Sign in" route="/api/auth/signin" className='flex-shrink-0' />
+                                <SessionButton status="Sign up" route="/signup" className='flex-shrink-0' />
+                            </>
+                        )}
                     </div>
 
                     {/* Hamburger Menu Button (Visible on all screen sizes) */}
@@ -83,13 +125,28 @@ export default function Navbar() {
                         <div ref={dropdownRef} className='w-fit bg-nav-background px-8 p-1 outline outline-2 outline-offset-1 outline-white rounded-lg'>
                             <hr className='mt-4' />
                             <div className='py-4 items-center text-[1.08em] font-semibold font-inter text-center'>
-                                <SessionButton status="Sign in" route="/login" className='mt-1.5 w-full block sm:hidden' />
-                                <SessionButton status="Sign up" route="/signup" className='mt-1.5 w-full block sm:hidden' />
+                                {session && session.user ? (
+                                    <>
+                                        <div className="bg-black bg-opacity-40 flex space-x-4 items-center mr-7 px-5 py-3 rounded-lg text-white hover:text-purple-300 hover:bg-opacity-85 cursor-pointer">
+                                            <Image
+                                                src={session.user.image || "/default/defaultProfilePhoto.png"}
+                                                alt="User Avatar"
+                                                width={100}
+                                                height={100}
+
+                                                className="w-4 h-4 md:w-[2.8rem] md:h-[2.8rem] lg:w-[2.8rem] lg:h-[2.8rem] rounded-full"
+                                            />
+                                            <SessionButton status="Sign out" route="#" className='block w-full' onClick={() => signOut()} />
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <SessionButton status="Sign in" route="/api/auth/signin" className='mt-1.5 w-full block sm:hidden' />
+                                        <SessionButton status="Sign up" route="/signup" className='mt-1.5 w-full block sm:hidden' />
+                                    </>
+                                )}
                                 <PageButton page="Home" route="/" className='block w-full' />
                                 <PageButton page="Database Accessor" route="/CURDMySQL" className='block mt-1.5 w-full' />
-                                <PageButton page="Server Load Test" route="/serverRenderTest" className='block mt-1.5 w-full' />
-                                <PageButton page="Client Load Test" route="/clientRenderTest" className='block mt-1.5 w-full' />
-                                <PageButton page="Route Test" route="/sendInfoTest" className='block mt-1.5 w-full' />
                             </div>
                         </div>
                     </div>
@@ -98,7 +155,6 @@ export default function Navbar() {
         </>
     );
 }
-
 
 interface PageButtonProps {
     page: string;
@@ -116,17 +172,18 @@ function PageButton({ page, route, className }: PageButtonProps) {
     );
 }
 
-
 interface SessionButtonProps {
     status: string;
     route: string;
     className: string;
+    onClick?: () => void; // Optional onClick for sign out
 }
-function SessionButton({ status, route, className }: SessionButtonProps) {
+function SessionButton({ status, route, className, onClick }: SessionButtonProps) {
     return (
         <Link
             className={`flex-shrink-0 text-white bg-blue-600 hover:bg-blue-800 hover:text-slate-300 hover:ease-in hover:font-bold duration-100 rounded-lg py-2 px-3 ${className}`}
             href={route}
+            onClick={onClick} // Call onClick if provided (for sign out)
         >
             {status}
         </Link>

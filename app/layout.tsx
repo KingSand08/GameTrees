@@ -21,8 +21,8 @@ export default function RootLayout({
         // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         className={`${inter.className} subpixel-antialiased`}
       >
-        <Navbar />
         <NextAuthSessionProvider>
+          <Navbar />
           <div className="mx-8">
             {children}
           </div>
