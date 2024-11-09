@@ -102,7 +102,7 @@ export default function Navbar() {
                         ) : (
                             <>
                                 <LoginButton className='flex-shrink-0' />
-                                {/* <SessionButton status="Sign up" route="/signup" className='flex-shrink-0' /> */}
+                                <SignUpButton className='flex-shrink-0' />
                             </>
                         )}
                     </div>
@@ -141,7 +141,7 @@ export default function Navbar() {
                                 ) : (
                                     <>
                                         <LoginButton className='mt-1.5 w-full block sm:hidden' />
-                                        {/* <SessionButton status="Sign up" route="/signup" className='mt-1.5 w-full block sm:hidden' /> */}
+                                        <SignUpButton className='mt-1.5 w-full block sm:hidden' />
                                     </>
                                 )}
                                 <PageButton page="Home" route="/" className='block w-full' />
@@ -196,4 +196,17 @@ function SignOutButton({ className }: SessionButtonProps) {
             SignOut
         </button>
     );
+}
+
+function SignUpButton({ className }: SessionButtonProps) {
+    const pathname = usePathname(); // Get the current path
+
+    return (
+        <Link
+            className={`flex-shrink-0 text-white bg-blue-600 hover:bg-blue-800 hover:text-slate-300 hover:ease-in hover:font-bold duration-100 rounded-lg py-2 px-3 ${className}`}
+            href={`/signup?callbackUrl=${encodeURIComponent(pathname)}`} // Use pathname for the callback URL
+        >
+            Sign Up
+        </Link>
+    )
 }

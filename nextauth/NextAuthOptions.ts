@@ -31,9 +31,9 @@ export const authOptions: AuthOptions = {
 
         const { email, password } = credentials;
         console.log("Email:", email); console.log("Password:", password);
-        const query = `SELECT * FROM Test WHERE email = ? AND password = ?`;
+        const query = `SELECT * FROM Customer WHERE email = ? AND password = ?`;
         const data = [email, password];
-        const user = await executeQuery(query, data) as { id: string, username: string, email: string, name: string, image?: string }[];
+        const user = await executeQuery(query, data) as { id: string, username: string, email: string, full_name: string, image?: string }[];
         console.log("Database Response:", user);
 
         if (user && user.length > 0) {
@@ -42,7 +42,7 @@ export const authOptions: AuthOptions = {
             id: user[0].id,
             username: user[0].username,
             email: user[0].email,
-            name: user[0].name,
+            name: user[0].full_name,
             image: user[0].image || null,
           };
         } else {

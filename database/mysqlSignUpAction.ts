@@ -36,7 +36,7 @@ const MysqlSignUpAction = async (prevState: unknown, formData: { get: (arg0: str
   if (subBtn === "insert") { // Insertion Method
     // Ensure only non-empty fields
     if (username != "") {
-      const isUsernameTaken = await checkFieldAlreadyExists('username', username as string);
+      const isUsernameTaken = await checkFieldAlreadyExists('Test', 'username', username as string);
       console.log(`userName:${username}`)
       console.log(`isUsernameTaken:${isUsernameTaken}`)
       if (isUsernameTaken) {
@@ -46,7 +46,7 @@ const MysqlSignUpAction = async (prevState: unknown, formData: { get: (arg0: str
     }
     // Check if email already exists for a different user
     if (email != "" && email !== currentEmail) {
-      const isEmailTaken = await checkFieldAlreadyExists('email', email as string);
+      const isEmailTaken = await checkFieldAlreadyExists('Test', 'email', email as string);
 
       if (isEmailTaken) {
         revalidatePath("/CURDMySQL");
@@ -92,7 +92,7 @@ const MysqlSignUpAction = async (prevState: unknown, formData: { get: (arg0: str
     }
     // Check if email already exists for a different user
     if (email != "" && email !== currentEmail) {
-      const isEmailTaken = await checkFieldAlreadyExists('email', email as string);
+      const isEmailTaken = await checkFieldAlreadyExists('Test', 'email', email as string);
 
       if (isEmailTaken) {
         revalidatePath("/CURDMySQL");
