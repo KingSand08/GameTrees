@@ -1,4 +1,4 @@
-import { mysqlConn } from "@/database/mysqlConnection"; // Adjust the import path if necessary
+import { mysqlConn } from "@/database/old/mysqlConnection"; // Adjust the import path if necessary
 
 export const createUser = async (userId: string, email: string, hashedPassword: string): Promise<void> => {
     const query = 'INSERT INTO user (user_id, user_email, hashed_password) VALUES (?, ?, ?)';

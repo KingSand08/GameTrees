@@ -1,4 +1,4 @@
-import { mysqlConn } from "@/database/mysqlConnection";
+import { mysqlConn } from "@/database/old/mysqlConnection";
 
 // Function to fetch users from the database
 export const fetchUsersFromDB = async () => {

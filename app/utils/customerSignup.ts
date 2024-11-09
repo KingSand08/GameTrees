@@ -16,11 +16,11 @@ export const SubmitSignup = (
     setPhoneNumValidity: React.Dispatch<React.SetStateAction<boolean>>,
     setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
     refs: {
-        nameRef: React.RefObject<HTMLInputElement>;
-        usernameRef: React.RefObject<HTMLInputElement>;
-        emailRef: React.RefObject<HTMLInputElement>;
-        birthDayRef: React.RefObject<HTMLInputElement>;
-        phoneNumRef: React.RefObject<HTMLInputElement>;
+        nameRef: React.RefObject<HTMLInputElement | null>;
+        usernameRef: React.RefObject<HTMLInputElement | null>;
+        emailRef: React.RefObject<HTMLInputElement | null>;
+        birthDayRef: React.RefObject<HTMLInputElement | null>;
+        phoneNumRef: React.RefObject<HTMLInputElement | null>;
     }
 ): void => {
     // Prevent the default form submission behavior

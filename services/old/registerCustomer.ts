@@ -1,4 +1,4 @@
-import { mysqlConn } from "@/database/mysqlConnection";
+import { mysqlConn } from "@/database/old/mysqlConnection";
 import { ResultSetHeader } from "mysql2/promise";
 
 /**

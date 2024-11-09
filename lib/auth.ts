@@ -1,5 +1,5 @@
 import { Lucia } from "lucia";
-import { mysqlConn } from "@/database/mysqlConnection"; // Adjust the import path if necessary
+import { mysqlConn } from "@/database/old/mysqlConnection"; // Adjust the import path if necessary
 // import {
 //     createUser,
 //     getUserById,
