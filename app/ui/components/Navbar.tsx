@@ -61,8 +61,9 @@ export default function Navbar() {
                                 <PageButton page="Database Accessor" route="/CURDMySQL" className='flex-shrink-0' />
                             </>
                         )}
-                        <SessionButton status="Sign in" route="/login" className='flex-shrink-0' />
+                        <SessionButton status="Sign in" route="/api/auth/signin" className='flex-shrink-0' />
                         <SessionButton status="Sign up" route="/signup" className='flex-shrink-0' />
+                        <SessionButton status="Sign out" route="/api/auth/signout" className='flex-shrink-0' />
                     </div>
 
                     {/* Hamburger Menu Button (Visible on all screen sizes) */}

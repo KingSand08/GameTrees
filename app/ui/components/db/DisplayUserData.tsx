@@ -1,10 +1,11 @@
-import executeQuery from "@/database/myslqdb";
+import executeQuery from "@/database/mysqldb";
 
 interface User {
   id: number;
   username: string;
   name: string;
   email: string;
+  password: string;
 }
 
 const DisplayUserData = async (): Promise<JSX.Element> => {
@@ -21,6 +22,7 @@ const DisplayUserData = async (): Promise<JSX.Element> => {
               <th className="px-6 py-3">Username</th>
               <th className="px-6 py-3">User Type</th>
               <th className="px-6 py-3">User Email</th>
+              <th className="px-6 py-3">User Password</th>
             </tr>
           </thead>
           <tbody>
@@ -30,6 +32,7 @@ const DisplayUserData = async (): Promise<JSX.Element> => {
                 <td className="px-6 py-3">{user.username}</td>
                 <td className="px-6 py-3">{user.name}</td>
                 <td className="px-6 py-3">{user.email}</td>
+                <td className="px-6 py-3">{user.password}</td>
               </tr>
             ))}
           </tbody>

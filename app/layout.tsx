@@ -3,6 +3,7 @@ import { inter } from '@/app/ui/fonts/fonts';
 import "@/app/ui/globals.css";
 import React from "react";
 import Navbar from "@/app/ui/components/Navbar";
+import NextAuthSessionProvider from "@/nextauth/NextAuthSessionProvider"
 
 export const metadata: Metadata = {
   title: "Game Trees",
@@ -21,9 +22,11 @@ export default function RootLayout({
         className={`${inter.className} subpixel-antialiased`}
       >
         <Navbar />
-        <div className="mx-8">
-          {children}
-        </div>
+        <NextAuthSessionProvider>
+          <div className="mx-8">
+            {children}
+          </div>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );
