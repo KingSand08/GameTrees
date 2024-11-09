@@ -57,7 +57,13 @@ export default function Navbar() {
                                 src={LogoIcon}
                                 alt="Game Trees Logo"
                                 quality={100}
-                                className="w-[5em] h-auto"
+                                className="object-contain"
+                                style={{
+                                    width: '5em',  // Width in em
+                                    height: '5em', // Height in em
+                                    flexShrink: 0,
+                                    flexGrow: 0,
+                                }}
                             />
                         </Link>
                     </div>
@@ -115,7 +121,7 @@ export default function Navbar() {
                 {/* Dropdown Menu */}
                 {open && (
                     <div className='w-fit pt-16 fixed z-50 top-[2em] lg:right-5 right-1'>
-                        <div ref={dropdownRef} className='w-fit bg-nav-background px-8 p-1 outline outline-2 outline-offset-1 outline-white rounded-lg'>
+                        <div ref={dropdownRef} className='w-fit bg-nav-background px-8 p-1 outline outline-2 outline-offset-1 outline-white rounded-lg bg-black bg-opacity-55'>
                             <hr className='mt-4' />
                             <div className='py-4 items-center text-[1.08em] font-semibold font-inter text-center'>
                                 {session && session.user ? (

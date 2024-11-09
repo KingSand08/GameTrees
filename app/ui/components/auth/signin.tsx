@@ -2,6 +2,7 @@
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import React, { useRef, useState } from 'react'
+import OAuthButton from './OAuthButton';
 
 type Props = {
     className?: string;
@@ -91,7 +92,11 @@ const Signin = (props: Props) => {
                         Cancel
                     </Link>
                 </div>
+                {/* OAuth Sign-In Buttons */}
             </form>
+            <div className="flex flex-col items-center gap-4 my-4">
+                <OAuthButton callbackUrl={props.callbackUrl} provider={'google'} />
+            </div>
             {!!props.error &&
                 <div className='flex justify-center mt-10'>
                     <p className='text-red-100 bg-red-600 p-6 rounded-lg w-fit'>
