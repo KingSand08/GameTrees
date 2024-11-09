@@ -13,7 +13,7 @@ const MysqlServerAction = async (prevState: unknown, formData: { get: (arg0: str
   if (subBtn === "insert") {
     if (username != "" && name != "" && email != "" && password != "") {
       const result = await executeQuery(
-        "INSERT INTO Test VALUES (?, ?, ?)",
+        "INSERT INTO Test (username, name, email, password) VALUES (?, ?, ?, ?)",
         [
           username,
           name,
@@ -21,15 +21,15 @@ const MysqlServerAction = async (prevState: unknown, formData: { get: (arg0: str
           password,
         ]);
       if ((result as ResultSetHeader).affectedRows) {
-        revalidatePath("/CURDMySQL");
-        return { message: "Record Inserted" };
+        revalidatePath("/mysqlDisplayTest");
+        return { status: "error", message: "Record Inserted" };
       } else {
-        revalidatePath("/CURDMySQL");
-        return { message: "Record Insertion Failed" };
+        revalidatePath("/mysqlDisplayTest");
+        return { status: "error", message: "Record Insertion Failed" };
       }
     } else {
-      revalidatePath("/CURDMySQL");
-      return { message: "Field cannot be empty" };
+      revalidatePath("/mysqlDisplayTest");
+      return { status: "error", message: "Field cannot be empty" };
     }
   }
 };

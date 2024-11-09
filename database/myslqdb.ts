@@ -1,9 +1,9 @@
-import mysql, { QueryResult, ResultSetHeader } from "mysql2/promise";
+import mysql from "mysql2/promise";
 
 type Query = string;
 type Data = unknown[];
 
-const executeQuery = async (query: Query, data: Data): Promise<QueryResult | Error> => {
+const executeQuery = async (query: Query, data: Data) => {
   try {
     const db = mysql.createConnection({
       host: process.env.DB_HOST,
@@ -15,16 +15,10 @@ const executeQuery = async (query: Query, data: Data): Promise<QueryResult | Err
     const [result] = await (await db).execute(query, data);
     await (await db).end();
     console.log(result);
-    // Ensure result is cast as ResultSetHeader for access to affectedRows
-    if ('affectedRows' in result) {
-      return result as ResultSetHeader;
-    }
-    // If the result doesn't have affectedRows, throw an error
-    throw new Error("Query result does not contain affectedRows");
+    return result;
   } catch (error) {
     console.log(error);
-    return error as Error;
-
+    return error;
   }
 };
 
