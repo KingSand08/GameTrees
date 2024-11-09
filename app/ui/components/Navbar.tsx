@@ -5,18 +5,16 @@ import LogoIcon from "@/public/icons/ours/GameTreesLogo.png";
 import Hamburger from "@/app/ui/svg/Hamburger";
 import Image from 'next/image';
 import { useSession, signOut } from "next-auth/react";
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 
 export default function Navbar() {
-    const router = useRouter()
-
     const [open, setOpen] = useState(false);
     const [showButtons, setShowButtons] = useState(true);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     // Get session status and user info
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
 
     function handleBurgerClick() {
         setOpen(prevOpen => !prevOpen);
@@ -93,17 +91,12 @@ export default function Navbar() {
                                         <span className="text-white">{session.user.username || session.user.name}</span>
                                     </div>
                                 </Link>
-                                <SessionButton
-                                    status="Sign out"
-                                    route="#"
-                                    className='flex-shrink-0'
-                                    onClick={() => signOut()} // Add sign out functionality
-                                />
+                                <SignOutButton className='flex-shrink-0' />
                             </>
                         ) : (
                             <>
-                                <SessionButton status="Sign in" route="/api/auth/signin" className='flex-shrink-0' />
-                                <SessionButton status="Sign up" route="/signup" className='flex-shrink-0' />
+                                <LoginButton className='flex-shrink-0' />
+                                {/* <SessionButton status="Sign up" route="/signup" className='flex-shrink-0' /> */}
                             </>
                         )}
                     </div>
@@ -136,13 +129,13 @@ export default function Navbar() {
 
                                                 className="w-4 h-4 md:w-[2.8rem] md:h-[2.8rem] lg:w-[2.8rem] lg:h-[2.8rem] rounded-full"
                                             />
-                                            <SessionButton status="Sign out" route="#" className='block w-full' onClick={() => signOut()} />
+                                            <SignOutButton className='block w-full' />
                                         </div>
                                     </>
                                 ) : (
                                     <>
-                                        <SessionButton status="Sign in" route="/api/auth/signin" className='mt-1.5 w-full block sm:hidden' />
-                                        <SessionButton status="Sign up" route="/signup" className='mt-1.5 w-full block sm:hidden' />
+                                        <LoginButton className='mt-1.5 w-full block sm:hidden' />
+                                        {/* <SessionButton status="Sign up" route="/signup" className='mt-1.5 w-full block sm:hidden' /> */}
                                     </>
                                 )}
                                 <PageButton page="Home" route="/" className='block w-full' />
@@ -173,19 +166,28 @@ function PageButton({ page, route, className }: PageButtonProps) {
 }
 
 interface SessionButtonProps {
-    status: string;
-    route: string;
     className: string;
-    onClick?: () => void; // Optional onClick for sign out
 }
-function SessionButton({ status, route, className, onClick }: SessionButtonProps) {
+function LoginButton({ className }: { className: string }) {
+    const pathname = usePathname(); // Get the current path
+
     return (
         <Link
             className={`flex-shrink-0 text-white bg-blue-600 hover:bg-blue-800 hover:text-slate-300 hover:ease-in hover:font-bold duration-100 rounded-lg py-2 px-3 ${className}`}
-            href={route}
-            onClick={onClick} // Call onClick if provided (for sign out)
+            href={`/login?callbackUrl=${encodeURIComponent(pathname)}`} // Use pathname for the callback URL
         >
-            {status}
+            Sign In
         </Link>
+    );
+}
+
+function SignOutButton({ className }: SessionButtonProps) {
+    return (
+        <button
+            className={`flex-shrink-0 text-white bg-blue-600 hover:bg-blue-800 hover:text-slate-300 hover:ease-in hover:font-bold duration-100 rounded-lg py-2 px-3 ${className}`}
+            onClick={() => signOut()} // Call onClick if provided (for sign out)
+        >
+            SignOut
+        </button>
     );
 }

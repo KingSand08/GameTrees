@@ -11,7 +11,7 @@ const initialState = {
 const ModifyUserData = () => {
   const { pending } = useFormStatus();
   const [state, formAction] = useFormState(MysqlSignUpAction, initialState);
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <>
