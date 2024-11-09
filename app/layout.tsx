@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { inter } from '@/app/ui/fonts/fonts';
 import "@/app/ui/globals.css";
 import React from "react";
+import Navbar from "@/app/ui/components/Navbar";
 
 export const metadata: Metadata = {
   title: "Game Trees",
@@ -19,7 +20,10 @@ export default function RootLayout({
         // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         className={`${inter.className} subpixel-antialiased`}
       >
-        {children}
+        <Navbar />
+        <div className="mx-8">
+          {children}
+        </div>
       </body>
     </html>
   );
