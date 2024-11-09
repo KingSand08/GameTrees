@@ -114,7 +114,7 @@ const ModifyUserData = () => {
             >
               {pending ? "Inserting..." : "Insert"}
             </button>
-            {/* Submit Button */}
+            {/* Update Button */}
             <button
               type="submit"
               name="submit"
@@ -123,6 +123,16 @@ const ModifyUserData = () => {
               className="mt-4 w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-medium hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
             >
               {pending ? "Updating..." : "Update"}
+            </button>
+            {/* Delete Button */}
+            <button
+              type="submit"
+              name="submit"
+              id="submit"
+              value="delete"
+              className="mt-4 w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-medium hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+            >
+              {pending ? "Deleting..." : "Delete"}
             </button>
           </form>
         </div>

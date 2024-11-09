@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import executeQuery from "./myslqdb";
 import { ResultSetHeader } from "mysql2";
-import { checkEmailExists } from "./checkEmailExists";
+import { checkFieldAlreadyExists } from "./checkFieldAlreadyExists";
 
 // Define the structure of the expected row from the query result
 interface UserData {
@@ -19,8 +19,12 @@ const MysqlSignUpAction = async (prevState: unknown, formData: { get: (arg0: str
   const password = formData.get("password");
   const subBtn = formData.get("submit");
 
+  // Construct dynamic SET clause based on non-empty fields
+  const setClause: string[] = [];
+  const values: unknown[] = [];
+
   const currentData = await executeQuery(
-    "SELECT email, name, password FROM Test WHERE username = ?",
+    "SELECT * FROM Test WHERE username = ?",
     [username]
   ) as UserData[];
 
@@ -29,11 +33,32 @@ const MysqlSignUpAction = async (prevState: unknown, formData: { get: (arg0: str
   const currentPassword = currentData[0]?.password;
 
 
-  // Insertion Method
-  if (subBtn === "insert") {
+  if (subBtn === "insert") { // Insertion Method
+    // Ensure only non-empty fields
+    if (username != "") {
+      const isUsernameTaken = await checkFieldAlreadyExists('username', username as string);
+      console.log(`userName:${username}`)
+      console.log(`isUsernameTaken:${isUsernameTaken}`)
+      if (isUsernameTaken) {
+        revalidatePath("/CURDMySQL");
+        return { status: "error", message: "Username is already in use by another account" };
+      }
+    }
+    // Check if email already exists for a different user
+    if (email != "" && email !== currentEmail) {
+      const isEmailTaken = await checkFieldAlreadyExists('email', email as string);
+
+      if (isEmailTaken) {
+        revalidatePath("/CURDMySQL");
+        return { status: "error", message: "Email is already in use by another account" };
+      }
+    } else if (email === currentEmail) {
+      return { status: "error", message: "New Email is the same as current." };
+    }
     if (username != "" && name != "" && email != "" && password != "") {
+      console.log(`Username: ${username}, Name: ${name}, Email: ${email}, Password: ${password}`);
       const result = await executeQuery(
-        "UPDATE Test SET username=?, name=?, email=?, password=? WHERE username=?",
+        "INSERT INTO Test (username, name, email, password) VALUE (?, ?, ?, ?)",
         [
           username,
           name,
@@ -52,12 +77,7 @@ const MysqlSignUpAction = async (prevState: unknown, formData: { get: (arg0: str
       return { status: "error", message: "Field cannot be empty" };
     }
 
-    // Update Method
-  } else if (subBtn === "update") {
-    // Construct dynamic SET clause based on non-empty fields
-    const setClause: string[] = [];
-    const values: unknown[] = [];
-
+  } else if (subBtn === "update") { // Update Method
     // Ensure only non-empty fields
     if (username != "") {
       setClause.push("username = ?");
@@ -72,12 +92,9 @@ const MysqlSignUpAction = async (prevState: unknown, formData: { get: (arg0: str
     }
     // Check if email already exists for a different user
     if (email != "" && email !== currentEmail) {
-      const emailStr = email as string;
-      const usernameStr = username as string;
+      const isEmailTaken = await checkFieldAlreadyExists('email', email as string);
 
-      const emailExists = await checkEmailExists(emailStr, usernameStr);
-
-      if (emailExists) {
+      if (isEmailTaken) {
         revalidatePath("/CURDMySQL");
         return { status: "error", message: "Email is already in use by another account" };
       } else {
@@ -120,6 +137,24 @@ const MysqlSignUpAction = async (prevState: unknown, formData: { get: (arg0: str
       return { status: "error", message: "No fields to update" };
     }
   }
-};
+
+  else if (subBtn === "delete") { // Deletion Method
+    if (username != "") {
+      const result = await executeQuery(
+        "DELETE FROM Test WHERE username=?",
+        [username]);
+      if ((result as ResultSetHeader).affectedRows) {
+        revalidatePath("/CURDMySQL");
+        return { status: "success", message: "Record Deleted" };
+      } else {
+        revalidatePath("/CURDMySQL");
+        return { status: "error", message: "Record Deletion Failed" };
+      }
+    } else {
+      revalidatePath("/CURDMySQL");
+      return { status: "error", message: "Field cannot be empty" };
+    }
+  };
+}
 
 export default MysqlSignUpAction;
