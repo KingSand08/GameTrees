@@ -4,17 +4,18 @@ CREATE TABLE Users (
     Password VARCHAR(35) NOT NULL,
     Name VARCHAR(100) NOT NULL,
     DOB DATE,
-    Phone VARCHAR(15)
+    Phone VARCHAR(15),
+    Email VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE Emails(
-    UID INT,
-    Email VARCHAR(100) NOT NULL,
-    PRIMARY KEY (UID, Email),
-    FOREIGN KEY (UID) REFERENCES Users(UID) 
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
+-- CREATE TABLE Emails(
+--     UID INT,
+--     Email VARCHAR(100) NOT NULL UNIQUE,
+--     PRIMARY KEY (UID, Email),
+--     FOREIGN KEY (UID) REFERENCES Users(UID) 
+--         ON DELETE CASCADE
+--         ON UPDATE CASCADE
+-- );
 
 CREATE TABLE Customers(
     UID INT PRIMARY KEY,
@@ -373,23 +374,24 @@ DELIMITER ;
 -- Populate Data
 
 -- Populate Users
-INSERT INTO Users(UID, Username, Password, Name) VALUES	
-	(1, 'pikalot', 'Admin@123', 'Pikalot'),
-	(2, 'sandking', 'Admin@123','Connor'),
-	(3, 'aman', 'Admin@123','Aman'),
-	(4, 'genie', 'Admin@123', 'Alex'),
-	(5, 'splendid', 'Admin@123', 'Steve'),
-	(6, 'peasant', 'Manager@123', 'Jon Snow'),
-	(7, 'manager', 'Manager@123', 'Joker');
+INSERT INTO Users(UID, Username, Name, Password, Email) VALUES	
+	(1, 'pikalot','Pikalot', 'Admin@123', 'pikalot@hotmail.com'),
+	(2, 'sandking','Connor', 'Admin@124', 'clinvil2@gmail.com'),
+	(3, 'aman','Aman', 'Admin@125', 'aman.imran@sjsu.edu'),
+	(4, 'genie','Alex', 'Admin@126', 'alimalex1525@gmail.com'),
+	(5, 'splendid','Steve', 'Admin@123', 'stevenlu156@gmail.com'),
+	(6, 'peasant','Jon Snow', 'Manager@123', 'thepikalot@yahoo.com'),
+	(7, 'manager','Joker', 'Manager@123', 'tuananh.ho@sjsu.edu');
 
-INSERT INTO Emails VALUES	
-	(1, 'pikalot@hotmail.com'),
-	(2, 'clinvil2@gmail.com'),
-	(3, 'aman.imran@sjsu.edu'),
-	(4, 'alimalex1525@gmail.com'),
-	(5, 'stevenlu156@gmail.com'),
-	(6, 'thepikalot@yahoo.com'),
-	(7, 'tuananh.ho@sjsu.edu');
+
+-- INSERT INTO Emails VALUES	
+-- 	(1, 'pikalot@hotmail.com'),
+-- 	(2, 'clinvil2@gmail.com'),
+-- 	(3, 'aman.imran@sjsu.edu'),
+-- 	(4, 'alimalex1525@gmail.com'),
+-- 	(5, 'stevenlu156@gmail.com'),
+-- 	(6, 'thepikalot@yahoo.com'),
+-- 	(7, 'tuananh.ho@sjsu.edu');
 
 INSERT INTO Admins VALUES	
 	(1),

@@ -1,6 +1,5 @@
 DROP TABLE
     Users,
-    Emails,
     Customers,
     Systems_Owned,
     StoreMgrs,
