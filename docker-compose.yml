@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: password # Change to your preferred root password
+      MYSQL_DATABASE: my_database # Optional: specify a database to be created
+      MYSQL_USER: user # Optional: specify a user to be created
+      MYSQL_PASSWORD: user_password # Optional: specify a password for the user
+    ports:
+      - "3306:3306" # Expose MySQL port
+    volumes:
+      - mysql_data:/var/lib/mysql # Optional: persist MySQL data
+
+  # If you need a proxy for MySQL connections, you may use a suitable proxy
+  mysql_proxy:
+    image: some-mysql-proxy-image:latest # Replace with actual MySQL proxy image if needed
+    environment:
+      # Configure proxy settings if required
+      PROXY_PORT: "3306"
+      ALLOW_ADDR_REGEX: ".*"
+      LOG_TRAFFIC: "true"
+    ports:
+      - "3307:80" # Expose the proxy port to the host machine
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data: # Named volume for MySQL data persistence

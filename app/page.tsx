@@ -1,29 +1,26 @@
 import Image from "next/image";
+import Link from "next/link";
+import GameTable from "@/app/components/GameTable"
+import HighlightGameCards from "./components/Hero";
+import ScrollSection from "./components/ScrollSection";
 
-// import { fetchDataFromDB } from "../lib/simpleDbFetch"
-// fetchDataFromDB();
 
+const trending = [
+  { id: 1, title: "Red Dead Redemption 2", price: "$19.79", discount: "-67%" },
+  { id: 2, title: "Baldur's Gate 3", price: "$59.99" },
+  { id: 3, title: "Call of Duty: Black Ops 6", price: "$69.99" },
+  { id: 4, title: "Elden Ring", price: "$43.99", discount: "-27%" },
+  { id: 5, title: "Cyberpunk 2077", price: "$29.99", discount: "-50%" },
+  { id: 6, title: "Dragon Age: The Veilguard", price: "$59.99" },
+  { id: 7, title: "Monster Hunter Wilds", price: "$57.39", discount: "-18%" },
+  { id: 8, title: "Resident Evil 4 (2023)", price: "$14.44", discount: "-64%" },
+];
 export default function Home() {
   return (
-    <div className="navbar bg-base-100">
-  <div className="flex-1">
-    <a className="btn btn-ghost text-xl">daisyUI</a>
-  </div>
-  <div className="flex-none">
-    <button className="btn btn-square btn-ghost">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        className="inline-block h-5 w-5 stroke-current">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
-      </svg>
-    </button>
-  </div>
-</div>
+    <div className="min-h-screen bg-base-100 text-gray-100 space-y-12">
+      <HighlightGameCards /> 
+      <ScrollSection />
+      <GameTable/>
+    </div>
   );
 }
