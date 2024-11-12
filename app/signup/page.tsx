@@ -71,7 +71,7 @@ export default function Page() {
                                         setNameValidity(true);
                                     }}
                                 placeholder="name..."
-                                className={`py-1 px-2 rounded-lg border text-black border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 
+                                className={`py-1 px-2 rounded-lg border text-base-content border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 
                                     ${!isNameValid ? "border-red-600 text-red-800" : "border-gray-300"}`}
                                 required
                             />
@@ -87,7 +87,7 @@ export default function Page() {
                                         setUsernameValidity(true);
                                     }}
                                 placeholder="username..."
-                                className={`py-1 px-2 rounded-lg border text-black border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 
+                                className={`py-1 px-2 rounded-lg border text-base-content border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 
                                     ${!isUsernameValid ? "border-red-600 text-red-800" : "border-gray-300"}`}
                                 required
                             />
@@ -103,7 +103,7 @@ export default function Page() {
                                         setEmailValidity(true);
                                     }}
                                 placeholder="email..."
-                                className={`py-1 px-2 rounded-lg border text-black focus:text-black border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 
+                                className={`py-1 px-2 rounded-lg border text-base-content focus:text-base-content border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 
                                     ${!isEmailValid ? "border-red-600 text-red-800" : "border-gray-300"}`}
                                 required
                             />
@@ -120,7 +120,7 @@ export default function Page() {
                                     }}
                                 placeholder="birthday..."
                                 className={`py-1 px-2 rounded-lg border 
-                                    ${birthDay ? "text-black" : "text-gray-400"} focus:text-black border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 
+                                    ${birthDay ? "text-base-content" : "text-gray-400"} focus:text-base-content border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 
                                     ${!isBirthDayValid ? "border-red-600 text-red-800" : "border-gray-300"}`}
                                 required
                             />
@@ -136,7 +136,7 @@ export default function Page() {
                                         setPhoneNumValidity(true);
                                     }}
                                 placeholder="phone number..."
-                                className={`py-1 px-2 rounded-lg border text-black focus:text-black border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 
+                                className={`py-1 px-2 rounded-lg border text-base-content focus:text-base-content border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 
                                     ${!isPhoneNumValid ? "border-red-600 text-red-800" : "border-gray-300"}`}
                                 required
                             />

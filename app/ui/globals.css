@@ -25,3 +25,9 @@ body {
     text-wrap: balance;
   }
 }
+
+.scroll-section-outer {
+  overflow: hidden;
+}
+
+
