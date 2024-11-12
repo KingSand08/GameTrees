@@ -1,8 +1,6 @@
-"use client";
-import React, { use } from "react";
+import React from "react";
 
-export default function GameListing(props: { params: Promise<{ gameId: string }> }) {
-    const params = use(props.params);
+export default function GameListing({ params }: { params: { gameId: string } }) {
     return (
         <>
             <h1>Game Listing page for (game :: {params.gameId})</h1>

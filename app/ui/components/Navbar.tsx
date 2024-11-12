@@ -5,7 +5,7 @@ import LogoIcon from "@/public/icons/ours/GameTreesLogo.png";
 import Hamburger from "@/app/ui/svg/Hamburger";
 import Image from 'next/image';
 import { useSession, signOut } from "next-auth/react";
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 
 export default function Navbar() {
@@ -72,7 +72,7 @@ export default function Navbar() {
                     <div className={`hidden md:flex ml-4 items-center space-x-8 text-[1.3em] font-semibold font-inter`}>
                         <PageButton page="Home" route="/" className='hover:font-bold' />
                         <PageButton page="Account Settings" route="/account-settings" className='flex-shrink-0 lg:block sm:hidden' />
-                        <PageButton page="Wishlist" route="/wishlist" className='flex-shrink-0 lg:block md:hidden sm:hidden' />
+                        <PageButton page="Wishlist" route={`/user/${session?.user.id}/wishlist`} className='flex-shrink-0 lg:block md:hidden sm:hidden' />
                         {showButtons && (
                             <>
                                 <PageButton page="Database Accessor" route="/CURDMySQL" className='flex-shrink-0' />

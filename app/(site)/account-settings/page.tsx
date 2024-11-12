@@ -1,5 +1,4 @@
 import React from "react";
-import SessionServer from "@/nextauth/SessionServer"
 import SessionClient from "@/nextauth/SessionClient"
 
 export default function page() {
