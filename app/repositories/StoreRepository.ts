@@ -1,9 +1,8 @@
-import StoreDetails from "@/types/models/StoreDetail";
 import Database from "../../database/Database";
 import GameRow from "../../types/models/GameRow";
 
 export class StoreRepository {
-    // eturns a Promise containing an array of GameRow type
+    // Returns a Promise containing an array of GameRow type
     public async getGamesByStoreId(storeId: string): Promise<GameRow[]> {
         const query = `
             SELECT I.Title AS title, 

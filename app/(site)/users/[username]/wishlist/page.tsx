@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import WishlistRow from "@/types/models/WishlistRow";
 
-
 interface WishlistPageProps {
     params: { username: string };
 }
@@ -15,14 +14,12 @@ export default function WishlistPage({ params }: WishlistPageProps) {
     useEffect(() => {
         const fetchWishlist = async () => {
             try {
-                const response = await fetch(`/api/wishlist/${params.username}`);
+                const response = await fetch(`/api/users/${params.username}/wishlist`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch wishlist data");
                 }
                 const data = await response.json();
-                console.log("Fetched wishlist data:", data); // Debug log for data inspection
-
-                setWishlistGames(data);
+                setWishlistGames(data.wishlist);
             } catch (err) {
                 setError("Error loading wishlist data");
                 console.error("Fetch error:", err);
@@ -39,16 +36,15 @@ export default function WishlistPage({ params }: WishlistPageProps) {
     return (
         <div>
             <h1>Wishlist for User ID: {params.username}</h1>
-
             <h2>Wishlist Games</h2>
             <ul>
                 {wishlistGames.map((game, index) => (
                     <li key={index}>
                         {game.image && (
-                            <img src={game.image} alt={`${game.title} cover`} width={100} height={100} />
+                            <img src={game.image} alt={`${game.title} cover`} width={100} height={100} /> // Display the image of the game
                         )}
-                        <strong>Title:</strong> {game.title}, 
-                        <strong>Developer:</strong> {game.developer}
+                        <strong>Title:</strong> {game.Game_Title}, 
+                        <strong>Developer:</strong> {game.Name}
                     </li>
                 ))}
             </ul>

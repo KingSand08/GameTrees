@@ -1,5 +1,5 @@
 export default interface WishlistRow {
-    title: string;
-    developer: string;
+    Game_Title: string;
+    Name: string;
     image?: string;
 }
