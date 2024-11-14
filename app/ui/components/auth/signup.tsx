@@ -22,7 +22,7 @@ const SignUp = (props: Props) => {
     return (
         <>
             <div className="flex flex-col items-center justify-center">
-                <div className="flex flex-col w-1/2 p-8 bg-slate-800 rounded-lg shadow-lg">
+                <div className="w-full  flex flex-col p-8 bg-slate-800 rounded-lg shadow-lg">
                     <h1 className="text-3xl mb-4 text-white font-semibold text-center">
                         Sign Up
                     </h1>

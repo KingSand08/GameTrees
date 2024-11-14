@@ -4,13 +4,16 @@ import Link from 'next/link';
 import LogoIcon from "@/public/icons/ours/GameTreesLogo.png";
 import Hamburger from "@/app/ui/svg/Hamburger";
 import Image from 'next/image';
-import { useSession, signOut } from "next-auth/react";
-import { usePathname } from 'next/navigation';
+import { useSession } from "next-auth/react";
+import ProfileButton from './session/ProfileButton';
+import SignOutButton from './session/SignOutButton';
+import LoginButton from './session/LoginButton';
+import SignUpButton from './session/SignUpButton';
+import NavButton from './structural/NavButton';
 
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
-    const [showButtons, setShowButtons] = useState(true);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     // Get session status and user info
@@ -19,18 +22,6 @@ export default function Navbar() {
     function handleBurgerClick() {
         setOpen(prevOpen => !prevOpen);
     }
-
-    // Hook to check screen size and toggle navbar buttons
-    useEffect(() => {
-        const handleResize = () => {
-            const width = window.innerWidth;
-            setShowButtons(width >= 2000); // Show buttons if width is >= 2000px
-        };
-        window.addEventListener('resize', handleResize);
-        handleResize();
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -69,35 +60,30 @@ export default function Navbar() {
                     </div>
 
                     {/* Regular Navbar Links (Visible on larger screens) */}
-                    <div className={`hidden md:flex ml-4 items-center space-x-8 text-[1.3em] font-semibold font-inter`}>
-                        <PageButton page="Home" route="/" className='hover:font-bold' />
-                        <PageButton page="Account Settings" route="/account-settings" className='flex-shrink-0 lg:block sm:hidden' />
-                        <PageButton page="Wishlist" route={`/user/${session?.user.id}/wishlist`} className='flex-shrink-0 lg:block md:hidden sm:hidden' />
-                        {showButtons && (
+                    <div className='flex ml-4 items-center space-x-8 text-[1.3em] font-semibold font-inter'>
+                        <NavButton page="Home" route="/" className='hover:font-bold xl:block lg:block md:hidden sm:hidden min-[380px]:hidden' />
+                        <NavButton page="Wishlist" route={`/user/${session?.user.id}/wishlist`} className='flex-shrink-0 lg:block md:block sm:hidden min-[380px]:hidden' />
+                        <NavButton page="Account Settings" route="/account-settings" className='flex-shrink-0 xl:block lg:hidden md:hidden sm:hidden min-[380px]:hidden' />
+                        <NavButton page="Database Accessor" route="/CURDMySQL" className='flex-shrink-0 2xl:block xl:hidden lg:hidden md:hidden sm:hidden min-[380px]:hidden' />
+                        {/* {showButtons && (
                             <>
-                                <PageButton page="Database Accessor" route="/CURDMySQL" className='flex-shrink-0' />
+
                             </>
-                        )}
+                        )} */}
 
                         {/* Conditional Rendering based on session */}
                         {session && session.user ? (
                             <>
                                 <Link href={"/account-settings"} className='cursor-pointer'>
-                                    <div
-                                        className="flex items-center gap-3 bg-black bg-opacity-35 rounded-lg px-4 py-[0.45em]"
-                                    >
-                                        <Image
-                                            src={session.user.image || "/default/defaultProfilePhoto.png"}
-                                            alt="Profile"
-                                            quality={100}
-                                            width={100}
-                                            height={100}
-                                            className="w-[3em] h-[3em] rounded-full"
-                                        />
-                                        <span className="text-white">{session.user.username || session.user.name}</span>
-                                    </div>
+                                    <ProfileButton
+                                        className='w-full xl:flex lg:flex md:flex sm:hidden min-[380px]:hidden'
+                                        imgClassName='w-[2.8rem] h-[2.8rem]'
+                                        username={session.user.username}
+                                        name={session.user.name}
+                                        image={session.user.image ?? undefined}
+                                    />
                                 </Link>
-                                <SignOutButton className='flex-shrink-0' />
+                                <SignOutButton className='flex-shrink-0 block xl:block lg:block md:hidden sm:hidden min-[380px]:hidden' />
                             </>
                         ) : (
                             <>
@@ -123,29 +109,31 @@ export default function Navbar() {
                     <div className='w-fit pt-16 fixed z-50 top-[2em] lg:right-5 right-1'>
                         <div ref={dropdownRef} className='w-fit bg-nav-background px-8 p-1 outline outline-2 outline-offset-1 outline-white rounded-lg bg-black bg-opacity-55'>
                             <hr className='mt-4' />
-                            <div className='py-4 items-center text-[1.08em] font-semibold font-inter text-center'>
+                            <div className='flex flex-col w-fit py-4 space-y-3 items-center text-[1.08em] font-semibold font-inter text-center'>
                                 {session && session.user ? (
                                     <>
-                                        <div className="bg-black bg-opacity-40 flex space-x-4 items-center mr-7 px-5 py-3 rounded-lg text-white hover:text-purple-300 hover:bg-opacity-85 cursor-pointer">
-                                            <Image
-                                                src={session.user.image || "/default/defaultProfilePhoto.png"}
-                                                alt="User Avatar"
-                                                width={100}
-                                                height={100}
+                                        {/* Profile and SignOut on the same line */}
+                                        {/* <div className="bg-black bg-opacity-40 flex justify-between items-center px-5 py-3 rounded-lg text-white hover:text-purple-300 hover:bg-opacity-85 cursor-pointer">
 
-                                                className="w-4 h-4 md:w-[2.8rem] md:h-[2.8rem] lg:w-[2.8rem] lg:h-[2.8rem] rounded-full"
-                                            />
-                                            <SignOutButton className='block w-full' />
-                                        </div>
+                                        </div> */}
+                                        <ProfileButton
+                                            className='w-full block md:hidden'
+                                            imgClassName='w-[2.8rem] h-[2.8rem]'
+                                            username={session.user.username}
+                                            name={session.user.name}
+                                            image={session.user.image ?? undefined}
+                                        />
+
+                                        <SignOutButton className='w-full block lg:hidden' />
                                     </>
                                 ) : (
                                     <>
-                                        <LoginButton className='mt-1.5 w-full block sm:hidden' />
-                                        <SignUpButton className='mt-1.5 w-full block sm:hidden' />
+                                        <LoginButton className='w-full block sm:hidden' />
+                                        <SignUpButton className='w-full block sm:hidden' />
                                     </>
                                 )}
-                                <PageButton page="Home" route="/" className='block w-full' />
-                                <PageButton page="Database Accessor" route="/CURDMySQL" className='block mt-1.5 w-full' />
+                                <NavButton page="Home" route="/" className='block w-full' />
+                                <NavButton page="Database Accessor" route="/CURDMySQL" className='block mt-1.5 w-full' />
                             </div>
                         </div>
                     </div>
@@ -153,60 +141,4 @@ export default function Navbar() {
             </header>
         </>
     );
-}
-
-interface PageButtonProps {
-    page: string;
-    route: string;
-    className: string;
-}
-function PageButton({ page, route, className }: PageButtonProps) {
-    return (
-        <Link
-            className={`flex-shrink-0 text-white hover:bg-white hover:text-slate-800 hover:ease-in hover:font-bold duration-100 rounded-lg py-2 px-3 ${className}`}
-            href={route}
-        >
-            {page}
-        </Link>
-    );
-}
-
-interface SessionButtonProps {
-    className: string;
-}
-function LoginButton({ className }: { className: string }) {
-    const pathname = usePathname(); // Get the current path
-
-    return (
-        <Link
-            className={`flex-shrink-0 text-white bg-blue-600 hover:bg-blue-800 hover:text-slate-300 hover:ease-in hover:font-bold duration-100 rounded-lg py-2 px-3 ${className}`}
-            href={`/login?callbackUrl=${encodeURIComponent(pathname)}`} // Use pathname for the callback URL
-        >
-            Sign In
-        </Link>
-    );
-}
-
-function SignOutButton({ className }: SessionButtonProps) {
-    return (
-        <button
-            className={`flex-shrink-0 text-white bg-blue-600 hover:bg-blue-800 hover:text-slate-300 hover:ease-in hover:font-bold duration-100 rounded-lg py-2 px-3 ${className}`}
-            onClick={() => signOut()} // Call onClick if provided (for sign out)
-        >
-            SignOut
-        </button>
-    );
-}
-
-function SignUpButton({ className }: SessionButtonProps) {
-    const pathname = usePathname(); // Get the current path
-
-    return (
-        <Link
-            className={`flex-shrink-0 text-white bg-blue-600 hover:bg-blue-800 hover:text-slate-300 hover:ease-in hover:font-bold duration-100 rounded-lg py-2 px-3 ${className}`}
-            href={`/signup?callbackUrl=${encodeURIComponent(pathname)}`} // Use pathname for the callback URL
-        >
-            Sign Up
-        </Link>
-    )
 }

@@ -1,5 +1,5 @@
 import Credentials from "next-auth/providers/credentials";
-import GoolgeProivder from "next-auth/providers/google";
+import GoogleProivder from "next-auth/providers/google";
 import executeQuery from "@/database/mysqldb";
 import { AuthOptions } from "next-auth";
 
@@ -9,7 +9,7 @@ export const authOptions: AuthOptions = {
     maxAge: 2 * 24 * 60 * 60, // 2 Days
   },
   providers: [
-    GoolgeProivder({
+    GoogleProivder({
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
     }),
@@ -44,6 +44,7 @@ export const authOptions: AuthOptions = {
             email: user[0].email,
             name: user[0].full_name,
             image: user[0].image || null,
+            //add role to session
           };
         } else {
           console.log("Login Error Failure");
@@ -60,6 +61,7 @@ export const authOptions: AuthOptions = {
         token.email = user.email;
         token.name = user.name;
         token.image = user.image ?? null;
+        // add role to cookie
       }
       return token;
     },
@@ -70,6 +72,7 @@ export const authOptions: AuthOptions = {
         email: (token.email as string) || "",
         name: (token.name as string) || "Anonymous",
         image: (token.image as string | null) ?? null,
+        // add role to session object
       };
       return session;
     },
