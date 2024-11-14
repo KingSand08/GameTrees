@@ -3,7 +3,7 @@ import executeQuery from "./mysqldb";
 // General function to check if a field (email or username) exists for another user
 export const checkFieldAlreadyExists = async (
     table: string,
-    field: 'email' | 'username',
+    field: 'Email' | 'Username',
     value: string,
 ): Promise<boolean> => {
     const existingCheck = await executeQuery(
@@ -13,3 +13,4 @@ export const checkFieldAlreadyExists = async (
 
     return existingCheck.length > 0; // Returns true if the field exists for a different user
 };
+

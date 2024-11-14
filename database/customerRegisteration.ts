@@ -15,7 +15,7 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
 
     // Ensure only non-empty fields
     if (username != "") {
-        const isUsernameTaken = await checkFieldAlreadyExists('Customer', 'username', username as string);
+        const isUsernameTaken = await checkFieldAlreadyExists('Users', 'Username', username as string);
         console.log(`userName:${username}`)
         console.log(`isUsernameTaken:${isUsernameTaken}`)
         if (isUsernameTaken) {
@@ -28,15 +28,12 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
     }
     // Check if email already exists for a different user
     if (email != "" && email) {
-        const isEmailTaken = await checkFieldAlreadyExists('Customer', 'email', email as string);
-
+        const isEmailTaken = await checkFieldAlreadyExists('Users', 'Email', email as string);
         if (isEmailTaken) {
             revalidatePath("/signup");
             return { status: "error", message: "Email is already in use by another account" };
         }
     }
-
-
     if ((password as string).length < 8) {
         revalidatePath("/signup");
         return { status: "error", message: "Password must be more then 8 numbers long" };
@@ -46,7 +43,7 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
     if (username != "" && fname != "" && email != "" && dob != "" && phone != "" && password != "") {
         console.log(`Username: ${username}, Name: ${fname}, Email: ${email}, Password: ${password}`);
         const result = await executeQuery(
-            "INSERT INTO Customer (username, full_name, email, date_of_birth, mobile_phone, password) VALUE (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO Users(Username, Name, Email, DOB, Phone, Password) VALUE (?, ?, ?, ?, ?, ?)",
             [
                 username,
                 fname,
@@ -57,6 +54,10 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
             ]);
         if ((result as ResultSetHeader).affectedRows) {
             revalidatePath("/signup");
+            await executeQuery(
+                "INSERT INTO Customers(UID) SELECT U.UID FROM Users U WHERE U.Username = ?;",
+                [username]
+            );
             return { status: "success", message: "Record Inserted" };
         } else {
             revalidatePath("/signup");

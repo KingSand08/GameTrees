@@ -1,0 +1,357 @@
+<mxfile host="65bd71144e">
+    <diagram id="R7mboGqaUj7lxMQfJWJF" name="Page-1">
+        <mxGraphModel dx="1504" dy="909" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Users(&lt;u&gt;UID: Integer&lt;/u&gt;, Username: Text, Password: Text, Name: Text, DOB: Date, Phone: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="224" y="62" width="518" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" style="edgeStyle=none;html=1;entryX=0.155;entryY=-0.072;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.444;exitY=1.039;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" parent="1" source="3" target="2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="Emails(&lt;u&gt;UID: Integer&lt;/u&gt;,&lt;u&gt;&amp;nbsp;Email: Text&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="168" y="-9" width="192" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="105" style="edgeStyle=none;html=1;entryX=0.37;entryY=1.093;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="10" target="98" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="Systems_Owned(&lt;u&gt;UID: Integer&lt;/u&gt;,&lt;u&gt;&amp;nbsp;Device: Text&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="107.5" y="222" width="304" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="Business(&lt;u&gt;BID: Text&lt;/u&gt;, Name: Text, PC_Flag: enum, D_Flag: enum, P_Flag: enum, Street: Text, City: Text, State: Text, Zip_Code: Integer, Country: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="30" y="474" width="807" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" style="edgeStyle=none;html=1;entryX=0.107;entryY=1.072;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.187;exitY=0.006;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="13" target="12" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="Stores(&lt;u&gt;Store_ID: Text&lt;/u&gt;, BID: Text, MID: Interger, Ops_Hour: Text, Modality: Text, Street: Text, City: Text, State: Text, Zip_Code: Integer, Country: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=0" parent="1" vertex="1">
+                    <mxGeometry x="46" y="550" width="803" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" style="edgeStyle=none;html=1;entryX=0.109;entryY=0.01;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="15" target="12" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" style="edgeStyle=none;html=1;entryX=0.308;entryY=1.01;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.36;exitY=-0.047;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="15" target="18" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.528;exitY=0.026;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="15" target="18" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="168" y="355" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="23" style="edgeStyle=none;html=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.362;exitY=-0.029;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="15" target="20" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.526;exitY=0.028;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="15" target="20" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="Games(&lt;u&gt;Title: Text, Dev_ID: Text&lt;/u&gt;, Price: Number)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="175" y="408" width="406" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="Gernes(&lt;u&gt;Title: Text, Dev_ID: Text, Gerne_ID: Int&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="97" y="313" width="268" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="Platforms(&lt;u&gt;Title: Text, Dev_ID: Text, Platform_ID: Text&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="405" y="313" width="316" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" style="edgeStyle=none;html=1;entryX=0.123;entryY=1.139;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.298;exitY=-0.04;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="26" target="120" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="271.50199999999995" y="729.8199999999999" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="26" value="Inventories(&lt;u&gt;Store_ID: Text,&amp;nbsp;Title: Text, Dev_ID: Text&lt;/u&gt;, Discount: Number)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="173" y="752" width="406" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" style="edgeStyle=none;html=1;entryX=0.463;entryY=1.026;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.373;exitY=0.057;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="29" target="26" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" style="edgeStyle=none;html=1;entryX=0.611;entryY=0.99;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" parent="1" source="29" target="26" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="Games(&lt;u&gt;Title: Text, Dev_ID: Text&lt;/u&gt;, Price: Number)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="205" y="807" width="406" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="Games(&lt;u&gt;Title: Text, Dev_ID: Text&lt;/u&gt;, Price: Number)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="203" y="1011" width="406" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" style="edgeStyle=none;html=1;entryX=0.351;entryY=0.028;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.619;exitY=1.082;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="35" target="34" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" style="edgeStyle=none;html=1;exitX=0.786;exitY=1.063;exitDx=0;exitDy=0;endArrow=none;endFill=0;exitPerimeter=0;" parent="1" source="35" target="34" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" style="edgeStyle=none;html=1;entryX=0.11;entryY=1.12;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" parent="1" source="35" target="121" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="229.385" y="929.6099999999999" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="35" value="PublishedBy(&lt;u&gt;Publisher_ID: Text,&amp;nbsp;&lt;/u&gt;&lt;u&gt;Title: Text, Dev_ID: Text&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="143" y="954" width="406" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="41" style="edgeStyle=none;html=1;entryX=0.42;entryY=1.067;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.57;exitY=-0.047;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" parent="1" source="39" target="40" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="Reviews(&lt;u&gt;RID: Text&lt;/u&gt;, Stars: Integer, UID: Integer, Content_ID: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="231" y="1243" width="406" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="40" value="Customers(&lt;u&gt;UID: Integer&lt;/u&gt;, Last_Login: Timestamp)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="231" y="1180" width="326" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="44" style="edgeStyle=none;html=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="42" target="39" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="45" style="edgeStyle=none;html=1;entryX=0.123;entryY=-0.071;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryPerimeter=0;" parent="1" source="42" target="122" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="99.85200000000009" y="1356.8000000000002" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="42" value="S_Reviews(&lt;u&gt;RID: Text&lt;/u&gt;, Store_ID: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="86" y="1299" width="261" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="49" style="edgeStyle=none;html=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.403;exitY=-0.028;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="46" target="39" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="50" style="edgeStyle=none;html=1;entryX=0.369;entryY=-0.094;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.613;exitY=1.128;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="46" target="48" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="51" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.828;exitY=1.128;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="46" target="48" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="46" value="G_Reviews(&lt;u&gt;RID: Text, Title: Text, Dev_ID: Text&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="487" y="1299" width="267" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="48" value="Games(&lt;u&gt;Title: Text, Dev_ID: Text&lt;/u&gt;, Price: Number)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="470.25" y="1350" width="406" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="52" value="Contents(&lt;u&gt;Content_ID: Text&lt;/u&gt;, Text_Desc: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="227" y="1544" width="346" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="54" style="edgeStyle=none;html=1;exitX=0.824;exitY=1.006;exitDx=0;exitDy=0;endArrow=none;endFill=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="53" target="52" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="348" y="1542" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="53" value="Reviews(&lt;u&gt;RID: Text&lt;/u&gt;, Stars: Integer, UID: Integer, Content_ID: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="126" y="1488" width="406" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="56" value="Photos(&lt;u&gt;Photo_ID: Text&lt;/u&gt;, Description: Text, DateAdded: Date)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="407" y="1619" width="336" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="57" value="" style="endArrow=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.298;exitY=-0.064;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="56" target="52" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="454" y="1635" as="sourcePoint"/>
+                        <mxPoint x="504" y="1585" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="60" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.465;exitY=0.028;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="59" target="52" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="59" value="G_Contents(&lt;u&gt;Content_ID: Text, Title: Text, D_ID: Text)&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="114" y="1615" width="291" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="62" style="edgeStyle=none;html=1;entryX=0.63;entryY=1.1;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.382;exitY=-0.017;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="61" target="59" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="63" style="edgeStyle=none;html=1;entryX=0.88;entryY=1.083;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.59;exitY=0.06;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="61" target="59" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="387" y="1674" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="61" value="Games(&lt;u&gt;Title: Text, Dev_ID: Text&lt;/u&gt;, Price: Number)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="56.5" y="1665" width="406" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="66" value="Reviews(&lt;u&gt;RID: Text&lt;/u&gt;, Stars: Integer, UID: Integer, Content_ID: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="1" y="2165" width="406" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="67" value="Admins(&lt;u&gt;UID: Integer&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="90.75" y="2325" width="153.25" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="70" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" parent="1" source="68" target="66" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="71" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="68" target="67" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="68" value="Removed_Reviews(&lt;u&gt;UID: Integer, RID: Text)&lt;br&gt;&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="59" y="2253" width="250" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="73" style="edgeStyle=none;html=1;entryX=0.27;entryY=1.094;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.666;exitY=-0.028;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="106" target="13" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="261.4425000000001" y="608.5999999999999" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="80" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.777;exitY=1.027;exitDx=0;exitDy=0;exitPerimeter=0;endArrow=none;endFill=0;" parent="1" source="78" target="79" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="82" style="edgeStyle=none;html=1;entryX=0.164;entryY=1.006;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryPerimeter=0;" parent="1" source="78" target="107" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="177.97849999999994" y="2237.01" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="78" value="Warnings(&lt;u&gt;IssueNum: Integer, U&lt;/u&gt;&lt;u&gt;ID: Integer&lt;/u&gt;, Desc: Text, Ad_ID: Integer)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="553" y="2281" width="549.5" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="79" value="Admins(&lt;u&gt;UID: Integer&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="712" y="2349" width="243" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="91" value="Reviews(&lt;u&gt;RID: Text&lt;/u&gt;, Stars: Integer, UID: Integer, Content_ID: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="848" y="1877" width="406" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="94" style="edgeStyle=none;html=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.423;exitY=-0.007;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="92" target="91" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="96" style="edgeStyle=none;html=1;entryX=0.212;entryY=0.044;entryDx=0;entryDy=0;endArrow=none;endFill=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="92" target="123" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1050" y="1974" as="sourcePoint"/>
+                        <mxPoint x="996.5" y="2007" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="92" value="Comments(&lt;u&gt;DatePublished: Timestamp, RID: Text&lt;/u&gt;, UID: Integer, DateEdited: Timestamp, Content_ID: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="778" y="1942" width="583" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="101" style="edgeStyle=none;html=1;entryX=0.2;entryY=1.053;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.393;exitY=-0.027;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" parent="1" source="98" target="2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="98" value="Customer(&lt;u&gt;UID: Integer&lt;/u&gt;, Last_Login: Timestamp&lt;u&gt;)&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="5" y="140" width="274" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="102" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="99" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="332" y="93" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="99" value="StoreMgrs(&lt;u&gt;UID: Integer&lt;/u&gt;&lt;u&gt;)&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="293" y="142" width="274" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="103" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.202;entryY=1.027;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="100" target="2" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="235.20004272460938" y="100" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="100" value="Admin(&lt;u&gt;UID: Integer&lt;/u&gt;&lt;u&gt;)&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="553" y="142" width="274" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="106" value="StoreMgrs(&lt;u&gt;UID: Integer&lt;/u&gt;&lt;u&gt;)&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="215.5" y="618" width="190.5" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="107" value="Users(&lt;u&gt;UID: Integer&lt;/u&gt;, Username: Text, Password: Text, Name: Text, DOB: Date, Phone: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="567" y="2201" width="504" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="108" value="Users(&lt;u&gt;UID: Integer&lt;/u&gt;, Username: Text, Password: Text, Name: Text, DOB: Date, Phone: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="136" y="2539" width="534" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="112" style="edgeStyle=none;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.582;exitY=0.983;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="109" target="110" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="109" value="Admins(&lt;u&gt;UID: Integer&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="199" y="2423" width="243" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="111" style="edgeStyle=none;html=1;entryX=0.177;entryY=-0.006;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.564;exitY=1.02;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" parent="1" source="110" target="108" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="110" value="Ban_List(&lt;u&gt;Ban_ID: Integer&lt;/u&gt;, User_ID: Integer, Admin_ID: Integer)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="171" y="2479" width="345" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="117" style="edgeStyle=none;html=1;entryX=0.384;entryY=0.987;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;" parent="1" source="113" target="114" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="118" style="edgeStyle=none;html=1;entryX=0.352;entryY=0.04;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.546;exitY=1.1;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="113" target="116" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1165" y="172" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="119" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.82;exitY=1.127;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.551;entryY=-0.002;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="113" target="116" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="113" value="Wishlists(&lt;u&gt;UID: Integer&lt;/u&gt;,&lt;u&gt;&amp;nbsp;Game_Tille: Text, Dev_ID: Text&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="999" y="147" width="329" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="114" value="Customers(&lt;u&gt;UID: Integer&lt;/u&gt;, Last_Login: Timestamp&lt;u&gt;)&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="1002" y="76" width="274" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="116" value="Games(&lt;u&gt;Title: Text, Dev_ID: Text&lt;/u&gt;, Price: Number)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="930" y="218" width="406" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="120" value="Stores(&lt;u&gt;Store_ID: Text&lt;/u&gt;, BID: Text, MID: Interger, Ops_Hour: Text, Modality: Text, Street: Text, City: Text, State: Text, Zip_Code: Integer, Country: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=0" parent="1" vertex="1">
+                    <mxGeometry x="54" y="698" width="803" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="121" value="Business(&lt;u&gt;BID: Text&lt;/u&gt;, Name: Text, PC_Flag: enum, D_Flag: enum, P_Flag: enum, Street: Text, City: Text, State: Text, Zip_Code: Integer, Country: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="59" y="900" width="807" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="122" value="Stores(&lt;u&gt;Store_ID: Text&lt;/u&gt;, BID: Text, MID: Interger, Ops_Hour: Text, Modality: Text, Street: Text, City: Text, State: Text, Zip_Code: Integer, Country: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=0" parent="1" vertex="1">
+                    <mxGeometry x="28.5" y="1386" width="803" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="123" value="Users(&lt;u&gt;UID: Integer&lt;/u&gt;, Username: Text, Name: Text, DOB: Date, Phone: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="817" y="2007" width="426" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="125" value="Photos(&lt;u&gt;Photo_ID: Text&lt;/u&gt;, Description: Text, DateAdded: Date)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="123" y="1867" width="336" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="131" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0.275;entryY=0.976;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="126" target="125" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="215" y="1889" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="136" style="edgeStyle=none;html=1;entryX=0.126;entryY=-0.007;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" parent="1" source="137" target="135" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="126" value="Store_Photos(&lt;u&gt;Photo_ID: Text&lt;/u&gt;, Store_ID: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="-10" y="1932" width="254" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="132" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="127" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="216.33331976996533" y="1892.000047471788" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="127" value="Biz_Photos(&lt;u&gt;Photo_ID: Text&lt;/u&gt;, BID: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="322" y="1932" width="254" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="130" style="edgeStyle=none;html=1;entryX=0.272;entryY=-0.098;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;" parent="1" source="128" target="125" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="134" style="edgeStyle=none;html=1;entryX=0.184;entryY=1.098;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" parent="1" source="128" target="133" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="128" value="Acc_Photos(&lt;u&gt;Photo_ID: Text&lt;/u&gt;, UID: Integer)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="164" y="1795" width="254" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="133" value="Users(&lt;u&gt;UID: Integer&lt;/u&gt;, Username: Text, Name: Text, DOB: Date, Phone: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="111" y="1733" width="426" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="135" value="Stores(&lt;u&gt;Store_ID: Text&lt;/u&gt;, BID: Text, MID: Interger, Ops_Hour: Text, Modality: Text, Street: Text, City: Text, State: Text, Zip_Code: Integer, Country: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=0" parent="1" vertex="1">
+                    <mxGeometry x="-137.5" y="2095" width="803" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="137" value="Store_Photos(&lt;u&gt;Photo_ID: Text&lt;/u&gt;, Store_ID: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="-1" y="2037" width="254" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="140" style="edgeStyle=none;html=1;entryX=0.114;entryY=-0.108;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" parent="1" source="138" target="139" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="138" value="Biz_Photos(&lt;u&gt;Photo_ID: Text&lt;/u&gt;, BID: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="938" y="1645" width="254" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="139" value="Business(&lt;u&gt;BID: Text&lt;/u&gt;, Name: Text, PC_Flag: enum, D_Flag: enum, P_Flag: enum, Street: Text, City: Text, State: Text, Zip_Code: Integer, Country: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="754" y="1723" width="807" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="143" style="edgeStyle=none;html=1;endArrow=none;endFill=0;entryX=0.363;entryY=0.017;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.792;exitY=1.006;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="141" target="142" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="141" value="Gernes(&lt;u&gt;Title: Text, Dev_ID: Text, Gern_ID: Int&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="954" y="319" width="268" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="142" value="Gerne_List(&lt;u&gt;Gerne_ID: Int&lt;/u&gt;, Description: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="955" y="378" width="266" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="144" value="Platforms(&lt;u&gt;Title: Text, Dev_ID: Text, Platform_ID: Text&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="1336" y="319" width="316" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="146" style="edgeStyle=none;html=1;entryX=0.75;entryY=1;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="145" target="144" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="145" value="Platform_List(&lt;u&gt;Platform_ID: Text&lt;/u&gt;, Platform: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="1352" y="381" width="266" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

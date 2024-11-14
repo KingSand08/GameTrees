@@ -31,7 +31,7 @@ export const authOptions: AuthOptions = {
 
         const { email, password } = credentials;
         console.log("Email:", email); console.log("Password:", password);
-        const query = `SELECT * FROM Customer WHERE email = ? AND password = ?`;
+        const query = `SELECT * FROM Users U WHERE U.Email = ? AND U.Password = ? AND EXISTS (SELECT * FROM Customers C WHERE U.UID = C.UID);`;
         const data = [email, password];
         const user = await executeQuery(query, data) as { id: string, username: string, email: string, full_name: string, image?: string }[];
         console.log("Database Response:", user);
