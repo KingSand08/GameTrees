@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import React, { useState, ChangeEvent, useRef, FormEvent } from "react";
-import { SubmitSignup } from "@/app/utils/customerSignup";
+import { SubmitSignup } from "/app/utils/customerSignup";
 
 export default function Page() {
     // State variables

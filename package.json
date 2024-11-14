@@ -9,6 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lucia-auth/adapter-mysql": "^3.0.2",
+    "@oslojs/crypto": "^1.0.1",
+    "@oslojs/encoding": "^1.1.0",
+    "bcrypt": "^5.1.1",
+    "lucia": "^3.2.2",
+    "mysql2": "^3.11.4",
+    "next": "14.2.14",
+    "next-auth": "^4.24.10",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "daisyui": "^4.12.14",
     "gsap": "^3.12.5",
     "mysql2": "^3.11.3",
@@ -18,9 +28,10 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
     "eslint": "^8",
     "eslint-config-next": "^15.0.2",
     "postcss": "^8",
