@@ -30,4 +30,34 @@ body {
   overflow: hidden;
 }
 
+input[type="text"] {
+  background-color: #d9d9d9;
+}
+
+.settings-space{
+  margin-top:5%;
+  margin-bottom:5%;
+}
+
+/*Changes the color of the account settings menu*/
+.menu{
+  background-color: #d9d9d9;
+  margin:2%;
+  height:80vh;
+}
+
+.menu li {
+  color: #171717;
+}
+
+.setting-content{
+  margin:2%;
+}
+
+
+.lg-pfp {
+  width: 100px; /* Adjust this value as needed */
+  height: 100px; /* Make height equal to width for a perfect circle */
+  line-height: 80px; /* Center content vertically */
+}
 
