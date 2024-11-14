@@ -1,5 +1,6 @@
 import React from "react";
-import SessionClient from "@/nextauth/SessionClient"
+// import SessionClient from "@/nextauth/SessionClient"
+import SessionServer from "@/nextauth/SessionServer";
 
 export default function page() {
     return (
@@ -7,7 +8,7 @@ export default function page() {
             <h1>account settings</h1>
             <div className="mt-8">
                 {/* <SessionServer /> */}
-                <SessionClient />
+                <SessionServer />
             </div>
         </div>
     );

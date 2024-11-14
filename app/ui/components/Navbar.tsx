@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/nextauth/NextAuthOptions";
 import Link from 'next/link';
 import Image from 'next/image';
 import LogoIcon from "@/public/icons/ours/GameTreesLogo.png";
@@ -10,7 +11,7 @@ import ProfileButton from "@/app/ui/components/buttons/ProfileButton";
 import HamburgerMenu from "@/app/ui/components/structural/HamburgerMenu"; // New component for client-side dropdown
 
 export default async function Navbar() {
-    const session = await getServerSession();
+    const session = await getServerSession(authOptions);
 
     return (
         <header className='bg-slate-800 py-4 px-4 sm:px-8 top-0 left-0 w-full z-50 mb-8'>
@@ -36,7 +37,7 @@ export default async function Navbar() {
                 {/* Regular Navbar Links (Visible on larger screens) */}
                 <div className='flex ml-4 items-center space-x-8 text-[1.3em] font-semibold font-inter'>
                     <NavButton page="Home" route="/" className='xl:block lg:block md:hidden sm:hidden min-[380px]:hidden' />
-                    <NavButton page="Wishlist" route={`/user/${session?.user?.id}/wishlist`} className='flex-shrink-0 lg:block md:block sm:hidden min-[380px]:hidden' />
+                    <NavButton page="Wishlist" route={`/users/${session?.user?.username}/wishlist`} className='flex-shrink-0 lg:block md:block sm:hidden min-[380px]:hidden' />
                     <NavButton page="Account Settings" route="/account-settings" className='flex-shrink-0 xl:block lg:hidden md:hidden sm:hidden min-[380px]:hidden' />
                     <NavButton page="Database Accessor" route="/CURDMySQL" className='flex-shrink-0 2xl:block xl:hidden lg:hidden md:hidden sm:hidden min-[380px]:hidden' />
 

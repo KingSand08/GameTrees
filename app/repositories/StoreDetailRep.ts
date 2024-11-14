@@ -1,5 +1,5 @@
+import executeQuery from "@/database/mysqldb";
 import StoreDetails from "@/types/models/StoreDetail";
-import Database from "../../database/Database";
 
 export class StoreDetailRep {
     public async getStoreDetails(storeId: string): Promise<StoreDetails> {
@@ -9,7 +9,7 @@ export class StoreDetailRep {
             FROM Stores
             WHERE Store_ID = ?;
         `;
-        const result = await Database.getInstance().executeQuery(query, [storeId]) as StoreDetails[];
+        const result = await executeQuery(query, [storeId]) as StoreDetails[];
         return result[0];
     }
 }

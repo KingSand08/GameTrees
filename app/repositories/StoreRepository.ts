@@ -1,5 +1,5 @@
-import Database from "../../database/Database";
-import GameRow from "../../types/models/GameRow";
+import executeQuery from "@/database/mysqldb";
+import GameRow from "@/types/models/GameRow";
 
 export class StoreRepository {
     // Returns a Promise containing an array of GameRow type
@@ -14,7 +14,7 @@ export class StoreRepository {
             LEFT JOIN Platform_list L ON P.Platform_ID = L.Platform_ID 
             WHERE I.Store_ID = ? 
             GROUP BY I.Title, G.Price, I.Discount;`;
-        const results = await Database.getInstance().executeQuery(query, [storeId]) as GameRow[];
+        const results = await executeQuery(query, [storeId]) as GameRow[];
         return results;
     }
 }

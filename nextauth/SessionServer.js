@@ -9,6 +9,7 @@ const SessionServer = async () => {
     <div>
       <h3 className="text-2xl">Server Component for NextAuth Session</h3>
       {JSON.stringify(session)}
+      {session.user.username}
     </div>
   );
 };

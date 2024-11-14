@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import WishlistRow from "@/types/models/WishlistRow";
+import Image from "next/image";
 
 interface WishlistPageProps {
     params: { username: string };
@@ -41,9 +42,9 @@ export default function WishlistPage({ params }: WishlistPageProps) {
                 {wishlistGames.map((game, index) => (
                     <li key={index}>
                         {game.image && (
-                            <img src={game.image} alt={`${game.title} cover`} width={100} height={100} /> // Display the image of the game
+                            <Image src={game.image} alt={`${game.title} cover`} width={100} height={100} /> // Display the image of the game
                         )}
-                        <strong>Title:</strong> {game.Game_Title}, 
+                        <strong>Title:</strong> {game.Game_Title},
                         <strong>Developer:</strong> {game.Name}
                     </li>
                 ))}

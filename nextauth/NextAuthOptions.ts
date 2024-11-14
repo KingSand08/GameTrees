@@ -31,18 +31,26 @@ export const authOptions: AuthOptions = {
 
         const { email, password } = credentials;
         console.log("Email:", email); console.log("Password:", password);
-        const query = `SELECT * FROM Users U WHERE U.Email = ? AND U.Password = ? AND EXISTS (SELECT * FROM Customers C WHERE U.UID = C.UID);`;
+        const query =
+          `SELECT * FROM Users U 
+            WHERE U.Email = ? 
+            AND U.Password = ? 
+            AND EXISTS (
+              SELECT * FROM Customers C 
+              WHERE U.UID = C.UID
+            );
+          `;
         const data = [email, password];
-        const user = await executeQuery(query, data) as { id: string, username: string, email: string, full_name: string, image?: string }[];
+        const user = await executeQuery(query, data) as { UID: string, Username: string, Email: string, Name: string, image?: string }[];
         console.log("Database Response:", user);
 
         if (user && user.length > 0) {
           console.log("Login Successfully");
           return {
-            id: user[0].id,
-            username: user[0].username,
-            email: user[0].email,
-            name: user[0].full_name,
+            id: user[0].UID,
+            username: user[0].Username,
+            email: user[0].Email,
+            name: user[0].Name,
             image: user[0].image || null,
             //add role to session
           };

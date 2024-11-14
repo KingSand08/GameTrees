@@ -1,4 +1,4 @@
-import Database from '../../database/Database';
+import executeQuery from '@/database/mysqldb';
 import WishlistRow from '@/types/models/WishlistRow';
 
 export class WishlistRepository {
@@ -10,7 +10,7 @@ export class WishlistRepository {
             ON W.Dev_ID = B.BID
             WHERE W.UID = (SELECT U.UID FROM Users U WHERE Username = ?);
         `;
-        const result = await Database.getInstance().executeQuery(query, [username]) as WishlistRow[];
+        const result = await executeQuery(query, [username]) as WishlistRow[];
         return result;
     }
 }
