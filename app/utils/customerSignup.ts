@@ -1,4 +1,4 @@
-import { isValidEmail } from "@/app/utils/validation";
+import { isValidEmail } from "@/app/utils/validateEmailStr";
 // import { redirect } from "next/navigation";
 import { FormEvent } from "react";
 
