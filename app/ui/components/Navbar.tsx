@@ -3,15 +3,21 @@ import { authOptions } from "@/nextauth/NextAuthOptions";
 import Link from 'next/link';
 import Image from 'next/image';
 import LogoIcon from "@/public/icons/ours/GameTreesLogo.png";
-import NavButton from "@/app/ui/components/buttons/NavButton";
-import SignUpButton from "@/app/ui/components/buttons/SignUpButton";
-import LoginButton from "@/app/ui/components/buttons/LoginButton";
-import SignOutButton from "@/app/ui/components/buttons/SignOutButton";
-import ProfileButton from "@/app/ui/components/buttons/ProfileButton";
+import NavButton from "@/app/ui/components/auth/NavButton";
+import SignUpButton from "@/app/ui/components/auth/SignUpButton";
+import LoginButton from "@/app/ui/components/auth/LoginButton";
+import SignOutButton from "@/app/ui/components/auth/SignOutButton";
+import ProfileButton from "@/app/ui/components/auth/ProfileButton";
 import HamburgerMenu from "@/app/ui/components/structural/HamburgerMenu"; // New component for client-side dropdown
+import { getUserProfileImage } from "@/database/queries/getUserProfileImage";
 
 export default async function Navbar() {
     const session = await getServerSession(authOptions);
+
+    let profileImage: string | null = null;
+    if (session?.user?.username) {
+        profileImage = await getUserProfileImage(session.user.username);
+    }
 
     return (
         <header className='bg-slate-800 py-4 px-4 sm:px-8 top-0 left-0 w-full z-50 mb-8'>
@@ -46,11 +52,11 @@ export default async function Navbar() {
                         <>
                             <Link href={"/account-settings"} className='cursor-pointer'>
                                 <ProfileButton
-                                    className='w-full xl:flex lg:flex md:flex sm:hidden min-[380px]:hidden'
+                                    className='w-full xl:flex lg:flex md:flex sm:flex min-[380px]:hidden'
                                     imgClassName='w-[2.8rem] h-[2.8rem]'
                                     username={session.user.username}
                                     name={session.user.name}
-                                    image={session.user.image ?? undefined}
+                                    image={profileImage ?? undefined}
                                 />
                             </Link>
                             <SignOutButton className='flex-shrink-0 block xl:block lg:block md:hidden sm:hidden min-[380px]:hidden' />

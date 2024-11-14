@@ -1,9 +1,9 @@
-import executeQuery from "./mysqldb";
+import executeQuery from "../mysqldb";
 
 // General function to check if a field (email or username) exists for another user
 export const checkFieldAlreadyExists = async (
     table: string,
-    field: 'Email' | 'Username',
+    field: string,
     value: string,
 ): Promise<boolean> => {
     const existingCheck = await executeQuery(

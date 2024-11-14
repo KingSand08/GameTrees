@@ -1,15 +1,15 @@
 import executeQuery from "@/database/mysqldb";
 
 interface User {
-  id: number;
-  username: string;
-  name: string;
-  email: string;
-  password: string;
+  UID: number;
+  Username: string;
+  Name: string;
+  Email: string;
+  Password: string;
 }
 
 const DisplayUserData = async (): Promise<JSX.Element> => {
-  const result = (await executeQuery("SELECT * FROM Test", [])) as User[];
+  const result = (await executeQuery("SELECT * FROM Users", [])) as User[];
 
   return (
     <>
@@ -20,19 +20,19 @@ const DisplayUserData = async (): Promise<JSX.Element> => {
             <tr className="bg-blue-500 text-white">
               <th className="px-6 py-3">User ID</th>
               <th className="px-6 py-3">Username</th>
-              <th className="px-6 py-3">User Type</th>
-              <th className="px-6 py-3">User Email</th>
-              <th className="px-6 py-3">User Password</th>
+              <th className="px-6 py-3">Name</th>
+              <th className="px-6 py-3">Email</th>
+              <th className="px-6 py-3">Password</th>
             </tr>
           </thead>
           <tbody>
             {result.map((user) => (
-              <tr key={user.id}>
-                <td className="px-6 py-3">{user.id}</td>
-                <td className="px-6 py-3">{user.username}</td>
-                <td className="px-6 py-3">{user.name}</td>
-                <td className="px-6 py-3">{user.email}</td>
-                <td className="px-6 py-3">{user.password}</td>
+              <tr key={user.UID}>
+                <td className="px-6 py-3">{user.UID}</td>
+                <td className="px-6 py-3">{user.Username}</td>
+                <td className="px-6 py-3">{user.Name}</td>
+                <td className="px-6 py-3">{user.Email}</td>
+                <td className="px-6 py-3">{user.Password}</td>
               </tr>
             ))}
           </tbody>

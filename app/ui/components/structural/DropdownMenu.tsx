@@ -2,12 +2,10 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useSession } from "next-auth/react";
-import NavButton from "@/app/ui/components/buttons/NavButton";
-import SignUpButton from "@/app/ui/components/buttons/SignUpButton";
-import LoginButton from "@/app/ui/components/buttons/LoginButton";
-import SignOutButton from "@/app/ui/components/buttons/SignOutButton";
-import ProfileButton from "@/app/ui/components/buttons/ProfileButton";
-
+import NavButton from "@/app/ui/components/auth/NavButton";
+import SignUpButton from "@/app/ui/components/auth/SignUpButton";
+import LoginButton from "@/app/ui/components/auth/LoginButton";
+import SignOutButton from "@/app/ui/components/auth/SignOutButton";
 interface DropdownMenuProps {
     open: boolean;
     onClose: () => void;
@@ -39,13 +37,6 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ open, onClose }) => {
                 <div className='flex flex-col font-semibold w-[10em] py-4 space-y-3 items-center text-[1.08em] font-inter text-center'>
                     {session && session.user ? (
                         <>
-                            <ProfileButton
-                                className='w-full block md:hidden'
-                                imgClassName='w-[2.8rem] h-[2.8rem]'
-                                username={session.user.username}
-                                name={session.user.name}
-                                image={session.user.image ?? undefined}
-                            />
                             <SignOutButton className='w-full block lg:hidden' />
                         </>
                     ) : (

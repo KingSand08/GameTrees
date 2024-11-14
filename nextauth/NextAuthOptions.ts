@@ -1,7 +1,7 @@
 import Credentials from "next-auth/providers/credentials";
 import GoogleProivder from "next-auth/providers/google";
-import executeQuery from "@/database/mysqldb";
 import { AuthOptions } from "next-auth";
+import { findUserByEmailAndPassword, findUserByEmail } from "@/database/queries/authQueries";
 
 export const authOptions: AuthOptions = {
   session: {
@@ -28,24 +28,10 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials) return null;
-
         const { email, password } = credentials;
-        console.log("Email:", email); console.log("Password:", password);
-        const query =
-          `SELECT * FROM Users U 
-            WHERE U.Email = ? 
-            AND U.Password = ? 
-            AND EXISTS (
-              SELECT * FROM Customers C 
-              WHERE U.UID = C.UID
-            );
-          `;
-        const data = [email, password];
-        const user = await executeQuery(query, data) as { UID: string, Username: string, Email: string, Name: string, image?: string }[];
-        console.log("Database Response:", user);
+        const user = await findUserByEmailAndPassword(email, password) as { UID: string, Username: string, Email: string, Name: string, image?: string }[];
 
         if (user && user.length > 0) {
-          console.log("Login Successfully");
           return {
             id: user[0].UID,
             username: user[0].Username,
@@ -55,7 +41,6 @@ export const authOptions: AuthOptions = {
             //add role to session
           };
         } else {
-          console.log("Login Error Failure");
           return null;
         }
       },
@@ -83,9 +68,27 @@ export const authOptions: AuthOptions = {
         // add role to session object
       };
       return session;
+    }, async signIn({ user, account }) {
+      if (account?.provider === "google" && user.email) {
+        const existingUser = await findUserByEmail(user.email);
+
+        // If the user exists, proceed with the sign-in process
+        if (existingUser.length > 0) {
+          user.id = existingUser[0].UID;
+          user.username = existingUser[0].Username;
+          user.email = existingUser[0].Email;
+          user.name = existingUser[0].Name;
+          user.image = existingUser[0].image || null;
+          return true;
+        } else {
+          return false;
+        }
+      }
+      return true;
     },
   },
   pages: {
     signIn: "/login",
+    error: "/signup",
   },
 };

@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import executeQuery from "./mysqldb";
+import executeQuery from "../mysqldb";
 import { ResultSetHeader } from "mysql2";
 import { checkFieldAlreadyExists } from "./checkFieldAlreadyExists";
 
