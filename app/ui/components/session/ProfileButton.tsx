@@ -1,13 +1,11 @@
-"use client";
-
 import React from 'react'
 import Image from "next/image"
-import { classChange } from '@/types/ui/classChange';
+import { ClassChange } from '@/types/ui/classChange';
 import { Profile } from '@/types/models/Profile';
-import { linkChange } from '@/types/ui/linkChange';
+import { LinkChange } from '@/types/ui/linkChange';
 
 
-const ProfileButton = (props: Profile & classChange & linkChange) => {
+const ProfileButton = (props: Profile & ClassChange & LinkChange) => {
     return (
         <div
             className={`${props.className} flex flex-row items-center gap-3 bg-black bg-opacity-35 rounded-lg px-4 py-[0.45em]`}
