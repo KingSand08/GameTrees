@@ -2,11 +2,11 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useSession } from "next-auth/react";
-import NavButton from "@/app/ui/components/structural/NavButton";
-import SignUpButton from "@/app/ui/components/session/SignUpButton";
-import LoginButton from "@/app/ui/components/session/LoginButton";
-import SignOutButton from "@/app/ui/components/session/SignOutButton";
-import ProfileButton from "@/app/ui/components/session/ProfileButton";
+import NavButton from "@/app/ui/components/buttons/NavButton";
+import SignUpButton from "@/app/ui/components/buttons/SignUpButton";
+import LoginButton from "@/app/ui/components/buttons/LoginButton";
+import SignOutButton from "@/app/ui/components/buttons/SignOutButton";
+import ProfileButton from "@/app/ui/components/buttons/ProfileButton";
 
 interface DropdownMenuProps {
     open: boolean;

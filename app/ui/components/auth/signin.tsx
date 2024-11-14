@@ -1,8 +1,9 @@
 "use client";
 import { signIn } from 'next-auth/react';
-import Link from 'next/link';
 import React, { useRef, useState } from 'react'
 import OAuthButton from './OAuthButton';
+import CancelButton from '../buttons/CancelButton';
+import AcceptFormButton from '../buttons/AcceptFormButton';
 
 type Props = {
     className?: string;
@@ -28,11 +29,11 @@ const Signin = (props: Props) => {
 
     return (
         <div className={props.className}>
-            <div className='g-gradient-to-b from-slate-50 to-slate-200 p-2 text-center text-2xl'>
+            <h1 className='g-gradient-to-b from-slate-50 to-slate-200 p-2 text-center text-3xl font-semibold'>
                 Sign In
-            </div>
+            </h1>
             <form onSubmit={onSubmit} className="p-2 flex flex-col gap-3">
-                <div className="flex flex-col space-y-2 mt-4">
+                <div className="flex flex-col space-y-2">
                     <label
                         htmlFor="email"
                         className="text-xl text-white font-medium"
@@ -79,24 +80,26 @@ const Signin = (props: Props) => {
                         </button>
                     </div>
                 </div>
-                <div className='flex space-x-5 mx-auto mt-5'>
-                    <div
-                        className='text-xl w-28 bg-blue-500 text-center py-2 rounded-md text-white transition hover:bg-blue-800 hover:text-slate-300 hover:border-transparent active:scale-95'>
-                        <button type="submit">
-                            Sign In
-                        </button>
-                    </div>
-                    <Link
-                        href={props.callbackUrl ?? "/"}
-                        className='text-xl w-28 border border-red-600 text-center py-2 rounded-md text-red-600 transition hover:bg-red-600 hover:text-white hover:border-transparent active:scale-95'>
-                        Cancel
-                    </Link>
+                {/* Form User Choice Section */}
+                <div className='flex space-x-5 mx-auto mt-3'>
+                    <AcceptFormButton msg="Sign in" />
+                    <CancelButton props={{
+                        callbackUrl: props.callbackUrl ?? "/"
+                    }} />
                 </div>
-                {/* OAuth Sign-In Buttons */}
             </form>
-            <div className="flex flex-col items-center gap-4 my-4">
+            <div className='flex flex-col'>
+                <p className="text-black dark:text-slate-200 text-lg mx-auto mt-[1em] mb-[1.5em]">
+                    OR
+                </p>
+            </div>
+
+            {/* OAuth Sign-In Buttons */}
+            <div className="flex flex-col items-center gap-4">
                 <OAuthButton callbackUrl={props.callbackUrl} provider={'google'} />
             </div>
+
+            {/* Error Message */}
             {!!props.error &&
                 <div className='flex justify-center mt-10'>
                     <p className='text-red-100 bg-red-600 p-6 rounded-lg w-fit'>

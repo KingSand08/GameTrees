@@ -2,11 +2,11 @@ import { getServerSession } from "next-auth/next";
 import Link from 'next/link';
 import Image from 'next/image';
 import LogoIcon from "@/public/icons/ours/GameTreesLogo.png";
-import NavButton from "@/app/ui/components/structural/NavButton";
-import SignUpButton from "@/app/ui/components/session/SignUpButton";
-import LoginButton from "@/app/ui/components/session/LoginButton";
-import SignOutButton from "@/app/ui/components/session/SignOutButton";
-import ProfileButton from "@/app/ui/components/session/ProfileButton";
+import NavButton from "@/app/ui/components/buttons/NavButton";
+import SignUpButton from "@/app/ui/components/buttons/SignUpButton";
+import LoginButton from "@/app/ui/components/buttons/LoginButton";
+import SignOutButton from "@/app/ui/components/buttons/SignOutButton";
+import ProfileButton from "@/app/ui/components/buttons/ProfileButton";
 import HamburgerMenu from "@/app/ui/components/structural/HamburgerMenu"; // New component for client-side dropdown
 
 export default async function Navbar() {
