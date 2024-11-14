@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import Link from "next/link";
 import GameTable from "@/app/components/GameTable"
 import HighlightGameCards from "./components/Hero";

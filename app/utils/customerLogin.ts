@@ -6,7 +6,7 @@ export const SubmitLogin = (
     email: string,
     setValidity: React.Dispatch<React.SetStateAction<boolean>>,
     setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
-    lastInputRef: React.RefObject<HTMLInputElement>
+    lastInputRef: React.RefObject<HTMLInputElement | null>
 ): void => {
     // Prevent the default form submission behavior
     event.preventDefault();
