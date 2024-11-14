@@ -1,10 +1,7 @@
-export interface User {
-    id: string;
-    name?: string;
-    email?: string;
-    emailVerified?: Date;
+export type User = {
+    UID: string;
+    Username: string;
+    Email: string;
+    Name: string;
     image?: string;
-    hashedPassword?: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
+};

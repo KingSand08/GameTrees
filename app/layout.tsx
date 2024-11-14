@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { inter } from '@/app/ui/fonts/fonts';
-import "@/app/ui/globals.css";
+import "@/app/ui/styles/globals.css";
 import React from "react";
 import Navbar from "@/app/ui/components/Navbar";
 import NextAuthSessionProvider from "@/nextauth/NextAuthSessionProvider"
@@ -18,7 +18,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         className={`${inter.className} subpixel-antialiased`}
       >
         <NextAuthSessionProvider>

@@ -42,8 +42,8 @@ export const Modal = ({ show = true, onClose, children, className, callbackUrl =
                 className={`relative bg-slate-800 rounded-lg shadow-lg transition-transform transform ${isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"} ${className}`}
                 style={{
                     transition: "transform 0.3s ease-out, opacity 0.3s ease-out",
-                    width: "75%",
-                    maxWidth: "600px"
+                    width: "45%",
+
                 }}
             >
                 <button
