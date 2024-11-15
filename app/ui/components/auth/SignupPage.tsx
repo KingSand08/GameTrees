@@ -43,7 +43,7 @@ const SignUp = (props: Props) => {
                             name="username"
                             placeholder="Mastercheif"
                             required
-                            className="w-full py-2 px-4 rounded-lg border text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                            className="w-full py-2 px-4 rounded-lg border focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
 
@@ -61,7 +61,7 @@ const SignUp = (props: Props) => {
                                 name="name"
                                 placeholder="John Marston"
                                 required
-                                className="w-full py-2 px-4 rounded-lg border text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-4 rounded-lg border focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
                     </div>
@@ -80,7 +80,7 @@ const SignUp = (props: Props) => {
                                 name="email"
                                 placeholder="games@g.com"
                                 required
-                                className="w-full py-2 px-4 rounded-lg border text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-4 rounded-lg border focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
                     </div>
@@ -99,7 +99,7 @@ const SignUp = (props: Props) => {
                                 name="date"
                                 placeholder="date of birth"
                                 required
-                                className="w-full py-2 px-4 rounded-lg border text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-4 rounded-lg border focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
                     </div>
@@ -117,7 +117,7 @@ const SignUp = (props: Props) => {
                                 id="tel"
                                 name="tle"
                                 placeholder="(408)000-0000"
-                                className="w-full py-2 px-4 rounded-lg border text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-4 rounded-lg border focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
                     </div>
@@ -136,13 +136,13 @@ const SignUp = (props: Props) => {
                                 name="password"
                                 placeholder="new type password"
                                 required
-                                className="w-full py-2 px-4 rounded-lg border text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                                className="w-full py-2 px-4 rounded-lg border focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
                         <div className='pt-3 mx-auto pb-3'>
                             <button
                                 type="button"
-                                className="text-black dark:text-slate-200 text-md bg-black bg-opacity-45 max-w-fit mx-auto px-4 py-3 rounded-xl hover:text-white hover:bg-opacity-75"
+                                className="text-white dark:text-slate-200 text-md bg-black bg-opacity-45 max-w-fit mx-auto px-4 py-3 rounded-xl hover:text-white hover:bg-opacity-75"
                                 onClick={() => {
                                     setShowPassword((prev) => !prev);
                                 }}

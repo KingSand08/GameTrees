@@ -9,7 +9,7 @@ const SignOutButton = ({ className }: ClassChange) => {
             className={`flex-shrink-0 text-white bg-blue-600 hover:bg-blue-800 hover:text-slate-300 hover:ease-in NavButtonduration-100 rounded-lg py-2 px-3 ${className}`}
             onClick={() => signOut()}
         >
-            SignOut
+            Sign Out
         </button>
     );
 }

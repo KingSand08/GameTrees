@@ -1,13 +1,12 @@
 import React from "react";
 import DisplayUserData from "@/app/ui/components/db/DisplayUserData";
-// import ModifyUserData from "@/app/ui/components/db/ModifyUserData";
+import { monoton } from "@/app/ui/fonts/fonts";
 
 const Page = async () => {
   return (
-    <div>
-      <h2 className="text-2xl">Users of GameTrees</h2>
+    <div className="pt-8">
+      <h2 className={`${monoton.className} text-5xl text-center`}>Users of GameTrees</h2>
       <div className="flex flex-col space-y-[8em] pt-[5em]">
-        {/* <ModifyUserData /> */}
         <DisplayUserData />
       </div>
     </div>

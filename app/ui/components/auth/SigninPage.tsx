@@ -47,7 +47,7 @@ const Signin = (props: Props) => {
                         id="email"
                         name="email"
                         placeholder="new type email"
-                        className="w-full py-2 px-4 rounded-lg border text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                        className="w-full py-2 px-4 rounded-lg border focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                         onChange={(e) => (email.current = e.target.value)}
                     />
                 </div>
@@ -64,14 +64,14 @@ const Signin = (props: Props) => {
                             id="password"
                             name="password"
                             placeholder="new type password"
-                            className="w-full py-2 px-4 rounded-lg border text-black focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
+                            className="w-full py-2 px-4 rounded-lg border focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
                             onChange={(e) => (password.current = e.target.value)}
                         />
                     </div>
                     <div className='pt-3 mx-auto pb-3'>
                         <button
                             type="button"
-                            className="text-black dark:text-slate-200 text-md bg-black bg-opacity-45 max-w-fit mx-auto px-4 py-3 rounded-xl hover:text-white hover:bg-opacity-75"
+                            className="text-white dark:text-slate-200 text-md bg-black bg-opacity-45 max-w-fit mx-auto px-4 py-3 rounded-xl hover:text-white hover:bg-opacity-75"
                             onClick={() => {
                                 setShowPassword((prev) => !prev);
                             }}
@@ -89,7 +89,7 @@ const Signin = (props: Props) => {
                 </div>
             </form>
             <div className='flex flex-col'>
-                <p className="text-black dark:text-slate-200 text-md mx-auto mt-[1em] mb-[1.5em]">
+                <p className="text-white dark:text-slate-200 text-md mx-auto mt-[1em] mb-[1.5em]">
                     OR
                 </p>
             </div>

@@ -1,6 +1,6 @@
 "use client";
 import React from 'react'
-import SignUp from '@/app/ui/components/auth/signup'
+import SignUp from '@/app/ui/components/auth/SignupPage'
 
 type Props = {
     searchParams?: Record<"callbackUrl" | "error", string>;
