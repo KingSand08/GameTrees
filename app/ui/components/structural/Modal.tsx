@@ -33,7 +33,7 @@ export const Modal = ({ show = true, onClose, children, className, callbackUrl =
     if (!isVisible) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center max-h-screen">
             <div
                 className="fixed inset-0 bg-black bg-opacity-25 transition-opacity"
                 onClick={handleClose}

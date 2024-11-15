@@ -9,6 +9,7 @@ export const config = {
         bodyParser: false,
     },
 };
+// export const bodyParser = false;
 
 export const POST = async (req: Request) => {
     const session = await getServerSession(authOptions);

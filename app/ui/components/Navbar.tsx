@@ -41,7 +41,7 @@ export default async function Navbar() {
                 </div>
 
                 {/* Regular Navbar Links (Visible on larger screens) */}
-                <div className='flex ml-4 items-center space-x-8 text-[1.3em] font-semibold font-inter'>
+                <div className='flex ml-4 items-center space-x-8 text-[1.1em] font-semibold font-inter'>
                     <NavButton page="Home" route="/" className='xl:block lg:block md:hidden sm:hidden min-[380px]:hidden' />
                     <NavButton page="Wishlist" route={`/users/${session?.user?.username}/wishlist`} className='flex-shrink-0 lg:block md:block sm:hidden min-[380px]:hidden' />
                     <NavButton page="Account Settings" route="/account-settings" className='flex-shrink-0 xl:block lg:hidden md:hidden sm:hidden min-[380px]:hidden' />

@@ -65,9 +65,12 @@ export default function AccountSettingsPage() {
                 </button>
             </form>
             {imageData ? (
-                <img
+                <Image
                     src={`data:image/jpeg;base64,${imageData}`}
                     alt="Uploaded"
+                    width={100}
+                    height={100}
+                    quality={100}
                     style={{ maxWidth: "200px", maxHeight: "200px", marginTop: "20px" }}
                 />
             ) : (

@@ -1,7 +1,12 @@
 import Credentials from "next-auth/providers/credentials";
 import GoogleProivder from "next-auth/providers/google";
+import GitHubProivder from "next-auth/providers/github";
+import RedditProvider from "next-auth/providers/reddit";
+import BungieProivder from "next-auth/providers/bungie";
+import TwitchProivder from "next-auth/providers/twitch";
 import { AuthOptions } from "next-auth";
-import { findUserByEmailAndPassword, findUserByEmail } from "@/database/queries/authQueries";
+import { findUserByEmail } from "@/database/queries/findUserByEmail";
+import { findUserByEmailAndPassword } from "@/database/queries/findUserByEmailAndPassword";
 
 export const authOptions: AuthOptions = {
   session: {
@@ -12,6 +17,22 @@ export const authOptions: AuthOptions = {
     GoogleProivder({
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
+    }),
+    GitHubProivder({
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!,
+    }),
+    RedditProvider({
+      clientId: process.env.REDDIT_ID!,
+      clientSecret: process.env.REDDIT_SECRET!,
+    }),
+    BungieProivder({
+      clientId: process.env.BUNGIE_ID!,
+      clientSecret: process.env.BUNGIE_SECRET!,
+    }),
+    TwitchProivder({
+      clientId: process.env.TWITCH_ID!,
+      clientSecret: process.env.TWITCH_SECRET!,
     }),
     Credentials({
       credentials: {
@@ -69,7 +90,10 @@ export const authOptions: AuthOptions = {
       };
       return session;
     }, async signIn({ user, account }) {
-      if (account?.provider === "google" && user.email) {
+      if (account?.provider != "google" && user.email) {
+        return true;
+      }
+      else {
         const existingUser = await findUserByEmail(user.email);
 
         // If the user exists, proceed with the sign-in process
@@ -84,7 +108,6 @@ export const authOptions: AuthOptions = {
           return false;
         }
       }
-      return true;
     },
   },
   pages: {
