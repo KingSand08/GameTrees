@@ -68,25 +68,32 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update" && session?.user) {
+        // Manually update token fields during session updates
+        token.username = session.user.username;
+        token.email = session.user.email;
+        token.name = session.user.name;
+        token.image = session.user.image ?? null;
+      }
+
       if (user) {
+        // On login, set the token fields
         token.id = user.id;
         token.username = user.username;
         token.email = user.email;
         token.name = user.name;
         token.image = user.image ?? null;
-        // add role to cookie
       }
       return token;
-    },
-    async session({ session, token }) {
+    }, async session({ session, token }) {
+      // Map token fields to the session object
       session.user = {
         id: token.id as string,
-        username: (token.username as string) || token.name as string,
-        email: (token.email as string) || "",
-        name: (token.name as string) || "Anonymous",
-        image: (token.image as string | null) ?? null,
-        // add role to session object
+        username: token.username as string,
+        email: token.email as string,
+        name: token.name as string,
+        image: token.image as string | null,
       };
       return session;
     }, async signIn({ user, account }) {
@@ -102,7 +109,7 @@ export const authOptions: AuthOptions = {
           user.username = existingUser[0].Username;
           user.email = existingUser[0].Email;
           user.name = existingUser[0].Name;
-          user.image = existingUser[0].image || null;
+          user.image = existingUser[0].Image || null;
           return true;
         } else {
           return false;

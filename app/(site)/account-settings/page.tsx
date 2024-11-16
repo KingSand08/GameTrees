@@ -1,122 +1,55 @@
-"use client";
-
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
+// app/account-settings/page.tsx (Server Component)
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/nextauth/NextAuthOptions";
 import Avatar from "@/app/ui/components/auth/Avatar";
+import { getUserProfileImage } from "@/database/queries/getUserProfileImage";
+import AccountSettingsPageWrapper from "./AccountSettingsWrapper";
+import SignOutButton from "@/app/ui/components/auth/SignOutButton";
 
-export default function AccountSettingsPage() {
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [imageData, setImageData] = useState<string | null>(null);
-    const { data: session } = useSession();
+export default async function AccountSettingsPage() {
+    const session = await getServerSession(authOptions);
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files[0]) {
-            setSelectedFile(event.target.files[0]);
-        }
-    };
+    if (!session?.user) {
+        return <p className="text-center text-red-500">You need to be logged in to access account settings.</p>;
+    }
 
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-
-        if (!selectedFile) {
-            alert("Please select an image to upload.");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("file", selectedFile);
-
-        const response = await fetch("/api/upload-image-db", {
-            method: "POST",
-            body: formData,
-        });
-
-        if (response.ok) {
-            alert("Image uploaded successfully!");
-            window.location.reload(); // Reloads the page to reflect the updated image
-        } else {
-            const data = await response.json();
-            alert(`Failed to upload image: ${data.message || response.statusText}`);
-        }
-    };
-
-    const fetchImageData = async () => {
-        try {
-            if (session?.user?.username) {
-                const response = await fetch(`/api/users/${session.user.username}/profile-image`);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch image: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                if (data.image) {
-                    setImageData(`data:image/jpeg;base64,${data.image}`); // Add MIME type for Base64 images
-                } else {
-                    setImageData(null);
-                }
-            }
-        } catch (error) {
-            console.error("Error fetching image:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchImageData();
-    }, [session?.user?.username]);
+    // Fetch the profile image from the database
+    const profileImage = session.user.username
+        ? await getUserProfileImage(session.user.id as unknown as number)
+        : null;
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Account Settings</h1>
+        <div className="pb-[5rem]">
+            <div className="flex justify-center">
+                <div className="w-[90%] max-w-4xl bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg rounded-lg p-8">
+                    <h1 className="text-3xl font-bold text-white mb-8 text-center">Account Settings</h1>
 
-            {/* Profile Avatar */}
-            <div className="flex items-center space-x-4 mb-6">
-                <Avatar
-                    image={imageData || undefined} // Pass `imageData` directly
-                    username={session?.user?.username}
-                    className="ring-2 ring-blue-500 w-52 "
-                    imgSize="w-[10rem]"
-                    areaExpand="10rem"
-                    textSize="text-4xl"
-                />
-                <div>
-                    <p className="text-lg font-semibold">{session?.user?.name || "Anonymous"}</p>
-                    <p className="text-sm text-gray-600">{session?.user?.email}</p>
+                    {/* Profile Avatar */}
+                    <div className="flex flex-col space-y-2 mb-10 w-full">
+                        <div className="flex items-center space-x-6 mb-8 w-full">
+                            <Avatar
+                                image={profileImage || undefined} // Pass Base64 image or undefined
+                                username={session.user.username}
+                                className="ring-2 ring-blue-500"
+                                imgSize="w-[8rem]"
+                                areaExpand="8rem"
+                                textSize="text-2xl"
+                            />
+                            <div className="text-white w-full">
+                                <p className="text-lg font-semibold">{session.user.name || "Anonymous"}</p>
+                                <p className="text-sm text-gray-300">Username: {session.user.username}</p>
+                                <p className="text-sm text-gray-300">Email: {session.user.email}</p>
+                                <p className="text-sm text-gray-300">UID: {session.user.id}</p>
+                                <SignOutButton className="mt-5 px-3 py-2 w-full" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {/* Client Component for Upload */}
+                    <AccountSettingsPageWrapper />
                 </div>
             </div>
-
-            {/* Image Upload Form */}
-            <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-                <label className="block">
-                    <span className="text-sm font-medium text-gray-700">Upload a new profile picture:</span>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        className="block mt-2 text-sm"
-                    />
-                </label>
-                <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                    Upload Image
-                </button>
-            </form>
-
-            {/* Display uploaded image */}
-            {imageData && (
-                <div className="mt-6">
-                    <h2 className="text-lg font-semibold mb-2">Uploaded Image Preview:</h2>
-                    <Image
-                        src={`data:image/jpeg;base64,${imageData}`}
-                        alt="Uploaded"
-                        width={200}
-                        height={200}
-                        className="rounded-lg object-cover"
-                    />
-                </div>
-            )}
         </div>
     );
 }
