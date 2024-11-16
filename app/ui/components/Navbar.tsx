@@ -10,6 +10,7 @@ import SignOutButton from "@/app/ui/components/auth/SignOutButton";
 import ProfileButton from "@/app/ui/components/auth/ProfileButton";
 import HamburgerMenu from "@/app/ui/components/structural/HamburgerMenu"; // New component for client-side dropdown
 import { getUserProfileImage } from "@/database/queries/getUserProfileImage";
+import SearchBar from "@/app/ui/components/structural/SearchBar"; // Importing SearchBar component
 
 export default async function Navbar() {
     const session = await getServerSession(authOptions);
@@ -31,35 +32,37 @@ export default async function Navbar() {
                             quality={100}
                             className="object-contain"
                             style={{
-                                width: '5em',
-                                height: '5em',
+                                width: '4em',
+                                height: '4em',
                                 flexShrink: 0,
                                 flexGrow: 0,
                             }}
                         />
                     </Link>
+                    <div className="ml-4 flex-grow">
+                        <SearchBar actionUrl={""} />
+                    </div>
                 </div>
 
                 {/* Regular Navbar Links (Visible on larger screens) */}
-                <div className='flex ml-4 items-center space-x-8 text-[1.3em] font-semibold font-inter'>
-                    <NavButton page="Home" route="/" className='xl:block lg:block md:hidden sm:hidden min-[380px]:hidden' />
-                    <NavButton page="Wishlist" route={`/users/${session?.user?.username}/wishlist`} className='flex-shrink-0 lg:block md:block sm:hidden min-[380px]:hidden' />
-                    <NavButton page="Account Settings" route="/account-settings" className='flex-shrink-0 xl:block lg:hidden md:hidden sm:hidden min-[380px]:hidden' />
-                    <NavButton page="Database Accessor" route="/CURDMySQL" className='flex-shrink-0 2xl:block xl:hidden lg:hidden md:hidden sm:hidden min-[380px]:hidden' />
+                <div className='flex ml-4 items-center space-x-8 text-[1em] font-semibold font-inter'>
+                    <NavButton page="Home" route="/" className='flex-shrink-0 hidden min-[900px]:block' />
+                    <NavButton page="Wishlist" route={`/users/${session?.user?.username}/wishlist`} className='flex-shrink-0 hidden min-[1000px]:block' />
+                    <NavButton page="Account Settings" route="/account-settings" className='flex-shrink-0 hidden min-[1300px]:block' />
+                    <NavButton page="Admin User View" route="/admin-user-view" className='flex-shrink-0 hidden min-[1500px]:block' />
 
                     {/* Conditional Rendering based on session */}
                     {session?.user ? (
                         <>
                             <Link href={"/account-settings"} className='cursor-pointer'>
                                 <ProfileButton
-                                    className='w-full xl:flex lg:flex md:flex sm:flex min-[380px]:hidden'
-                                    imgClassName='w-[2.8rem] h-[2.8rem]'
+                                    // className='w-full xl:flex lg:flex md:flex sm:flex min-[380px]:hidden'
                                     username={session.user.username}
                                     name={session.user.name}
                                     image={profileImage ?? undefined}
                                 />
                             </Link>
-                            <SignOutButton className='flex-shrink-0 block xl:block lg:block md:hidden sm:hidden min-[380px]:hidden' />
+                            <SignOutButton className='flex-shrink-0 hidden min-[750px]:block' />
                         </>
                     ) : (
                         <>

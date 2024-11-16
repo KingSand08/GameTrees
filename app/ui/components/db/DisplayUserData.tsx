@@ -1,4 +1,7 @@
-import executeQuery from "@/database/mysqldb";
+import Avatar from "../auth/Avatar";
+import Link from "next/link";
+import { processUserImages } from "@/utils/processImages";
+import AllUsers from "@/database/queries/getAllUsers"
 
 interface User {
   UID: number;
@@ -6,28 +9,45 @@ interface User {
   Name: string;
   Email: string;
   Password: string;
+  Image: string;
 }
 
 const DisplayUserData = async (): Promise<JSX.Element> => {
-  const result = (await executeQuery("SELECT * FROM Users", [])) as User[];
+  const users = processUserImages(AllUsers);
 
   return (
-    <>
+    <div className="overflow-x-auto">
       <div className="flex flex-col space-y-8">
         <h3 className="text-center text-2xl">User Information</h3>
-        <table className="text-center table table-dark">
-          <thead className="table-warning">
-            <tr className="bg-blue-500 text-white">
-              <th className="px-6 py-3">User ID</th>
-              <th className="px-6 py-3">Username</th>
-              <th className="px-6 py-3">Name</th>
-              <th className="px-6 py-3">Email</th>
-              <th className="px-6 py-3">Password</th>
+        <table className="table">
+          <thead>
+            <tr className="bg-blue-500 text-white rounded-full">
+              <th>
+                <label>
+                  <input type="checkbox" className="checkbox" />
+                </label>
+              </th>
+              <th>Avatar</th>
+              <th>User ID</th>
+              <th>Username</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Password</th>
             </tr>
           </thead>
           <tbody>
-            {result.map((user) => (
+            {users.map((user) => (
               <tr key={user.UID}>
+                <td className="px-6 py-3">
+                  <label>
+                    <input type="checkbox" className="checkbox" />
+                  </label>
+                </td>
+                <td className="px-6 py-3">
+                  <Link href={`/users/${user.Username}/wishlist`}>
+                    <Avatar image={user.Image} username={user.Username} imgSize="w-12" />
+                  </Link>
+                </td>
                 <td className="px-6 py-3">{user.UID}</td>
                 <td className="px-6 py-3">{user.Username}</td>
                 <td className="px-6 py-3">{user.Name}</td>
@@ -40,7 +60,7 @@ const DisplayUserData = async (): Promise<JSX.Element> => {
         {/* {JSON.stringify(result)} */}
       </div>
       <div className="p-8" />
-    </>
+    </div >
   );
 };
 

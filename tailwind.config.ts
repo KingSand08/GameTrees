@@ -1,6 +1,8 @@
 import type { Config } from "tailwindcss";
+import daisyui from "daisyui"; // Replace require with import
 
 const config: Config = {
+  mode: 'jit', // Enable JIT mode
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -14,6 +16,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    daisyui,
+  ],
 };
 export default config;

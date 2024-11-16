@@ -30,7 +30,7 @@ export default function AccountSettingsPage() {
 
         if (response.ok) {
             alert("Image uploaded successfully!");
-            fetchImageData(); // Refresh image display after upload
+            window.location.reload();
         } else {
             const data = await response.json();
             alert(`Failed to upload image: ${data.message || response.statusText}`);
@@ -39,12 +39,12 @@ export default function AccountSettingsPage() {
 
     const fetchImageData = async () => {
         try {
-            const response = await fetch("/api/upload-image-db"); // Adjust if using a different route for GET
+            const response = await fetch("/api/upload-image-db");
             const data = await response.json();
             if (data.image) {
                 setImageData(data.image);
             } else {
-                setImageData(null); // No image found
+                setImageData(null);
             }
         } catch (error) {
             console.error("Error fetching image:", error);
@@ -52,7 +52,18 @@ export default function AccountSettingsPage() {
     };
 
     useEffect(() => {
-        fetchImageData(); // Fetch image on component mount
+        // Wait for the page to fully reload before fetching the image data
+        const handlePageLoad = () => {
+            fetchImageData();
+        };
+
+        // Listen for the `load` event
+        window.addEventListener("load", handlePageLoad);
+
+        // Cleanup the event listener on component unmount
+        return () => {
+            window.removeEventListener("load", handlePageLoad);
+        };
     }, []);
 
     return (
@@ -65,9 +76,12 @@ export default function AccountSettingsPage() {
                 </button>
             </form>
             {imageData ? (
-                <img
+                <Image
                     src={`data:image/jpeg;base64,${imageData}`}
                     alt="Uploaded"
+                    width={100}
+                    height={100}
+                    quality={100}
                     style={{ maxWidth: "200px", maxHeight: "200px", marginTop: "20px" }}
                 />
             ) : (

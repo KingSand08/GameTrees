@@ -9,6 +9,8 @@ export const config = {
         bodyParser: false,
     },
 };
+// export const bodyParser = false;
+
 
 export const POST = async (req: Request) => {
     // Ensure we are handling a form data submission

@@ -1,14 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/nextauth/NextAuthOptions";
-import executeQuery from "@/database/mysqldb";
-
-// Disable body parsing for this route
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
+import { updateUserImage, getUserImage } from "@/database/queries/imageQueries";
 
 export const POST = async (req: Request) => {
     const session = await getServerSession(authOptions);
@@ -32,10 +25,10 @@ export const POST = async (req: Request) => {
     try {
         // Convert file to binary buffer for database storage
         const imageData = Buffer.from(await file.arrayBuffer());
-        // Prepare the SQL query to update the user image in the database
-        const query = "UPDATE Users SET Image = ? WHERE UID = ?";
-        const values = [imageData, session.user.id];
-        await executeQuery(query, values);
+
+        // Update the user's image in the database
+        await updateUserImage((session.user.id as unknown as number), imageData);
+
         return NextResponse.json({ message: "File uploaded successfully", status: 201 });
     } catch (error) {
         console.error("Error occurred while uploading file:", error);
@@ -54,11 +47,11 @@ export async function GET() {
     const values = [session.user.id];
 
     try {
-        // Cast `result` to an array of objects with an optional `Image` property
-        const result = (await executeQuery(query, values)) as { Image?: Buffer }[];
+        // Get the user's image from the database
+        const imageBuffer = await getUserImage(session.user.id as unknown as number);
 
-        if (result.length > 0 && result[0].Image) {
-            const image = result[0].Image.toString("base64");
+        if (imageBuffer) {
+            const image = imageBuffer.toString("base64");
             return NextResponse.json({ image });
         } else {
             return NextResponse.json({ image: null });

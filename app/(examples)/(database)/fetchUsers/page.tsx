@@ -1,5 +1,5 @@
-import { fetchUsersFromDB } from "@/services/old/simpleDbFetch"
-fetchUsersFromDB();
+// import { fetchUsersFromDB } from "@/services/old/simpleDbFetch"
+// fetchUsersFromDB();
 
 import React from 'react'
 

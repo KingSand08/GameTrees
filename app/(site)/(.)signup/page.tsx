@@ -1,7 +1,7 @@
 "use client";
 import React from 'react'
-import SignUp from '@/app/ui/components/auth/signup'
-import { Modal } from '@/app/ui/components/structural/Modal';
+import SignUp from '@/app/ui/components/auth/SignupPage'
+import Modal from '@/app/ui/components/structural/Modal';
 
 type Props = {
     searchParams?: Record<"callbackUrl" | "error", string>;

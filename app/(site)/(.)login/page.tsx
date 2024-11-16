@@ -1,20 +1,18 @@
 "use client";
-import React from 'react'
-import Signin from '@/app/ui/components/auth/signin'
-import { Modal } from '@/app/ui/components/structural/Modal';
+import React from "react";
+import Signin from '@/app/ui/components/auth/SigninPage'
+import Modal from "@/app/ui/components/structural/Modal";
 
 type Props = {
     searchParams?: Record<"callbackUrl" | "error", string>;
-}
+};
 
-
-const SignInModal = (props: Props) => {
-
+const SignInModal = ({ searchParams }: Props) => {
     return (
-        <Modal>
-            <Signin error={props.searchParams?.error} callbackUrl={props.searchParams?.callbackUrl} />
+        <Modal callbackUrl={searchParams?.callbackUrl}>
+            <Signin error={searchParams?.error} callbackUrl={searchParams?.callbackUrl} />
         </Modal>
-    )
-}
+    );
+};
 
-export default SignInModal
+export default SignInModal;

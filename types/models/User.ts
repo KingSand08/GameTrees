@@ -3,5 +3,6 @@ export type User = {
     Username: string;
     Email: string;
     Name: string;
-    image?: string;
+    Password: string;
+    Image?: string;
 };
