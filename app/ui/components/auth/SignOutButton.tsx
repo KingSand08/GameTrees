@@ -6,7 +6,7 @@ import React from 'react'
 const SignOutButton = ({ className }: ClassChange) => {
     return (
         <button
-            className={`flex-shrink-0 text-white bg-blue-600 hover:bg-blue-800 hover:text-slate-300 hover:ease-in NavButtonduration-100 rounded-lg py-2 px-3 ${className}`}
+            className={`flex-shrink-0 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition ${className}`}
             onClick={() => signOut()}
         >
             Sign Out

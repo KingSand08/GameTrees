@@ -1,5 +1,5 @@
-import { StoreRepository } from "../database/queries/StoreRepository";
-import GameRow from "../types/models/GameRow";
+import { StoreRepository } from "@/database/queries/StoreRepository";
+import GameRow from "@/types/models/GameRow";
 
 export class StoreService {
     private storeRepository = new StoreRepository();

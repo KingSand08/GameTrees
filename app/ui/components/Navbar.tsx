@@ -8,16 +8,16 @@ import SignUpButton from "@/app/ui/components/auth/SignUpButton";
 import LoginButton from "@/app/ui/components/auth/LoginButton";
 import SignOutButton from "@/app/ui/components/auth/SignOutButton";
 import ProfileButton from "@/app/ui/components/auth/ProfileButton";
-import HamburgerMenu from "@/app/ui/components/structural/HamburgerMenu"; // New component for client-side dropdown
+import HamburgerMenu from "@/app/ui/components/structural/HamburgerMenu";
 import { getUserProfileImage } from "@/database/queries/getUserProfileImage";
-import SearchBar from "@/app/ui/components/structural/SearchBar"; // Importing SearchBar component
+import SearchBar from "@/app/ui/components/structural/SearchBar";
 
 export default async function Navbar() {
     const session = await getServerSession(authOptions);
 
     let profileImage: string | null = null;
     if (session?.user?.username) {
-        profileImage = await getUserProfileImage(session.user.username);
+        profileImage = await getUserProfileImage(session.user.id as unknown as number);
     }
 
     return (
@@ -26,18 +26,22 @@ export default async function Navbar() {
                 {/* Logo */}
                 <div className='flex items-center flex-grow'>
                     <Link href='/'>
-                        <Image
-                            src={LogoIcon}
-                            alt="Game Trees Logo"
-                            quality={100}
-                            className="object-contain"
+                        <div
+                            className="avatar flex items-center justify-center"
                             style={{
-                                width: '4em',
-                                height: '4em',
-                                flexShrink: 0,
-                                flexGrow: 0,
+                                width: `${"4em"}`,
+                                aspectRatio: '1 / 1',
                             }}
-                        />
+                        >
+                            <Image
+                                src={LogoIcon}
+                                alt="Game Trees Logo"
+                                width={500}
+                                height={500}
+                                quality={100}
+                                className="rounded-full object-cover"
+                            />
+                        </div>
                     </Link>
                     <div className="ml-4 flex-grow">
                         <SearchBar actionUrl={""} />
@@ -62,7 +66,7 @@ export default async function Navbar() {
                                     image={profileImage ?? undefined}
                                 />
                             </Link>
-                            <SignOutButton className='flex-shrink-0 hidden min-[750px]:block' />
+                            <SignOutButton className='flex-shrink-0 hidden min-[750px]:block px-3 py-2' />
                         </>
                     ) : (
                         <>

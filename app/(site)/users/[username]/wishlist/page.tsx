@@ -42,7 +42,7 @@ export default function WishlistPage({ params }: WishlistPageProps) {
                 {wishlistGames.map((game, index) => (
                     <li key={index}>
                         {game.image && (
-                            <Image src={game.image} alt={`${game.title} cover`} width={100} height={100} /> // Display the image of the game
+                            <Image src={game.image} alt={`${game.Game_Title} cover`} width={100} height={100} /> // Display the image of the game
                         )}
                         <strong>Title:</strong> {game.Game_Title},
                         <strong>Developer:</strong> {game.Name}

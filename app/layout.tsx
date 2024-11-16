@@ -21,6 +21,7 @@ export default function RootLayout({
         className={`${inter.className} subpixel-antialiased`}
       >
         <NextAuthSessionProvider>
+
           <Navbar />
           <div className="mx-8">
             {children}

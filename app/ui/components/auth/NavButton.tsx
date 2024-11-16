@@ -4,7 +4,7 @@ import { Url } from 'next/dist/shared/lib/router/router';
 import Link from 'next/link';
 import React from 'react'
 
-const SignOutButton = ({ className, route, page }: ClassChange & LinkChange) => {
+const NavButton = ({ className, route, page }: ClassChange & LinkChange) => {
     return (
         <Link
             className={`flex-shrink-0 text-white hover:bg-white hover:text-slate-800 hover:ease-in duration-100 rounded-lg py-2 px-3 ${className}`}
@@ -15,4 +15,4 @@ const SignOutButton = ({ className, route, page }: ClassChange & LinkChange) => 
     );
 }
 
-export default SignOutButton
+export default NavButton

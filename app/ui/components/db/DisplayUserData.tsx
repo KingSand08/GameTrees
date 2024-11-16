@@ -3,15 +3,6 @@ import Link from "next/link";
 import { processUserImages } from "@/utils/processImages";
 import AllUsers from "@/database/queries/getAllUsers"
 
-interface User {
-  UID: number;
-  Username: string;
-  Name: string;
-  Email: string;
-  Password: string;
-  Image: string;
-}
-
 const DisplayUserData = async (): Promise<JSX.Element> => {
   const users = processUserImages(AllUsers);
 
@@ -45,7 +36,7 @@ const DisplayUserData = async (): Promise<JSX.Element> => {
                 </td>
                 <td className="px-6 py-3">
                   <Link href={`/users/${user.Username}/wishlist`}>
-                    <Avatar image={user.Image} username={user.Username} imgSize="w-12" />
+                    <Avatar image={user.Image} username={user.Username} imgSize="w-12" areaExpand="3rem" />
                   </Link>
                 </td>
                 <td className="px-6 py-3">{user.UID}</td>
