@@ -33,7 +33,7 @@ export default async function AccountSettingsPage() {
                                 className="ring-2 ring-blue-500"
                                 imgSize="w-[8rem]"
                                 areaExpand="8rem"
-                                textSize="text-2xl"
+                                textSize="text-4xl"
                             />
                             <div className="text-white w-full">
                                 <p className="text-lg font-semibold">{session.user.name || "Anonymous"}</p>

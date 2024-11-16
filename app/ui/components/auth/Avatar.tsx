@@ -11,8 +11,7 @@ type AvatarProps = {
 };
 
 const Avatar: React.FC<AvatarProps> = ({ image, username, className, imgSize, areaExpand, textSize }) => {
-    let hsize = areaExpand ? "h-full" : "h-[3rem]";
-    let txtSize = textSize ?? "text-xl";
+    const txtSize = textSize ?? "text-xl";
     return (
         <div className="flex items-center justify-center">
             {image ? (
@@ -35,18 +34,31 @@ const Avatar: React.FC<AvatarProps> = ({ image, username, className, imgSize, ar
                     </div>
                 </div>
             ) : (
-                <div className="avatar placeholder flex items-center justify-center">
-                    <div className={`${className} ${imgSize} h-auto rounded-full flex items-center justify-center`}>
-                        <div className={`bg-neutral text-neutral-content w-[${areaExpand || "3rem"}] ${hsize} rounded-full flex items-center justify-center`}>
-                            <span className={`${txtSize}`}>
-                                {username?.substring(0, 2)?.toUpperCase() || "?"}
-                            </span>
+                <div
+                    className="avatar flex items-center justify-center"
+                    style={{
+                        width: `${areaExpand || "3.5rem"}`,
+                        aspectRatio: "1 / 1",
+                        clipPath: "circle()",
+                    }}
+                >
+                    <div className="avatar placeholder flex items-center justify-center w-full">
+                        <div className={`${className} ${imgSize} h-auto rounded-full flex items-center justify-center w-full`}>
+                            <div
+                                className={`bg-neutral text-neutral-content w-full h-full rounded-full flex items-center justify-center`}
+                                style={{
+                                    clipPath: "circle()", // Ensures the text background stays circular
+                                }}
+                            >
+                                <span className={`${txtSize}`}>
+                                    {username?.substring(0, 2)?.toUpperCase() || "?"}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            )
-            }
-        </div >
+            )}
+        </div>
     );
 };
 
