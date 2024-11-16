@@ -8,9 +8,9 @@ import SignUpButton from "@/app/ui/components/auth/SignUpButton";
 import LoginButton from "@/app/ui/components/auth/LoginButton";
 import SignOutButton from "@/app/ui/components/auth/SignOutButton";
 import ProfileButton from "@/app/ui/components/auth/ProfileButton";
-import HamburgerMenu from "@/app/ui/components/structural/HamburgerMenu"; // New component for client-side dropdown
+import HamburgerMenu from "@/app/ui/components/structural/HamburgerMenu";
 import { getUserProfileImage } from "@/database/queries/getUserProfileImage";
-import SearchBar from "@/app/ui/components/structural/SearchBar"; // Importing SearchBar component
+import SearchBar from "@/app/ui/components/structural/SearchBar";
 
 export default async function Navbar() {
     const session = await getServerSession(authOptions);

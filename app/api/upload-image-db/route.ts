@@ -35,29 +35,3 @@ export const POST = async (req: Request) => {
         return NextResponse.json({ message: "Failed to upload file", status: 500 });
     }
 };
-
-export async function GET() {
-    const session = await getServerSession(authOptions);
-
-    if (!session || !session.user?.id) {
-        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    const query = "SELECT Image FROM Users WHERE UID = ?";
-    const values = [session.user.id];
-
-    try {
-        // Get the user's image from the database
-        const imageBuffer = await getUserImage(session.user.id as unknown as number);
-
-        if (imageBuffer) {
-            const image = imageBuffer.toString("base64");
-            return NextResponse.json({ image });
-        } else {
-            return NextResponse.json({ image: null });
-        }
-    } catch (error) {
-        console.error("Database query error:", error);
-        return NextResponse.json({ message: "Failed to retrieve image" }, { status: 500 });
-    }
-}
