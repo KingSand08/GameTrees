@@ -23,7 +23,7 @@ const Signin = (props: Props) => {
             email: email.current,
             password: password.current,
             redirect: true,
-            callbackUrl: props.callbackUrl ?? "http://localhost:300"
+            callbackUrl: props.callbackUrl ?? "http://localhost:3000"
         });
     }
 
@@ -97,6 +97,7 @@ const Signin = (props: Props) => {
             {/* OAuth Sign-In Buttons */}
             <div className="flex flex-col items-center gap-4">
                 <OAuthButton callbackUrl={props.callbackUrl} provider={'google'} />
+                <OAuthButton callbackUrl={props.callbackUrl} provider={'discord'} />
             </div>
 
             {/* Error Message */}

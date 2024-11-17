@@ -7,6 +7,7 @@ import TwitchProivder from "next-auth/providers/twitch";
 import { AuthOptions } from "next-auth";
 import { findUserByEmail } from "@/database/queries/findUserByEmail";
 import { findUserByEmailAndPassword } from "@/database/queries/findUserByEmailAndPassword";
+import Discord from "next-auth/providers/discord";
 
 export const authOptions: AuthOptions = {
   session: {
@@ -17,6 +18,10 @@ export const authOptions: AuthOptions = {
     GoogleProivder({
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
+    }),
+    Discord({
+      clientId: process.env.DISCORD_ID!,
+      clientSecret: process.env.DISCORD_SECRET!,
     }),
     GitHubProivder({
       clientId: process.env.GITHUB_ID!,
@@ -59,7 +64,7 @@ export const authOptions: AuthOptions = {
             email: user[0].Email,
             name: user[0].Name,
             image: user[0].image || null,
-            //add role to session
+            role: "",
           };
         } else {
           return null;
@@ -74,7 +79,7 @@ export const authOptions: AuthOptions = {
         token.username = session.user.username;
         token.email = session.user.email;
         token.name = session.user.name;
-        token.image = session.user.image ?? null;
+        // token.image = session.user.image ?? null;
       }
 
       if (user) {
@@ -83,7 +88,7 @@ export const authOptions: AuthOptions = {
         token.username = user.username;
         token.email = user.email;
         token.name = user.name;
-        token.image = user.image ?? null;
+        // token.image = user.image ?? null;
       }
       return token;
     }, async session({ session, token }) {
@@ -93,11 +98,11 @@ export const authOptions: AuthOptions = {
         username: token.username as string,
         email: token.email as string,
         name: token.name as string,
-        image: token.image as string | null,
+        // image: token.image as string | null,
       };
       return session;
     }, async signIn({ user, account }) {
-      if (account?.provider != "google" && user.email) {
+      if ((account?.provider != "google" && account?.provider != "discord") && user.email) {
         return true;
       }
       else {

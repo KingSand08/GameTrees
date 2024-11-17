@@ -58,7 +58,8 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
                 "INSERT INTO Customers(UID) SELECT U.UID FROM Users U WHERE U.Username = ?;",
                 [username]
             );
-            return { status: "success", message: "Record Inserted" };
+
+            return { status: "success", message: "Signup Successful! Loggining you in..." };
         } else {
             revalidatePath("/signup");
             return { status: "error", message: "Record Insertion Failed" };

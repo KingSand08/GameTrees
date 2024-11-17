@@ -5,6 +5,7 @@ import { useFormStatus, useFormState } from "react-dom";
 import CustomerRegistration from "@/database/queries/customerRegisteration";
 import CancelButton from "../buttons/CancelButton";
 import AcceptFormButton from "../buttons/AcceptFormButton";
+import { signIn } from "next-auth/react";
 
 const initialState = {
     message: "",
@@ -18,8 +19,38 @@ type Props = {
 
 const SignUp = (props: Props) => {
     useFormStatus();
-    const [state, formAction] = useFormState(CustomerRegistration, initialState);
+    const [, formAction] = useFormState(CustomerRegistration, initialState);
     const [showPassword, setShowPassword] = useState(false);
+    const [signInError, setSignInError] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // Call the customer registration API
+        const formData = new FormData(e.target as HTMLFormElement);
+        const result = await CustomerRegistration(null, formData);
+
+        // If registration was successful, sign the user in
+        if (result.status === "success") {
+            setSignInError("");
+            const email = formData.get("email") as string;
+            const password = formData.get("password") as string;
+            setSuccessMsg(result.message)
+            await new Promise(f => setTimeout(f, 1200))
+                .then(async () => {
+                    await signIn("credentials", {
+                        email: email,
+                        password: password,
+                    });
+                }
+                );
+
+        } else {
+            setSignInError(result.message);
+            console.log(result.message)
+        }
+    };
 
     return (
         <>
@@ -27,7 +58,7 @@ const SignUp = (props: Props) => {
                 <h1 className="g-gradient-to-b from-slate-50 to-slate-200 p-2 text-center text-2xl font-semibold">
                     Sign Up
                 </h1>
-                <form method="post" action={formAction} className="p-2 flex flex-col gap-3">
+                <form method="post" action={formAction} className="p-2 flex flex-col gap-3" onSubmit={handleSubmit}>
                     <div className="flex flex-col space-y-2">
                         <label
                             htmlFor="username"
@@ -166,11 +197,20 @@ const SignUp = (props: Props) => {
                     </div>
 
                     {/* Error Message */}
-                    {state?.message ? (
+                    {signInError ? (
                         <div className="text-white py-2 mt-4">
-
                             <div className="opacity-75 flex justify-center text-center bg-red-600 rounded-lg w-full py-2 px-4">
-                                <p className="text-white">{state?.message}</p>
+                                <p className="text-white">{signInError}</p>
+                            </div>
+                        </div>
+                    ) : null}
+
+                    {/* Success Message */}
+                    {successMsg ? (
+                        <div className="text-white py-2 mt-4">
+                            <div className="opacity-75 flex justify-center text-center bg-green-600 rounded-lg w-full py-2 px-4 space-x-4">
+                                <p className="text-white">{successMsg}</p>
+                                <span className="loading loading-spinner loading-md"></span>
                             </div>
                         </div>
                     ) : null}
