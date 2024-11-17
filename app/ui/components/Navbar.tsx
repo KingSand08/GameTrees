@@ -51,10 +51,14 @@ export default async function Navbar() {
                 {/* Regular Navbar Links (Visible on larger screens) */}
                 <div className='flex ml-4 items-center space-x-8 text-[1em] font-semibold font-inter'>
                     <NavButton page="Home" route="/" className='flex-shrink-0 hidden min-[900px]:block' />
-                    <NavButton page="Wishlist" route={`/users/${session?.user?.username}/wishlist`} className='flex-shrink-0 hidden min-[1000px]:block' />
-                    <NavButton page="Account Settings" route="/account-settings" className='flex-shrink-0 hidden min-[1300px]:block' />
-                    <NavButton page="Admin User View" route="/admin-user-view" className='flex-shrink-0 hidden min-[1500px]:block' />
-
+                    {session?.user.role === "customer" && (
+                        <NavButton page="Wishlist" route={`/users/${session?.user?.username}/wishlist`} className='flex-shrink-0 hidden min-[1000px]:block' />
+                    )}
+                    {session?.user.role === "admin" && (
+                        <>
+                            <NavButton page="Admin User View" route="/admin/user-view" className='flex-shrink-0 hidden min-[1300px]:block' />
+                        </>
+                    )}
                     {/* Conditional Rendering based on session */}
                     {session?.user ? (
                         <>

@@ -4,5 +4,6 @@ export type User = {
     Email: string;
     Name: string;
     Password: string;
-    Image?: string;
+    Image?: string | null;
+    role: string;
 };

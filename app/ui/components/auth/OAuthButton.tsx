@@ -12,20 +12,15 @@ const providerData: Record<string, { name: string; imageSrc: string; bgColor: st
         imageSrc: "/icons/providers/google.icon.png",
         bgColor: "bg-blue-600 hover:bg-blue-700",
     },
-    facebook: {
-        name: "Facebook",
-        imageSrc: "/icons/providers/facebook.icon.png",
-        bgColor: "",
-    },
-    github: {
-        name: "GitHub",
-        imageSrc: "/icons/providers/github.icon.png",
-        bgColor: "",
-    },
     discord: {
         name: "Discord",
         imageSrc: "/icons/providers/discord.icon.png",
         bgColor: "bg-[#5165f6] hover:bg-[#323fa1]"
+    },
+    github: {
+        name: "GitHub",
+        imageSrc: "/icons/providers/github.icon.png",
+        bgColor: "bg-[#1a1a1a] hover:bg-[#0f0f0f]",
     },
     // Add other providers here as needed
 };

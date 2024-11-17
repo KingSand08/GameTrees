@@ -8,6 +8,7 @@ import { AuthOptions } from "next-auth";
 import { findUserByEmail } from "@/database/queries/user/findUserByEmail";
 import { findUserByEmailAndPassword } from "@/database/queries/user/findUserByEmailAndPassword";
 import Discord from "next-auth/providers/discord";
+import { getUserRoleByUID } from "@/database/queries/user/getUserRoleByUID";
 
 export const authOptions: AuthOptions = {
   session: {
@@ -58,12 +59,14 @@ export const authOptions: AuthOptions = {
         const user = await findUserByEmailAndPassword(email, password) as { UID: string, Username: string, Email: string, Name: string }[];
 
         if (user && user.length > 0) {
+          const role = await getUserRoleByUID(user[0].UID as unknown as number);
+
           return {
             id: user[0].UID,
             username: user[0].Username,
             email: user[0].Email,
             name: user[0].Name,
-            role: "",
+            role,
           };
         } else {
           return null;
@@ -86,6 +89,8 @@ export const authOptions: AuthOptions = {
         token.username = user.username;
         token.email = user.email;
         token.name = user.name;
+        token.role = user.role;
+        console.log("JWT Callback - Token with Role:", token); // Debugging
       }
       return token;
     }, async session({ session, token }) {
@@ -95,14 +100,16 @@ export const authOptions: AuthOptions = {
         username: token.username as string,
         email: token.email as string,
         name: token.name as string,
+        role: token.role as string,
       };
       return session;
     }, async signIn({ user, account }) {
-      if ((account?.provider != "google" && account?.provider != "discord") && user.email) {
+      if ((account?.provider != "google" && account?.provider != "discord" && account?.provider != "github") && user.email) {
         return true;
       }
       else {
         const existingUser = await findUserByEmail(user.email);
+        const role = await getUserRoleByUID(existingUser[0].UID as unknown as number);
 
         // If the user exists, proceed with the sign-in process
         if (existingUser.length > 0) {
@@ -110,6 +117,7 @@ export const authOptions: AuthOptions = {
           user.username = existingUser[0].Username;
           user.email = existingUser[0].Email;
           user.name = existingUser[0].Name;
+          user.role = role;
           return true;
         } else {
           return false;
