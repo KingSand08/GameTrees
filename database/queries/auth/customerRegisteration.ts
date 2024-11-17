@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import executeQuery from "../../mysqldb";
 import { ResultSetHeader } from "mysql2";
 import { checkFieldAlreadyExists } from "../user/checkFieldAlreadyExists";
-// import hashPassword from "@/utils/encryptPass";
 
 
 const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: string) => unknown; }) => {
@@ -42,7 +41,6 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
     }
 
     if (username != "" && fname != "" && email != "" && dob != "" && password != "") {
-        // const { salt, hash } = hashPassword(password as string);
 
         const result = await executeQuery(
             "INSERT INTO Users(Username, Name, Email, DOB, Phone, Password) VALUE (?, ?, ?, ?, ?, ?)",
@@ -53,8 +51,6 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
                 dob,
                 phone,
                 password,
-                // hash,
-                // salt,
             ]);
         if ((result as ResultSetHeader).affectedRows) {
             revalidatePath("/signup");
