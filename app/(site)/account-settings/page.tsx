@@ -2,7 +2,7 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 import Avatar from "@/app/ui/components/auth/Avatar";
-import { getUserProfileImage } from "@/database/queries/getUserProfileImage";
+import { getUserAccountImage } from "@/database/queries/photo/getUserAccountImage";
 import AccountSettingsPageWrapper from "./AccountSettingsWrapper";
 import SignOutButton from "@/app/ui/components/auth/SignOutButton";
 
@@ -15,7 +15,7 @@ export default async function AccountSettingsPage() {
 
     // Fetch the profile image from the database
     const profileImage = session.user.username
-        ? await getUserProfileImage(session.user.id as unknown as number)
+        ? await getUserAccountImage(session.user.id as unknown as number)
         : null;
 
     return (

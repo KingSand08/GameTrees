@@ -1,10 +1,13 @@
 import Avatar from "../auth/Avatar";
 import Link from "next/link";
 import { processUserImages } from "@/utils/processImages";
-import AllUsers from "@/database/queries/getAllUsers"
+import { getAllUsersWithPhotos } from "@/database/queries/user/getAllUsers";
 
 const DisplayUserData = async (): Promise<JSX.Element> => {
-  const users = processUserImages(AllUsers);
+  // Fetch all users with photos
+  const allUsersRaw = await getAllUsersWithPhotos();
+  // Process user images to Base64
+  const users = await processUserImages(allUsersRaw);
 
   return (
     <div className="overflow-x-auto">
@@ -36,7 +39,12 @@ const DisplayUserData = async (): Promise<JSX.Element> => {
                 </td>
                 <td className="px-6 py-3">
                   <Link href={`/users/${user.Username}/wishlist`}>
-                    <Avatar image={user.Image} username={user.Username} imgSize="w-12" areaExpand="3rem" />
+                    <Avatar
+                      image={user.Image}
+                      username={user.Username}
+                      imgSize="w-12"
+                      areaExpand="3rem"
+                    />
                   </Link>
                 </td>
                 <td className="px-6 py-3">{user.UID}</td>
@@ -48,10 +56,9 @@ const DisplayUserData = async (): Promise<JSX.Element> => {
             ))}
           </tbody>
         </table>
-        {/* {JSON.stringify(result)} */}
       </div>
       <div className="p-8" />
-    </div >
+    </div>
   );
 };
 

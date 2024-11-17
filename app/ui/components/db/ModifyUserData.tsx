@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useFormStatus, useFormState } from "react-dom";
-import MysqlSignUpAction from "@/database/queries/mysqlSignUpAction";
+import MysqlSignUpAction from "@/database/queries/test/mysqlSignUpAction";
 
 const initialState = {
   message: "",

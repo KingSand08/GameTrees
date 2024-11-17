@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useFormStatus, useFormState } from "react-dom";
-import CustomerRegistration from "@/database/queries/customerRegisteration";
+import CustomerRegistration from "@/database/queries/auth/customerRegisteration";
 import CancelButton from "../buttons/CancelButton";
 import AcceptFormButton from "../buttons/AcceptFormButton";
 import { signIn } from "next-auth/react";

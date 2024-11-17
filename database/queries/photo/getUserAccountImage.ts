@@ -1,7 +1,18 @@
 import executeQuery from "@/database/mysqldb";
 
-export async function getUserProfileImage(userId: number): Promise<string | null> {
-    const query = `SELECT Image FROM Users WHERE UID = ? LIMIT 1`;
+export async function getUserAccountImage(userId: number): Promise<string | null> {
+    const query = `
+        SELECT
+            P.Image
+        FROM
+            Users U
+        JOIN
+            Acc_Photos AP ON U.UID = AP.UID
+        JOIN
+            Photos P ON AP.Photo_ID = P.Photo_ID
+        WHERE
+            U.UID = ?;
+    `;
     const values = [userId];
 
     try {

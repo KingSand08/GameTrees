@@ -23,7 +23,7 @@ const Signin = (props: Props) => {
             email: email.current,
             password: password.current,
             redirect: true,
-            callbackUrl: props.callbackUrl ?? "http://localhost:3000"
+            callbackUrl: props.callbackUrl ?? "/"
         });
     }
 

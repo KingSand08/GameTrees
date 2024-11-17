@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/nextauth/NextAuthOptions";
-import { updateUserImage, getUserImage } from "@/database/queries/imageQueries";
+import { updateUserImage, getUserImage } from "@/database/queries/photo/imageQueries";
 
 export const POST = async (req: Request) => {
     const session = await getServerSession(authOptions);

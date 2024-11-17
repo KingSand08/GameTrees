@@ -8,7 +8,6 @@ declare module "next-auth" {
             username: string;
             email: string;
             name: string;
-            // image: string | null;
         };
     }
 

@@ -9,7 +9,7 @@ import LoginButton from "@/app/ui/components/auth/LoginButton";
 import SignOutButton from "@/app/ui/components/auth/SignOutButton";
 import ProfileButton from "@/app/ui/components/auth/ProfileButton";
 import HamburgerMenu from "@/app/ui/components/structural/HamburgerMenu";
-import { getUserProfileImage } from "@/database/queries/getUserProfileImage";
+import { getUserAccountImage } from "@/database/queries/photo/getUserAccountImage";
 import SearchBar from "@/app/ui/components/structural/SearchBar";
 
 export default async function Navbar() {
@@ -17,7 +17,7 @@ export default async function Navbar() {
 
     let profileImage: string | null = null;
     if (session?.user?.username) {
-        profileImage = await getUserProfileImage(session.user.id as unknown as number);
+        profileImage = await getUserAccountImage(session.user.id as unknown as number);
     }
 
     return (

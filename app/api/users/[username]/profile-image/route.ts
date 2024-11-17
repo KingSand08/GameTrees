@@ -1,4 +1,4 @@
-import { getUserImage } from "@/database/queries/imageQueries";
+import { getUserImage } from "@/database/queries/photo/imageQueries";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";

@@ -1,4 +1,4 @@
-import executeQuery from "../mysqldb";
+import executeQuery from "@/database/mysqldb";
 
 // General function to check if a field (email or username) exists for another user
 export const checkFieldAlreadyExists = async (
@@ -11,6 +11,6 @@ export const checkFieldAlreadyExists = async (
         [value]
     ) as Array<{ id: number; username: string; name: string; email: string; password: string }>;
 
-    return existingCheck.length > 0; // Returns true if the field exists for a different user
+    return existingCheck.length > 0;
 };
 

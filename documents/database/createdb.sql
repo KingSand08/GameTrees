@@ -167,7 +167,7 @@ CREATE TABLE Wishlists(
 );
 
 CREATE TABLE Contents(
-    Content_ID VARCHAR(10) PRIMARY KEY,
+    Content_ID VARCHAR(500) PRIMARY KEY,
     Text_Desc TEXT
 );
 
@@ -185,8 +185,8 @@ CREATE TABLE G_Contents(
 );
 
 CREATE TABLE Photos(
-    Photo_ID VARCHAR(10) PRIMARY KEY,
-    Description VARCHAR(255),
+    Photo_ID VARCHAR(500) PRIMARY KEY,
+    Image LONGBLOB NOT NULL,
     DateAdded DATE NOT NULL,
     FOREIGN KEY (Photo_ID) REFERENCES Contents(Content_ID)
         ON DELETE CASCADE

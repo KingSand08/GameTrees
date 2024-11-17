@@ -1,9 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import executeQuery from "../mysqldb";
+import executeQuery from "../../mysqldb";
 import { ResultSetHeader } from "mysql2";
-import { checkFieldAlreadyExists } from "./checkFieldAlreadyExists";
+import { checkFieldAlreadyExists } from "../user/checkFieldAlreadyExists";
 
 const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: string) => unknown; }) => {
     const username = formData.get("username");
