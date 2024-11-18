@@ -5,13 +5,6 @@ import Avatar from "@/app/ui/components/auth/Avatar";
 import { getUserIdByUsername } from "@/database/queries/user/getUIDFromUsername";
 import { getUserRoleByUID } from "@/database/queries/user/getUserRoleByUID";
 
-interface WishlistRow {
-    Game_Title: string;
-    Name: string;
-    Image?: string;
-    Price: number;
-}
-
 interface WishlistPageProps {
     params: { username: string };
 }
