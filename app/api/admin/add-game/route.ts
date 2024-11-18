@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import executeQuery from "@/database/mysqldb";
 import sharp from "sharp";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 import { getServerSession } from "next-auth";
