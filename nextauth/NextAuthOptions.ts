@@ -90,7 +90,6 @@ export const authOptions: AuthOptions = {
         token.email = user.email;
         token.name = user.name;
         token.role = user.role;
-        console.log("JWT Callback - Token with Role:", token); // Debugging
       }
       return token;
     }, async session({ session, token }) {

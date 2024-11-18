@@ -21,7 +21,7 @@ export default function StorePage({ params }: StorePageProps) {
                     throw new Error("Failed to fetch store data");
                 }
                 const data = await response.json();
-                console.log("Fetched data:", data); // Debug log for data inspection
+                // console.log("Fetched data:", data); // Debug log for data inspection
 
                 // Set both store details and games from the single response
                 setStoreDetails(data.storeDetails);
@@ -55,8 +55,8 @@ export default function StorePage({ params }: StorePageProps) {
             <ul>
                 {games.map((game, index) => (
                     <li key={index}>
-                        <strong>Title:</strong> {game.title}, 
-                        <strong>Price:</strong> ${game.price.toFixed(2)}, 
+                        <strong>Title:</strong> {game.title},
+                        <strong>Price:</strong> ${game.price.toFixed(2)},
                         <strong>Platforms:</strong> {game.platforms || "No platforms available"}
                     </li>
                 ))}

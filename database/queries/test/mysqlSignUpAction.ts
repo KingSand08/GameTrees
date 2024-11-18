@@ -37,8 +37,8 @@ const MysqlSignUpAction = async (prevState: unknown, formData: { get: (arg0: str
     // Ensure only non-empty fields
     if (username != "") {
       const isUsernameTaken = await checkFieldAlreadyExists('Test', 'Username', username as string);
-      console.log(`userName:${username}`)
-      console.log(`isUsernameTaken:${isUsernameTaken}`)
+      // console.log(`userName:${username}`)
+      // console.log(`isUsernameTaken:${isUsernameTaken}`)
       if (isUsernameTaken) {
         revalidatePath("/CURDMySQL");
         return { status: "error", message: "Username is already in use by another account" };
@@ -56,7 +56,7 @@ const MysqlSignUpAction = async (prevState: unknown, formData: { get: (arg0: str
       return { status: "error", message: "New Email is the same as current." };
     }
     if (username != "" && name != "" && email != "" && password != "") {
-      console.log(`Username: ${username}, Name: ${name}, Email: ${email}, Password: ${password}`);
+      // console.log(`Username: ${username}, Name: ${name}, Email: ${email}, Password: ${password}`);
       const result = await executeQuery(
         "INSERT INTO Test (username, name, email, password) VALUE (?, ?, ?, ?)",
         [
