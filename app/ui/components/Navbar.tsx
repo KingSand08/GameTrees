@@ -40,6 +40,7 @@ export default async function Navbar() {
                                 height={500}
                                 quality={100}
                                 className="rounded-full object-cover"
+                                priority
                             />
                         </div>
                     </Link>

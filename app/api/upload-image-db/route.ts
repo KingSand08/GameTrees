@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/nextauth/NextAuthOptions";
-import { updateUserImage, getUserImage } from "@/database/queries/photo/imageQueries";
+import { updateUserAccountImage } from "@/database/queries/photo/updateUserProfileImage";
 
 export const POST = async (req: Request) => {
     const session = await getServerSession(authOptions);
@@ -27,7 +27,7 @@ export const POST = async (req: Request) => {
         const imageData = Buffer.from(await file.arrayBuffer());
 
         // Update the user's image in the database
-        await updateUserImage((session.user.id as unknown as number), imageData);
+        await updateUserAccountImage((session.user.id as unknown as number), imageData);
 
         return NextResponse.json({ message: "File uploaded successfully", status: 201 });
     } catch (error) {

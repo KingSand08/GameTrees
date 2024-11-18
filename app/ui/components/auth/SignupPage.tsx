@@ -21,7 +21,7 @@ const SignUp = (props: Props) => {
     useFormStatus();
     const [, formAction] = useFormState(CustomerRegistration, initialState);
     const [showPassword, setShowPassword] = useState(false);
-    const [signInError, setSignInError] = useState("");
+    const [errorMsg, setErrorMsg] = useState("");
     const [successMsg, setSuccessMsg] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -33,7 +33,7 @@ const SignUp = (props: Props) => {
 
         // If registration was successful, sign the user in
         if (result.status === "success") {
-            setSignInError("");
+            setErrorMsg("");
             const email = formData.get("email") as string;
             const password = formData.get("password") as string;
             setSuccessMsg(result.message)
@@ -43,12 +43,10 @@ const SignUp = (props: Props) => {
                         email: email,
                         password: password,
                     });
-                }
-                );
+                });
 
         } else {
-            setSignInError(result.message);
-            console.log(result.message)
+            setErrorMsg(result.message);
         }
     };
 
@@ -58,7 +56,12 @@ const SignUp = (props: Props) => {
                 <h1 className="g-gradient-to-b from-slate-50 to-slate-200 p-2 text-center text-2xl font-semibold">
                     Sign Up
                 </h1>
-                <form method="post" action={formAction} className="p-2 flex flex-col gap-3" onSubmit={handleSubmit} autoComplete="off">
+                <form
+                    action={formAction}
+                    className="p-2 flex flex-col gap-3"
+                    onSubmit={handleSubmit}
+                    autoComplete="off"
+                >
                     {/* Username Input */}
                     <div className="block">
                         <label
@@ -103,10 +106,10 @@ const SignUp = (props: Props) => {
                             <div className="input input-bordered flex items-center gap-2 w-full">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5"
+                                    className="h-5 w-5 opacity-70"
                                     fill="none"
-                                    viewBox="0 0 24 24"
                                     stroke="currentColor"
+                                    viewBox="0 0 24 24"
                                 >
                                     <path
                                         strokeLinecap="round"
@@ -177,10 +180,11 @@ const SignUp = (props: Props) => {
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    className="w-6 h-6">
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="h-4 w-4 opacity-70"
+                                >
                                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                                     <line x1="16" y1="2" x2="16" y2="6"></line>
                                     <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -211,12 +215,13 @@ const SignUp = (props: Props) => {
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    className="w-6 h-6">
+                                    fill="currentColor"
+                                    stroke="none"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="h-4 w-4 opacity-70"
+                                >
                                     <path d="M22 16.92v3a2 2 0 01-2.18 2 19.86 19.86 0 01-8.63-3.15 19.37 19.37 0 01-6-6A19.86 19.86 0 013.1 4.18 2 2 0 015.12 2h3a2 2 0 012 1.72 12.07 12.07 0 00.57 2.54 2 2 0 01-.45 2L8.09 9.91a16 16 0 006 6l1.65-1.65a2 2 0 012-.45 12.07 12.07 0 002.54.57A2 2 0 0122 16.92z" />
                                 </svg>
                                 <input
@@ -289,10 +294,10 @@ const SignUp = (props: Props) => {
                     </div>
 
                     {/* Error Message */}
-                    {signInError ? (
+                    {errorMsg ? (
                         <div className="text-white py-2 mt-4">
                             <div className="opacity-75 flex justify-center text-center bg-red-600 rounded-lg w-full py-2 px-4">
-                                <p className="text-white">{signInError}</p>
+                                <p className="text-white">{errorMsg}</p>
                             </div>
                         </div>
                     ) : null}

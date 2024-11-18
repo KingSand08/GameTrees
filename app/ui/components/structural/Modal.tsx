@@ -50,19 +50,21 @@ const Modal: React.FC<ModalProps> = ({ children, onClose, callbackUrl = "/", sho
     }, [handleClose]);
 
     return (
-        <dialog id="custom_modal" className="modal">
-            <div className="modal-box relative">
-                {/* Close button */}
-                <button
-                    className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                    onClick={handleClose}
-                >
-                    ✕
-                </button>
-                {/* Render children content inside the modal */}
-                {children}
-            </div>
-        </dialog>
+        <div autoFocus={false}>
+            <dialog id="custom_modal" className="modal">
+                <div className="modal-box relative">
+                    {/* Close button */}
+                    <button
+                        className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                        onClick={handleClose}
+                    >
+                        ✕
+                    </button>
+                    {/* Render children content inside the modal */}
+                    {children}
+                </div>
+            </dialog>
+        </div>
     );
 };
 

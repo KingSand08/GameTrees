@@ -6,29 +6,48 @@ import CancelButton from '../buttons/CancelButton';
 import AcceptFormButton from '../buttons/AcceptFormButton';
 
 type Props = {
-    className?: string;
-    callbackUrl?: string;
+    callbackUrl?: string | "/";
     error?: string;
 };
 
 const Signin = (props: Props) => {
     const [showPassword, setShowPassword] = useState(false)
-    console.log(props.callbackUrl)
+    const [errorMsg, setErrorMsg] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
 
     const email = useRef("");
     const password = useRef("");
+
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        await signIn("credentials", {
-            email: email.current,
-            password: password.current,
-            redirect: true,
-            callbackUrl: props.callbackUrl ?? "/"
-        });
-    }
+
+        if (!props.error) {
+            try {
+                setSuccessMsg("Signing in")
+                await new Promise(f => setTimeout(f, 1200))
+                    .then(async () => {
+                        await signIn("credentials", {
+                            email: email.current,
+                            password: password.current,
+                            redirect: true,
+                            callbackUrl: props.callbackUrl ?? "/"
+                        });
+                    });
+            } catch (error) {
+                setErrorMsg("An error occurred while signing in.");
+            }
+        } else {
+            setErrorMsg(props.error === "CredentialsSignin" ? "Invalid email or password." : "Authentication Failed");
+        }
+    };
+
+    const handleOAuthSignInStart = () => {
+        setSuccessMsg("Signing in...");
+        setErrorMsg(""); // Clear any previous error
+    };
 
     return (
-        <div className={props.className}>
+        <div className="">
             <h1 className='g-gradient-to-b from-slate-50 to-slate-200 p-2 text-center text-2xl font-semibold'>
                 Sign In
             </h1>
@@ -127,20 +146,33 @@ const Signin = (props: Props) => {
             </div>
 
             {/* OAuth Sign-In Buttons */}
-            <div className="flex flex-col items-center gap-4">
-                <OAuthButton callbackUrl={props.callbackUrl} provider={'google'} />
-                <OAuthButton callbackUrl={props.callbackUrl} provider={'discord'} />
-                <OAuthButton callbackUrl={props.callbackUrl} provider={'github'} />
+            <div className="flex flex-col items-center justify-center gap-4">
+                <div className='w-3/4'>
+                    <OAuthButton callbackUrl={props.callbackUrl} provider={'google'} onSignInStart={handleOAuthSignInStart} />
+                    <OAuthButton callbackUrl={props.callbackUrl} provider={'discord'} onSignInStart={handleOAuthSignInStart} />
+                    <OAuthButton callbackUrl={props.callbackUrl} provider={'github'} onSignInStart={handleOAuthSignInStart} />
+                </div>
             </div>
 
             {/* Error Message */}
-            {!!props.error &&
-                <div className='flex justify-center mt-10'>
-                    <p className='text-red-100 bg-red-600 p-6 rounded-lg w-fit'>
-                        {props.error === "CredentialsSignin" ? "Invalid email or password." : "Authentication Failed"}
-                    </p>
+            {errorMsg ? (
+                <div className="text-white py-2 mt-4">
+                    <div className="opacity-75 flex justify-center text-center bg-red-600 rounded-lg w-full py-2 px-4">
+                        <p className="text-white">{errorMsg}</p>
+                    </div>
                 </div>
-            }
+            ) : null}
+
+            {/* Success Message */}
+            {successMsg ? (
+                <div className="text-white py-2 mt-4">
+                    <div className="opacity-75 flex justify-center text-center bg-green-600 rounded-lg w-full py-2 px-4 space-x-4">
+                        <p className="text-white">{successMsg}</p>
+                        <span className="loading loading-spinner loading-md"></span>
+                    </div>
+                </div>
+            ) : null}
+
         </div>
     )
 }

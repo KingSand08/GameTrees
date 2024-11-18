@@ -1,4 +1,4 @@
-import { getUserImage } from "@/database/queries/photo/imageQueries";
+import { getUserAccountImage } from "@/database/queries/photo/getUserAccountImage";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
@@ -11,17 +11,15 @@ export async function GET() {
     }
 
     try {
-        // Get the user's image from the database
-        const imageBuffer = await getUserImage(session.user.id as unknown as number);
+        const userId = parseInt(session.user.id as unknown as string, 10);
+        const image = await getUserAccountImage(userId);
 
-        if (imageBuffer) {
-            const image = imageBuffer.toString("base64");
-            return NextResponse.json({ image });
-        } else {
-            return NextResponse.json({ image: null });
-        }
+        return NextResponse.json({ image });
     } catch (error) {
         console.error("Database query error:", error);
-        return NextResponse.json({ message: "Failed to retrieve image" }, { status: 500 });
+        return NextResponse.json(
+            { message: "Failed to retrieve image" },
+            { status: 500 }
+        );
     }
 }

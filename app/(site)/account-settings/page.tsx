@@ -28,9 +28,9 @@ export default async function AccountSettingsPage() {
                     <div className="flex flex-col space-y-2 mb-10 w-full">
                         <div className="flex items-center space-x-6 mb-8 w-full">
                             <Avatar
-                                image={profileImage || undefined} // Pass Base64 image or undefined
+                                image={profileImage || undefined}
                                 username={session.user.username}
-                                className="ring-2 ring-blue-500"
+                                className="ring-4 ring-blue-500 ring-offset-base-100 ring-offset-4 "
                                 imgSize="w-[8rem]"
                                 areaExpand="8rem"
                                 textSize="text-4xl"
