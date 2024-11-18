@@ -12,7 +12,7 @@ const SessionServer = () => {
     };
     getSessionInfo();
   }, []);
-  console.log(session);
+  // console.log(session);
   return (
     <>
       <h3 className="text-2xl">Client Component for NextAuth Session</h3>

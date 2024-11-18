@@ -17,8 +17,6 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
     // Ensure only non-empty fields
     if (username != "") {
         const isUsernameTaken = await checkFieldAlreadyExists('Users', 'Username', username as string);
-        console.log(`userName:${username}`)
-        console.log(`isUsernameTaken:${isUsernameTaken}`)
         if (isUsernameTaken) {
             revalidatePath("/signup");
             return { status: "error", message: "Username is already in use by another account" };
