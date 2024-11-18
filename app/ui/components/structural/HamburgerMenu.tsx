@@ -61,6 +61,8 @@ export default function HamburgerMenu() {
                 {session?.user.role === "admin" && (
                     <>
                         <li><NavButton page="Admin User View" route="/admin/user-view" className='block text-center' /></li>
+                        <hr className='opacity-25 my-2 border-white' />
+                        <li><NavButton page="Add New Custom Game" route="/admin/add-game" className='block text-center' /></li>
                     </>
                 )}
             </ul>

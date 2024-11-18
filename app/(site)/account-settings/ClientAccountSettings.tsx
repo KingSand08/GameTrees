@@ -71,6 +71,7 @@ export default function ClientAccountSettings() {
                     await new Promise((resolve) => setTimeout(resolve, 1200));
                     window.location.reload()
                 }
+                window.location.reload()
             } else {
                 setUpdating(false);
                 setErrorMsg(`Failed to update user: ${data.message}`);

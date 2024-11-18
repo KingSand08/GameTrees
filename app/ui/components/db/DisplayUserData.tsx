@@ -1,6 +1,6 @@
 import Avatar from "../auth/Avatar";
 import Link from "next/link";
-import { processUserImages } from "@/utils/processImages";
+import { processUserImages } from "@/utils/processUserImages";
 import { getAllUsersWithRolesAndPhotos } from "@/database/queries/user/getAllUsers";
 
 const DisplayUserData = async (): Promise<JSX.Element> => {
