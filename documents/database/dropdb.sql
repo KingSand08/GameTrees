@@ -10,7 +10,7 @@ DROP TABLE
     Genres,
     Genre_List,
     Platforms,
-    Platform_List,
+    Platform_list,
     Inventories,
     PublishedBy,
     Wishlists,

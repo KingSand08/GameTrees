@@ -22,16 +22,18 @@ INSERT INTO Users (Username, Name, DOB, Phone, Password, Email) VALUES
 -- 	(16, 'geralt@witcher.com'),
 -- 	(17, 'arthur@rdr2.com');
 
-INSERT INTO Customers (UID) VALUES	
-	(8),
-	(9),
-	(10),
-	(11),
-	(12),
-	(13),
-	(14),
-	(15),
-	(16),
-	(17);
-
-
+INSERT INTO Customers (UID)
+    SELECT UID 
+    FROM Users 
+    WHERE Username IN (
+        'marioB', 
+        'linkH', 
+        'samusA', 
+        'sonicH', 
+        'laraC', 
+        'cloudS', 
+        'kratosG', 
+        'masterC', 
+        'geraltR', 
+        'arthurM'
+);

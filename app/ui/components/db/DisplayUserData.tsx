@@ -44,7 +44,7 @@ const DisplayUserData = async (): Promise<JSX.Element> => {
                       image={user.Image ?? undefined}
                       username={user.Username}
                       imgSize="w-12"
-                      areaExpand="3rem"
+                      areaExpand=""
                     />
                   </Link>
                 </td>

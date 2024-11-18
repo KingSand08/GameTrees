@@ -18,7 +18,7 @@ const Avatar: React.FC<AvatarProps> = ({ image, username, className, imgSize, ar
                 <div
                     className="avatar flex items-center justify-center"
                     style={{
-                        width: `${areaExpand || "3.4rem"}`,
+                        width: `${areaExpand || "3.5rem"}`,
                         aspectRatio: '1 / 1',
                     }}
                 >
@@ -37,7 +37,7 @@ const Avatar: React.FC<AvatarProps> = ({ image, username, className, imgSize, ar
                 <div
                     className="flex items-center justify-center"
                     style={{
-                        width: `${areaExpand || "3.5rem"}`,
+                        width: `${areaExpand || "3.6rem"}`,
                         aspectRatio: "1 / 1",
                         clipPath: "circle()",
                     }}

@@ -121,7 +121,7 @@ CREATE TABLE Platforms(
     FOREIGN KEY (Title, Dev_ID) REFERENCES Games(Title, Dev_ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (Platform_ID) REFERENCES Platform_List(Platform_ID)
+    FOREIGN KEY (Platform_ID) REFERENCES Platform_list(Platform_ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -281,7 +281,7 @@ CREATE TABLE Comments(
     DateEdited TIMESTAMP,
     Content_ID VARCHAR(10) NOT NULL,
     PRIMARY KEY (DatePublished, RID),
-    FOREIGN KEY (RID) REFERENCES REviews(RID)
+    FOREIGN KEY (RID) REFERENCES Reviews(RID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (Content_ID) REFERENCES Contents(Content_ID)
@@ -432,7 +432,7 @@ INSERT INTO Genre_List(Type) VALUES
 	('MMO'),
 	('Platformer video game genres');
 
-INSERT INTO Platform_List VALUES	
+INSERT INTO Platform_list VALUES	
 	('P01', 'PC'),
 	('P02', 'Playstation 3'),
 	('P03', 'Playstation 4'),
