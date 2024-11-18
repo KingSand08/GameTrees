@@ -11,15 +11,15 @@ export default function AccountSettingsPageWrapper() {
             {!isEditing ? (
                 <button
                     onClick={() => setIsEditing(true)}
-                    className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+                    className="px-6 py-3 w-[12em] bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
                 >
                     Edit User Account
                 </button>
             ) : (
-                <div className="rounded-lg shadow-lg p-8 max-w-3xl w-full">
+                <div className="flex flex-col rounded-lg max-w-3xl w-full items-center">
                     <button
                         onClick={() => setIsEditing(false)}
-                        className="px-4 py-2 bg-red-500 text-white rounded-lg mb-4 hover:bg-red-600 transition"
+                        className="w-[12em] px-4 py-3 bg-red-500 text-white rounded-lg mb-4 hover:bg-red-600 transition"
                     >
                         Close
                     </button>

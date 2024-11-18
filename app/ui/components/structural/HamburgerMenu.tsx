@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import React from "react";
-import NavButton from "@/app/ui/components/auth/NavButton";
+import NavButton from "@/app/ui/components/buttons/NavButton";
 import SignUpButton from "@/app/ui/components/auth/SignUpButton";
 import LoginButton from "@/app/ui/components/auth/LoginButton";
 import SignOutButton from "@/app/ui/components/auth/SignOutButton";
@@ -18,7 +18,7 @@ export default function HamburgerMenu() {
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    className="inline-block h-8 w-8 stroke-current"
+                    className="inline-block h-8 w-8 stroke-white" //change stroke-white to stroke-current to auto adapt based on theme setting once custom theme is in place
                 >
                     <path
                         strokeLinecap="round"

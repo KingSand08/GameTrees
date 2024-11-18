@@ -18,10 +18,6 @@ export const middleware = async (request: NextRequest) => {
     }
 
     // NOW BEGINS ROLE MANAGEMENT
-    if (token?.role === "admin" && request.nextUrl.pathname.startsWith("/users")) {
-        return NextResponse.redirect(new URL("/login", request.url));
-    }
-
     if (token?.role !== "admin" && request.nextUrl.pathname.startsWith("/admin")) {
         const fallbackUrl = "/";
         const lastUrl = referer || request.cookies.get("last-visited-page")?.value || fallbackUrl;
@@ -48,10 +44,10 @@ export const middleware = async (request: NextRequest) => {
 
 export const config = {
     matcher: [
-        "/account-settings:path*",
-        "/users/:path*",
         "/login",
         "/signup",
+        "/account-settings:path*",
+        "/users/:path*",
         "/admin/:path*",
     ],
 };

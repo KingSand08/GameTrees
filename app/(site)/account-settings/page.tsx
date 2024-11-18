@@ -19,7 +19,7 @@ export default async function AccountSettingsPage() {
         : null;
 
     return (
-        <div className="pb-[5rem]">
+        <div className="pb-[5rem] min-h-screen">
             <div className="flex justify-center">
                 <div className="w-[90%] max-w-4xl bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg rounded-lg p-8">
                     <h1 className="text-3xl font-bold text-white mb-8 text-center">Account Settings</h1>
@@ -30,7 +30,7 @@ export default async function AccountSettingsPage() {
                             <Avatar
                                 image={profileImage || undefined}
                                 username={session.user.username}
-                                className="ring-4 ring-blue-500 ring-offset-base-100 ring-offset-4 "
+                                className="ring-4 ring-blue-500 ring-offset-base-100 ring-offset-4"
                                 imgSize="w-[8rem]"
                                 areaExpand="8rem"
                                 textSize="text-4xl"
@@ -43,9 +43,7 @@ export default async function AccountSettingsPage() {
                                 <SignOutButton className="mt-5 px-3 py-2 w-full" />
                             </div>
                         </div>
-
                     </div>
-
                     {/* Client Component for Upload */}
                     <AccountSettingsPageWrapper />
                 </div>
