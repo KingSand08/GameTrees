@@ -6,10 +6,6 @@ export const findUserByEmailAndPassword = async (email: string, password: string
     SELECT * FROM Users U 
     WHERE U.Email = ? 
     AND U.Password = ? 
-    AND EXISTS (
-      SELECT * FROM Customers C 
-      WHERE U.UID = C.UID
-    );
   `;
   const data = [email, password];
   return executeQuery(query, data);

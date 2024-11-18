@@ -1,9 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import executeQuery from "../mysqldb";
+import executeQuery from "../../mysqldb";
 import { ResultSetHeader } from "mysql2";
-import { checkFieldAlreadyExists } from "./checkFieldAlreadyExists";
+import { checkFieldAlreadyExists } from "../user/checkFieldAlreadyExists";
+
 
 const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: string) => unknown; }) => {
     const username = formData.get("username");
@@ -39,9 +40,8 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
         return { status: "error", message: "Password must be more then 8 numbers long" };
     }
 
-    // return { status: "error", message: "TEST WORKS!" };
-    if (username != "" && fname != "" && email != "" && dob != "" && phone != "" && password != "") {
-        console.log(`Username: ${username}, Name: ${fname}, Email: ${email}, Password: ${password}`);
+    if (username != "" && fname != "" && email != "" && dob != "" && password != "") {
+
         const result = await executeQuery(
             "INSERT INTO Users(Username, Name, Email, DOB, Phone, Password) VALUE (?, ?, ?, ?, ?, ?)",
             [
@@ -58,7 +58,8 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
                 "INSERT INTO Customers(UID) SELECT U.UID FROM Users U WHERE U.Username = ?;",
                 [username]
             );
-            return { status: "success", message: "Record Inserted" };
+
+            return { status: "success", message: "Signup Successful! Loggining you in..." };
         } else {
             revalidatePath("/signup");
             return { status: "error", message: "Record Insertion Failed" };

@@ -10,10 +10,10 @@ const ProfileButton = (props: Profile & ClassChange & LinkChange) => {
     let pname = props.name;
 
     if (props.username.length > 8)
-        uname = props.username.substring(0, 8);
+        uname = props.username.substring(0, 8) + "...";
 
     if (props.name.length > 8)
-        pname = props.name.substring(0, 8);
+        pname = props.name.substring(0, 8) + "...";
 
     return (
         <div

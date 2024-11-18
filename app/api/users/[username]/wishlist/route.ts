@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { WishlistRepository } from "@/database/queries/WishlistRepository";
+import { WishlistRepository } from "@/database/queries/wishlist/WishlistRepository";
 
 const wishlistRepository = new WishlistRepository();
 

@@ -61,7 +61,6 @@ export default function ClientAccountSettings() {
                             username: username || session?.user.username,
                             email: email || session?.user.email,
                             name: name || session?.user.name,
-                            image: session?.user.image,
                         },
                     });
                 }

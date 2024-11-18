@@ -3,14 +3,6 @@ import path from "path";
 import { writeFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
 
-// Disable body parsing for this route
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
-// export const bodyParser = false;
-
 
 export const POST = async (req: Request) => {
     // Ensure we are handling a form data submission

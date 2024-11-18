@@ -46,11 +46,23 @@ export default function HamburgerMenu() {
                 )}
                 <li><NavButton page="Home" route="/" className='block text-center' /></li>
                 <hr className='opacity-25 my-2 border-white' />
-                <li><NavButton page="WishList" route={`/users/${session?.user.username}/wishlist`} className='block text-center' /></li>
-                <hr className='opacity-25 my-2 border-white' />
-                <li><NavButton page="Account Settings" route="/account-settings" className='block text-center' /></li>
-                <hr className='opacity-25 my-2 border-white' />
-                <li><NavButton page="Admin User View" route="/admin-user-view" className='block text-center' /></li>
+                {session && (
+                    <>
+                        <li><NavButton page="Account Settings" route="/account-settings" className='block text-center' /></li>
+                        <hr className='opacity-25 my-2 border-white' />
+                    </>
+                )}
+                {session?.user.role === "customer" && (
+                    <>
+                        <li><NavButton page="WishList" route={`/users/${session?.user.username}/wishlist`} className='block text-center' /></li>
+                        <hr className='opacity-25 my-2 border-white' />
+                    </>
+                )}
+                {session?.user.role === "admin" && (
+                    <>
+                        <li><NavButton page="Admin User View" route="/admin/user-view" className='block text-center' /></li>
+                    </>
+                )}
             </ul>
         </div >
 

@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/nextauth/NextAuthOptions";
-import { updateUserDetails, updateUserImage } from "@/database/queries/updateUser";
-import { signIn } from "next-auth/react";
+import { updateUserDetails } from "@/database/queries/user/updateUserDetails";
+import { updateUserAccountImage } from "@/database/queries/photo/updateUserProfileImage";
 
 export const PATCH = async (req: Request) => {
     const session = await getServerSession(authOptions);
 
-    if (!session || !session.user?.id) {
+    if (!session) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
@@ -39,7 +39,7 @@ export const PATCH = async (req: Request) => {
         }
 
         // Prepare update data for user details
-        const updateData: Record<string, any> = {};
+        const updateData: Record<string, unknown> = {};
         if (username) updateData.username = username;
         if (email) updateData.email = email;
         if (name) updateData.name = name;
@@ -60,7 +60,7 @@ export const PATCH = async (req: Request) => {
         if (image) {
             try {
                 const imageData = Buffer.from(await image.arrayBuffer());
-                const imageUpdated = await updateUserImage(session.user.id as unknown as number, imageData);
+                await updateUserAccountImage(session.user.id as unknown as number, imageData);
                 return NextResponse.json({ message: "File uploaded successfully", status: 201 });
             } catch (error) {
                 console.error("Error occurred while uploading file:", error);
@@ -72,11 +72,9 @@ export const PATCH = async (req: Request) => {
             message: "User details updated successfully",
             refresh: true,
             user: {
-                id: session.user.id, // User ID remains the same
                 username: username || session.user.username,
                 email: email || session.user.email,
                 name: name || session.user.name,
-                image: image ? `/path/to/uploaded/image.jpg` : session.user.image, // Use updated image if provided
             },
         }, { status: 200 });
     } catch (error) {

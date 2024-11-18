@@ -35,14 +35,14 @@ const Avatar: React.FC<AvatarProps> = ({ image, username, className, imgSize, ar
                 </div>
             ) : (
                 <div
-                    className="avatar flex items-center justify-center"
+                    className="flex items-center justify-center"
                     style={{
                         width: `${areaExpand || "3.5rem"}`,
                         aspectRatio: "1 / 1",
                         clipPath: "circle()",
                     }}
                 >
-                    <div className="avatar placeholder flex items-center justify-center w-full">
+                    <div className="avatar placeholder flex items-center justify-center w-[80%]">
                         <div className={`${className} ${imgSize} h-auto rounded-full flex items-center justify-center w-full`}>
                             <div
                                 className={`bg-neutral text-neutral-content w-full h-full rounded-full flex items-center justify-center`}

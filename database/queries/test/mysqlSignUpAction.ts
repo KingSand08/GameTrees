@@ -1,9 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import executeQuery from "../mysqldb";
+import executeQuery from "@/database/mysqldb";
 import { ResultSetHeader } from "mysql2";
-import { checkFieldAlreadyExists } from "./checkFieldAlreadyExists";
+import { checkFieldAlreadyExists } from "@/database/queries/user/checkFieldAlreadyExists";
 
 // Define the structure of the expected row from the query result
 interface UserData {

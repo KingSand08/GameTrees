@@ -5,8 +5,10 @@ import RedditProvider from "next-auth/providers/reddit";
 import BungieProivder from "next-auth/providers/bungie";
 import TwitchProivder from "next-auth/providers/twitch";
 import { AuthOptions } from "next-auth";
-import { findUserByEmail } from "@/database/queries/findUserByEmail";
-import { findUserByEmailAndPassword } from "@/database/queries/findUserByEmailAndPassword";
+import { findUserByEmail } from "@/database/queries/user/findUserByEmail";
+import { findUserByEmailAndPassword } from "@/database/queries/user/findUserByEmailAndPassword";
+import Discord from "next-auth/providers/discord";
+import { getUserRoleByUID } from "@/database/queries/user/getUserRoleByUID";
 
 export const authOptions: AuthOptions = {
   session: {
@@ -17,6 +19,10 @@ export const authOptions: AuthOptions = {
     GoogleProivder({
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
+    }),
+    Discord({
+      clientId: process.env.DISCORD_ID!,
+      clientSecret: process.env.DISCORD_SECRET!,
     }),
     GitHubProivder({
       clientId: process.env.GITHUB_ID!,
@@ -50,16 +56,17 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null;
         const { email, password } = credentials;
-        const user = await findUserByEmailAndPassword(email, password) as { UID: string, Username: string, Email: string, Name: string, image?: string }[];
+        const user = await findUserByEmailAndPassword(email, password) as { UID: string, Username: string, Email: string, Name: string }[];
 
         if (user && user.length > 0) {
+          const role = await getUserRoleByUID(user[0].UID as unknown as number);
+
           return {
             id: user[0].UID,
             username: user[0].Username,
             email: user[0].Email,
             name: user[0].Name,
-            image: user[0].image || null,
-            //add role to session
+            role,
           };
         } else {
           return null;
@@ -74,7 +81,6 @@ export const authOptions: AuthOptions = {
         token.username = session.user.username;
         token.email = session.user.email;
         token.name = session.user.name;
-        token.image = session.user.image ?? null;
       }
 
       if (user) {
@@ -83,7 +89,8 @@ export const authOptions: AuthOptions = {
         token.username = user.username;
         token.email = user.email;
         token.name = user.name;
-        token.image = user.image ?? null;
+        token.role = user.role;
+        console.log("JWT Callback - Token with Role:", token); // Debugging
       }
       return token;
     }, async session({ session, token }) {
@@ -93,15 +100,16 @@ export const authOptions: AuthOptions = {
         username: token.username as string,
         email: token.email as string,
         name: token.name as string,
-        image: token.image as string | null,
+        role: token.role as string,
       };
       return session;
     }, async signIn({ user, account }) {
-      if (account?.provider != "google" && user.email) {
+      if ((account?.provider != "google" && account?.provider != "discord" && account?.provider != "github") && user.email) {
         return true;
       }
       else {
         const existingUser = await findUserByEmail(user.email);
+        const role = await getUserRoleByUID(existingUser[0].UID as unknown as number);
 
         // If the user exists, proceed with the sign-in process
         if (existingUser.length > 0) {
@@ -109,7 +117,7 @@ export const authOptions: AuthOptions = {
           user.username = existingUser[0].Username;
           user.email = existingUser[0].Email;
           user.name = existingUser[0].Name;
-          user.image = existingUser[0].Image || null;
+          user.role = role;
           return true;
         } else {
           return false;

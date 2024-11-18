@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
+// Assign the handler function to a named variable
+const handleAuthError = (req: NextApiRequest, res: NextApiResponse) => {
     const { error } = req.query;
 
     if (error === "NoAccount") {
@@ -9,3 +10,5 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
         res.redirect("/login");
     }
 };
+
+export default handleAuthError;
