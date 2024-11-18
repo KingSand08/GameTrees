@@ -81,8 +81,8 @@ CREATE TABLE Stores(
 );
 
 CREATE TABLE Games(
-    Title VARCHAR(50),
-    Dev_ID VARCHAR(10),
+    Title VARCHAR(200),
+    Dev_ID VARCHAR(20),
     Price FLOAT,
     PRIMARY KEY (Title, Dev_ID),
     FOREIGN KEY (Dev_ID) REFERENCES Business(BID)
@@ -222,6 +222,21 @@ CREATE TABLE Biz_Photos(
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (BID) REFERENCES Business(BID)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE Game_Photos(
+    Photo_ID VARCHAR(10) PRIMARY KEY,
+    Dev_ID VARCHAR(10),
+    Title VARCHAR(50),
+    FOREIGN KEY (Photo_ID) REFERENCES Photos(Photo_ID)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Dev_ID) REFERENCES Business(BID)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    FOREIGN KEY (Title) REFERENCES Games(Title)
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );

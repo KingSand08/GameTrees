@@ -3,7 +3,7 @@ import { authOptions } from "@/nextauth/NextAuthOptions";
 import Link from 'next/link';
 import Image from 'next/image';
 import LogoIcon from "@/public/icons/ours/GameTreesLogo.png";
-import NavButton from "@/app/ui/components/auth/NavButton";
+import NavButton from "@/app/ui/components/buttons/NavButton";
 import SignUpButton from "@/app/ui/components/auth/SignUpButton";
 import LoginButton from "@/app/ui/components/auth/LoginButton";
 import SignOutButton from "@/app/ui/components/auth/SignOutButton";

@@ -58,12 +58,12 @@ const Signin = (props: Props) => {
 
     return (
         <div className="">
-            <h1 className="g-gradient-to-b from-slate-50 to-slate-200 p-2 text-center text-2xl font-semibold">
+            <h1 className="text-white g-gradient-to-b from-slate-50 to-slate-200 p-2 text-center text-2xl font-semibold">
                 Sign In
             </h1>
             <form onSubmit={onSubmit} className="p-2 flex flex-col gap-3">
                 <div className="flex flex-col space-y-2">
-                    <label htmlFor="email" className="text-md text-white font-medium">
+                    <label htmlFor="email" className="text-white text-md font-medium">
                         Email:
                     </label>
                 </div>
@@ -86,7 +86,7 @@ const Signin = (props: Props) => {
                                 name="email"
                                 placeholder="new type email"
                                 onChange={(e) => (email.current = e.target.value)}
-                                className="bg-slate-700 text-white placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
                             />
                         </div>
                     </div>
@@ -94,7 +94,9 @@ const Signin = (props: Props) => {
 
                 {/* Password Input */}
                 <div className="block">
-                    <label className="text-sm font-medium text-gray-400">Password</label>
+                    <label htmlFor="password" className="text-white text-md font-medium">
+                        Password:
+                    </label>
                     <div className="flex flex-row space-x-3 items-center">
                         <div className="input input-bordered flex items-center gap-2 w-full">
                             <svg
@@ -114,7 +116,7 @@ const Signin = (props: Props) => {
                                 id="password"
                                 name="password"
                                 placeholder={"Enter new password"}
-                                className="bg-slate-700 text-white placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
                                 autoComplete="off"
                                 onChange={(e) => (password.current = e.target.value)}
                             />
@@ -124,7 +126,7 @@ const Signin = (props: Props) => {
                         <div className="pt-3 mx-auto pb-3">
                             <button
                                 type="button"
-                                className="w-fit text-white dark:text-slate-200 text-md bg-black bg-opacity-45 max-w-fit mx-auto px-7 py-3 rounded-xl hover:text-white hover:bg-opacity-55"
+                                className="w-fit text-slate-200 text-md bg-black bg-opacity-45 max-w-fit mx-auto px-7 py-3 rounded-xl hover:bg-opacity-55"
                                 onClick={() => {
                                     setShowPassword((prev) => !prev);
                                 }}
@@ -141,12 +143,14 @@ const Signin = (props: Props) => {
                 </div>
             </form>
             <div className="flex flex-col">
-                <p className="text-white dark:text-slate-200 text-md mx-auto mt-[1em] mb-[1.5em]">OR</p>
+                <p className="text-slate-200 text-md mx-auto mt-[1em] mb-[1.5em]">
+                    OR
+                </p>
             </div>
 
             {/* OAuth Sign-In Buttons */}
             <div className="flex flex-col items-center justify-center gap-4">
-                <div className="w-3/4">
+                <div className="w-3/4 max-w-[20em]">
                     <OAuthButton callbackUrl={props.callbackUrl} provider={"google"} onSignInStart={handleOAuthSignInStart} />
                     <OAuthButton callbackUrl={props.callbackUrl} provider={"discord"} onSignInStart={handleOAuthSignInStart} />
                     <OAuthButton callbackUrl={props.callbackUrl} provider={"github"} onSignInStart={handleOAuthSignInStart} />

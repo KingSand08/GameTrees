@@ -1,54 +1,69 @@
-"use client";
+import { WishlistRepository } from "@/database/queries/wishlist/getWishlist";
+import WishlistDisplay from "./WishlistDisplay";
+import { getUserAccountImage } from "@/database/queries/photo/getUserAccountImage";
+import Avatar from "@/app/ui/components/auth/Avatar";
+import { getUserIdByUsername } from "@/database/queries/user/getUIDFromUsername";
+import { getUserRoleByUID } from "@/database/queries/user/getUserRoleByUID";
 
-import React, { useEffect, useState } from "react";
-import WishlistRow from "@/types/models/WishlistRow";
-import Image from "next/image";
+interface WishlistRow {
+    Game_Title: string;
+    Name: string;
+    Image?: string;
+    Price: number;
+}
 
 interface WishlistPageProps {
     params: { username: string };
 }
 
-export default function WishlistPage({ params }: WishlistPageProps) {
-    const [wishlistGames, setWishlistGames] = useState<WishlistRow[]>([]);
-    const [error, setError] = useState<string | null>(null);
+const WishlistPage = async ({ params }: WishlistPageProps) => {
+    const { username } = params;
 
-    useEffect(() => {
-        const fetchWishlist = async () => {
-            try {
-                const response = await fetch(`/api/users/${params.username}/wishlist`);
-                if (!response.ok) {
-                    throw new Error("Failed to fetch wishlist data");
-                }
-                const data = await response.json();
-                setWishlistGames(data.wishlist);
-            } catch (err) {
-                setError("Error loading wishlist data");
-                console.error("Fetch error:", err);
-            }
-        };
-
-        fetchWishlist();
-    }, [params.username]);
-
-    if (error) {
-        return <p>{error}</p>;
+    // Fetch the required data
+    const userUID = await getUserIdByUsername(username);
+    if (!userUID) {
+        return redirectToErrorPage(username);
     }
 
+    const role = await getUserRoleByUID(userUID);
+    if (!role || ["admin", "manager"].includes(role)) {
+        return redirectToErrorPage(username);
+    }
+
+    const [wishlist, userProfileImage] = await Promise.all([
+        new WishlistRepository().getGameByUsername(username),
+        getUserAccountImage(userUID),
+    ]);
+
     return (
-        <div>
-            <h1>Wishlist for User ID: {params.username}</h1>
-            <h2>Wishlist Games</h2>
-            <ul>
-                {wishlistGames.map((game, index) => (
-                    <li key={index}>
-                        {game.image && (
-                            <Image src={game.image} alt={`${game.Game_Title} cover`} width={100} height={100} /> // Display the image of the game
-                        )}
-                        <strong>Title:</strong> {game.Game_Title},
-                        <strong>Developer:</strong> {game.Name}
-                    </li>
-                ))}
-            </ul>
+        <div className="pb-8">
+            <div className="h-full min-h-[50em] bg-gray-900 text-white py-10 px-8 rounded-lg">
+                <div className="mb-6">
+                    <h1 className="text-3xl font-bold">Wishlist for {username}</h1>
+                    <div className="flex items-center space-x-6 my-8 w-full">
+                        <Avatar
+                            image={userProfileImage || undefined}
+                            username={username}
+                            className="ring-4 ring-offset-base-100 ring-offset-4 ring-blue-500"
+                            imgSize="w-[8rem]"
+                            areaExpand="8rem"
+                            textSize="text-4xl"
+                        />
+                    </div>
+                </div>
+                <WishlistDisplay wishlist={wishlist} />
+            </div>
         </div>
     );
 }
+
+function redirectToErrorPage(username: string) {
+    return (
+        <meta
+            httpEquiv="refresh"
+            content={`0;url=/users/${username}/wishlist/error`}
+        />
+    );
+}
+
+export default WishlistPage;

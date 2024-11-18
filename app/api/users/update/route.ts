@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 import { updateUserDetails } from "@/database/queries/user/updateUserDetails";
 import { updateUserAccountImage } from "@/database/queries/photo/updateUserProfileImage";
+import sharp from "sharp";
+import { checkFieldAlreadyExists } from "@/database/queries/user/checkFieldAlreadyExists";
 
 export const PATCH = async (req: Request) => {
     const session = await getServerSession(authOptions);
@@ -32,10 +34,35 @@ export const PATCH = async (req: Request) => {
             password = formData.get("password");
             image = formData.get("file") as File | null;
         }
-
-        // Validate inputs (minimal validation shown here)
+        // Ensure only non-empty fields
         if (!username && !email && !name && !password && !image) {
             return NextResponse.json({ message: "No fields to update" }, { status: 400 });
+        }
+
+        // Check if username already exists for a different user
+        if (username) {
+            const isUsernameTaken = await checkFieldAlreadyExists('Users', 'Username', username as string);
+            if (isUsernameTaken) {
+                return NextResponse.json({ status: "error", message: "Username is already in use by another account" }, { status: 400 });
+            }
+
+            if ((username as string).length > 25) {
+                // Check if username follows username size limiation
+                return NextResponse.json({ status: "error", message: "Username can only be 25 characters long" }, { status: 400 });
+            }
+        }
+        // Check if email already exists for a different user
+        if (email) {
+            const isEmailTaken = await checkFieldAlreadyExists('Users', 'Email', email as string);
+            if (isEmailTaken) {
+                return NextResponse.json({ status: "error", message: "Email is already in use by another account" }, { status: 400 });
+            }
+        }
+        // Check if password follows password size limiation
+        if (password) {
+            if ((password as string).length < 8) {
+                return NextResponse.json({ status: "error", message: "Password must be more then 8 numbers long" }, { status: 400 });
+            }
         }
 
         // Prepare update data for user details
@@ -43,11 +70,7 @@ export const PATCH = async (req: Request) => {
         if (username) updateData.username = username;
         if (email) updateData.email = email;
         if (name) updateData.name = name;
-        if (password) {
-            // const hashedPassword = await bcrypt.hash(password, 10);
-            // updateData.password = hashedPassword;
-            updateData.password = password;
-        }
+        if (password) updateData.password = password;
 
         // Update user details if any fields were provided
         if (Object.keys(updateData).length > 0) {
@@ -58,9 +81,48 @@ export const PATCH = async (req: Request) => {
         }
         // Handle image upload
         if (image) {
+            // Limit file to only image types
+            const allowedMimeTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+            if (!allowedMimeTypes.includes(image.type)) {
+                return NextResponse.json(
+                    { message: "Invalid file type. Only PNG, JPG, JPEG, and WEBP files are allowed." },
+                    { status: 400 }
+                );
+            }
+
             try {
                 const imageData = Buffer.from(await image.arrayBuffer());
-                await updateUserAccountImage(session.user.id as unknown as number, imageData);
+                const MAX_FILE_SIZE = 1000000; // 100KB
+                const MIN_QUALITY = 10;
+                const RESIZE_DIMENSIONS = 300;
+
+                // Resize image before compressing
+                const resizedImage = await sharp(imageData)
+                    .resize({ width: RESIZE_DIMENSIONS, height: RESIZE_DIMENSIONS, fit: "inside" })
+                    .toBuffer();
+
+                // Compress the resized image
+                let quality = 50;
+                let compressedImage = resizedImage;
+
+                while (compressedImage.length > MAX_FILE_SIZE && quality > MIN_QUALITY) {
+                    compressedImage = await sharp(resizedImage)
+                        .jpeg({ quality })
+                        .toBuffer();
+                    quality -= 10;
+                }
+
+                if (compressedImage.length > MAX_FILE_SIZE) {
+                    return NextResponse.json(
+                        { message: `Unable to compress image to ${MAX_FILE_SIZE / 1024}KB. Try uploading a smaller file.` },
+                        { status: 400 }
+                    );
+                }
+
+
+                await updateUserAccountImage(session.user.id as unknown as number, compressedImage);
+
+
                 return NextResponse.json({ message: "File uploaded successfully", status: 201 });
             } catch (error) {
                 console.error("Error occurred while uploading file:", error);

@@ -66,7 +66,7 @@ const SignUp = (props: Props) => {
                     <div className="block">
                         <label
                             htmlFor="username"
-                            className="text-md text-white font-medium"
+                            className="text-md font-medium"
                         >
                             *Username:
                         </label>
@@ -88,7 +88,7 @@ const SignUp = (props: Props) => {
                                     name="username"
                                     placeholder="Master Chief"
                                     required
-                                    className="bg-slate-700 text-white placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                    className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
                                 />
                             </div>
                         </div>
@@ -98,7 +98,7 @@ const SignUp = (props: Props) => {
                     <div className="block mt-4">
                         <label
                             htmlFor="fname"
-                            className="text-md text-white font-medium"
+                            className="text-md font-medium"
                         >
                             *Full Name:
                         </label>
@@ -124,7 +124,7 @@ const SignUp = (props: Props) => {
                                     name="name"
                                     placeholder="John Marston"
                                     required
-                                    className="bg-slate-700 text-white placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                    className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
                                 />
                             </div>
                         </div>
@@ -134,7 +134,7 @@ const SignUp = (props: Props) => {
                     <div className="block mt-4">
                         <label
                             htmlFor="email"
-                            className="text-md text-white font-medium"
+                            className="text-md font-medium"
                         >
                             *Email:
                         </label>
@@ -159,7 +159,7 @@ const SignUp = (props: Props) => {
                                     name="email"
                                     placeholder="games@g.com"
                                     required
-                                    className="bg-slate-700 text-white placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                    className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
                                 />
                             </div>
                         </div>
@@ -169,7 +169,7 @@ const SignUp = (props: Props) => {
                     <div className="block mt-4">
                         <label
                             htmlFor="date"
-                            className="text-md text-white font-medium"
+                            className="text-md font-medium"
                         >
                             *Date of Birth:
                         </label>
@@ -196,7 +196,7 @@ const SignUp = (props: Props) => {
                                     name="date"
                                     placeholder="date of birth"
                                     required
-                                    className="bg-slate-700 text-white placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                    className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
                                 />
                             </div>
                         </div>
@@ -206,7 +206,7 @@ const SignUp = (props: Props) => {
                     <div className="block mt-4">
                         <label
                             htmlFor="tel"
-                            className="text-md text-white font-medium"
+                            className="text-md font-medium"
                         >
                             Mobile Phone:
                         </label>
@@ -229,7 +229,7 @@ const SignUp = (props: Props) => {
                                     id="tel"
                                     name="tel"
                                     placeholder="(408)000-0000"
-                                    className="bg-slate-700 text-white placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                    className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
                                 />
                             </div>
                         </div>
@@ -239,7 +239,7 @@ const SignUp = (props: Props) => {
                     <div className="block mt-4">
                         <label
                             htmlFor="tel"
-                            className="text-md text-white font-medium"
+                            className="text-md font-medium"
                         >
                             *Password:
                         </label>
@@ -263,14 +263,14 @@ const SignUp = (props: Props) => {
                                     name="password"
                                     placeholder="new type password"
                                     required
-                                    className="bg-slate-700 text-white placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                    className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
                                     autoComplete="new-password" />
                             </div>
                         </div>
                         <div className='flex items-center py-2 justify-center'>
                             <button
                                 type="button"
-                                className="w-fit text-white dark:text-slate-200 text-md bg-black bg-opacity-45 max-w-fit mx-auto px-7 py-3 rounded-xl hover:text-white hover:bg-opacity-55"
+                                className="w-fit dark:text-slate-200 text-md bg-black bg-opacity-45 max-w-fit mx-auto px-7 py-3 rounded-xl hover:hover:bg-opacity-55"
                                 onClick={() => {
                                     setShowPassword((prev) => !prev);
                                 }}

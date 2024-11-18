@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-lt-installed>
+    <html lang="en" data-lt-installed data-theme="dark">
       <body
         className={`${inter.className} subpixel-antialiased`}
       >
