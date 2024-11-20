@@ -5,7 +5,7 @@ import WishlistRow from "@/types/models/WishlistRow";
 export default interface RawWishlistRow {
     Title: string;
     Name: string;
-    Image?: Buffer;
+    img?: Buffer;
     Price: number;
     gid: string;
 }
@@ -15,7 +15,7 @@ export class WishlistRepository {
             SELECT 
                 G.Title,
                 B.Name,
-                P.Image,
+                PG.img,
                 G.Price,
                 W.gid
             FROM 
@@ -23,21 +23,21 @@ export class WishlistRepository {
             LEFT JOIN 
                 Games G ON G.gid = W.gid
             LEFT JOIN
-                Game_Photos PG ON W.gid = PG.gid
+                GamePhotos PG ON W.gid = PG.gid
             LEFT JOIN
-                Photos P ON P.Photo_ID = PG.Photo_ID
+                Photos P ON P.pid = PG.gpid
             LEFT JOIN 
-                Business B ON G.Dev_ID = B.BID
+                Business B ON G.did = B.BID
             WHERE 
                 W.UID = (SELECT U.UID FROM Users U WHERE Username = ?);
         `;
 
-        const results = await executeQuery(query, [username]) as RawWishlistRow[];
+        const results = await executeQuery(query, [username]) as WishlistRow[];
 
         // Convert images to Base64
         const processedResults = results.map((result) => ({
             ...result,
-            Image: result.Image ? blobToBase64(result.Image) : undefined,
+            Image: result.img ? blobToBase64(result.img) : undefined,
         }));
 
         return processedResults;

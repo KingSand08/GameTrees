@@ -9,4 +9,13 @@ export class WishlistEdition {
 
         await executeQuery(query, [gid, username] );
     }
+
+    public async addByGid(username: string, gid: string): Promise<void> {
+        const insertQuery = `
+            INSERT INTO Wishlists (uid, gid) VALUES
+            ((SELECT U.uid FROM Users U WHERE U.username = ?), ?);
+        `;
+
+        await executeQuery(insertQuery, [username, gid] );        
+    }
 }

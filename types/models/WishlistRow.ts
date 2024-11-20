@@ -1,7 +1,7 @@
 export default interface WishlistRow {
     Title: string;
     Name: string;
-    Image?: string;
+    img?: Buffer;
     Price: number;
     gid: string;
 }

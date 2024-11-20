@@ -1,27 +1,24 @@
-INSERT INTO Wishlists VALUES
-    (8, 'a0005');
-
--- SELECT W.Game_Title, B.Name
--- FROM Wishlists W
--- LEFT JOIN Business B
--- ON W.Dev_ID = B.BID
--- WHERE W.UID = (SELECT U.UID FROM Users U WHERE Username = 'marioB');
-
 SELECT 
-    G.Title,
-    B.Name,
-    G.Price,
-    P.Image
-FROM 
-    Wishlists W
-LEFT JOIN 
-    Games G ON G.gid = W.gid
-LEFT JOIN
-    Game_Photos PG ON W.gid = PG.gid
-LEFT JOIN
-    Photos P ON P.Photo_ID = PG.Photo_ID
-LEFT JOIN 
-    Business B ON G.Dev_ID = B.BID
-WHERE 
-    W.UID = (SELECT U.UID FROM Users U WHERE Username = 'marioB');
-        
+        G.Title,
+        B.Name,
+        PG.img,
+        G.Price,
+        W.gid
+    FROM 
+        Wishlists W
+    LEFT JOIN 
+        Games G ON G.gid = W.gid
+    LEFT JOIN
+        GamePhotos PG ON W.gid = PG.gid
+    LEFT JOIN
+        Photos P ON P.pid = PG.gpid
+    LEFT JOIN 
+        Business B ON G.did = B.BID
+    WHERE 
+        W.UID = (SELECT U.UID FROM Users U WHERE Username = 'marioB');
+
+INSERT INTO Wishlists (uid, gid) VALUES
+((SELECT U.uid FROM Users U WHERE U.username = ?), ?);
+
+DELETE FROM Wishlists W
+WHERE W.gid = ? AND W.uid = (SELECT U.UID FROM Users U WHERE Username = ?);
