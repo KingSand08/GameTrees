@@ -1,18 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
-import { WishlistRepository } from "@/database/queries/wishlist/getWishlist";
+import { WishlistEdition } from "@/database/queries/wishlist/updateWishlist";
 
-const wishlistRepository = new WishlistRepository();
+const wishlistEdition = new WishlistEdition();
 
 export async function GET(request: NextRequest, { params }: { params: { username: string } }) {
-    const { username } = params;
+    const { searchParams } = new URL(request.url);
+    const gid = searchParams.get("gid");
+    const username = params.username;
+    console.log("gid: ", gid)
+    console.log("username: ", username)
+
+    if (!gid || !username) {
+        return NextResponse.json({ error: "Missing gid or username" }, { status: 400 });
+    }
 
     try {
-        const [wishlist] = await Promise.all([
-            wishlistRepository.getGameByUsername(username)
-        ]);
-        return NextResponse.json({ wishlist });
+        await wishlistEdition.removeByGid(gid, username);
+        return NextResponse.json({ success: true });
     } catch (error) {
-        console.error("Error fetching store data:", error);
-        return NextResponse.json({ error: "Failed to fetch store data" }, { status: 500 });
+        console.error("Error removing item:", error);
+        return NextResponse.json({ error: "Failed to remove item" }, { status: 500 });
     }
+    
 }

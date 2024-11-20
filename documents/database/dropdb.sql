@@ -20,6 +20,7 @@ DROP TABLE
     Acc_Photos,
     Store_Photos,
     Biz_Photos,
+    Game_Photos,
     Reviews,
     S_Reviews,
     G_Reviews,

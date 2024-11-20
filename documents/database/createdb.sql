@@ -81,10 +81,11 @@ CREATE TABLE Stores(
 );
 
 CREATE TABLE Games(
-    Title VARCHAR(200),
-    Dev_ID VARCHAR(20),
+    gid VARCHAR(10) PRIMARY KEY,
+    Title VARCHAR(200) NOT NULL,
+    Dev_ID VARCHAR(20) NOT NULL,
     Price FLOAT,
-    PRIMARY KEY (Title, Dev_ID),
+    UNIQUE (Title, Dev_ID),
     FOREIGN KEY (Dev_ID) REFERENCES Business(BID)
         ON DELETE NO ACTION
         ON UPDATE CASCADE
@@ -96,11 +97,10 @@ CREATE TABLE Genre_List(
 );
 
 CREATE TABLE Genres(
-    Title VARCHAR(50),
-    Dev_ID VARCHAR(10),
-    Genre_ID INT NOT NULL,
-    PRIMARY KEY (Title, Dev_ID, Genre_ID),
-    FOREIGN KEY (Title, Dev_ID) REFERENCES Games(Title, Dev_ID)
+    gid VARCHAR(10),
+    Genre_ID INT,
+    PRIMARY KEY (Genre_ID, gid),
+    FOREIGN KEY (gid) REFERENCES Games(gid)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (Genre_ID) REFERENCES Genre_List(Genre_ID)
@@ -114,11 +114,10 @@ CREATE TABLE Platform_list(
 );
 
 CREATE TABLE Platforms(
-    Title VARCHAR(50),
-    Dev_ID VARCHAR(10),
-    Platform_ID VARCHAR(10) NOT NULL,
-    PRIMARY KEY (Title, Dev_ID, Platform_ID),
-    FOREIGN KEY (Title, Dev_ID) REFERENCES Games(Title, Dev_ID)
+    gid VARCHAR(10),
+    Platform_ID VARCHAR(10),
+    PRIMARY KEY (gid, Platform_ID),
+    FOREIGN KEY (gid) REFERENCES Games(gid)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     FOREIGN KEY (Platform_ID) REFERENCES Platform_list(Platform_ID)
@@ -128,40 +127,37 @@ CREATE TABLE Platforms(
 
 CREATE TABLE Inventories(
     Store_ID VARCHAR(10),
-    Title VARCHAR(50),
-    Dev_ID VARCHAR(10),
+    gid VARCHAR(10),
     Discount DECIMAL(3, 2) DEFAULT 0 CHECK (Discount BETWEEN 0 AND 1),
-    PRIMARY KEY (Store_ID, Title, Dev_ID),
+    PRIMARY KEY (gid, Store_ID),
     FOREIGN KEY (Store_ID) REFERENCES Stores(Store_ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (Title, Dev_ID) REFERENCES Games(Title, Dev_ID)
+    FOREIGN KEY (gid) REFERENCES Games(gid)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
 CREATE TABLE PublishedBy(
     Publisher_ID VARCHAR(10),
-    Title VARCHAR(50),
-    Dev_ID VARCHAR(10),
-    PRIMARY KEY (Publisher_ID, Title, Dev_ID),
+    gid VARCHAR(10),
+    PRIMARY KEY (Publisher_ID, gid),
     FOREIGN KEY (Publisher_ID) REFERENCES Business(BID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (Title, Dev_ID) REFERENCES Games(Title, Dev_ID)
+    FOREIGN KEY (gid) REFERENCES Games(gid)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
 CREATE TABLE Wishlists(
     UID INT,
-    Game_Title VARCHAR (50),
-    Dev_ID VARCHAR(10),
-    PRIMARY KEY (UID, Game_Title, Dev_ID),
+    gid VARCHAR(10),
+    PRIMARY KEY (UID, gid),
     FOREIGN KEY (UID) REFERENCES Customers(UID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (Game_Title, Dev_ID) REFERENCES Games(Title, Dev_ID)
+    FOREIGN KEY (gid) REFERENCES Games(gid)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -173,13 +169,12 @@ CREATE TABLE Contents(
 
 CREATE TABLE G_Contents(
     Content_ID VARCHAR(10),
-    Title VARCHAR(50),
-    Dev_ID VARCHAR(10),
-    PRIMARY KEY (Content_ID, Title, Dev_ID),
+    gid VARCHAR(10),
+    PRIMARY KEY (Content_ID, gid),
     FOREIGN KEY(Content_ID) REFERENCES Contents(Content_ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (Title, Dev_ID) REFERENCES Games(Title, Dev_ID)
+    FOREIGN KEY (gid) REFERENCES Games(gid)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -228,15 +223,11 @@ CREATE TABLE Biz_Photos(
 
 CREATE TABLE Game_Photos(
     Photo_ID VARCHAR(10) PRIMARY KEY,
-    Dev_ID VARCHAR(10),
-    Title VARCHAR(50),
+    gid VARCHAR(10),
     FOREIGN KEY (Photo_ID) REFERENCES Photos(Photo_ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (Dev_ID) REFERENCES Business(BID)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE,
-    FOREIGN KEY (Title) REFERENCES Games(Title)
+    FOREIGN KEY (gid) REFERENCES Games(gid)
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
@@ -267,12 +258,11 @@ CREATE TABLE S_Reviews(
 
 CREATE TABLE G_Reviews(
     RID VARCHAR(10) PRIMARY KEY,
-    Title VARCHAR(50) NOT NULL, 
-    Dev_ID VARCHAR(10) NOT NULL,
+    gid VARCHAR(10) NOT NULL,
     FOREIGN KEY (RID) REFERENCES Reviews(RID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (Title, Dev_ID) REFERENCES Games(Title, Dev_ID)
+    FOREIGN KEY (gid) REFERENCES Games(gid)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
@@ -462,30 +452,30 @@ INSERT INTO Platform_list VALUES
 -- Populate Games
 
 INSERT INTO Games VALUES	
-	('Dota 2', 'B04', '0'),
-	('Fire Emblem: Three Houses', 'B05', '59.99'),
-	('Total War: THREE KINGDOMS', 'B06', '59.99'),
-	('Sekiro: Shadows Die Twice', 'B08', '59.99'),
-	('Xenogears', 'B10', '9.99');
+	('a0001','Dota 2', 'B04', '0'),
+	('a0002','Fire Emblem: Three Houses', 'B05', '59.99'),
+	('a0003','Total War: THREE KINGDOMS', 'B06', '59.99'),
+	('a0004','Sekiro: Shadows Die Twice', 'B08', '59.99'),
+	('a0005','Xenogears', 'B10', '9.99');
 
 INSERT INTO Genres VALUES	
-	('Dota 2', 'B04', 7),
-	('Fire Emblem: Three Houses', 'B05', 5),
-	('Fire Emblem: Three Houses', 'B05', 7),
-	('Total War: THREE KINGDOMS', 'B06', 7),
-	('Sekiro: Shadows Die Twice', 'B08', 3),
-	('Xenogears', 'B10', 2),
-	('Xenogears', 'B10', 5);
+	('a0001', 7),
+	('a0002', 5),
+	('a0002', 7),
+	('a0003', 7),
+	('a0004', 3),
+	('a0005', 2),
+	('a0005', 5);
 
 INSERT INTO Platforms VALUES	
-	('Dota 2', 'B04', 'P01'),
-	('Fire Emblem: Three Houses', 'B05', 'P06'),
-	('Fire Emblem: Three Houses', 'B05', 'P07'),
-	('Total War: THREE KINGDOMS', 'B06', 'P01'),
-	('Sekiro: Shadows Die Twice', 'B08', 'P01'),
-	('Sekiro: Shadows Die Twice', 'B08', 'P03'),
-	('Sekiro: Shadows Die Twice', 'B08', 'P04'),
-	('Xenogears', 'B10', 'P02');
+	('a0001', 'P01'),
+	('a0002', 'P06'),
+	('a0002', 'P07'),
+	('a0003', 'P01'),
+	('a0004', 'P01'),
+	('a0004', 'P03'),
+	('a0004', 'P04'),
+	('a0005', 'P02');
 
 -- Populate Stores
 INSERT INTO Stores(Store_ID, BID, MID, Ops_Hour, Street, City, State, Zip_Code, Country) VALUES	
@@ -495,13 +485,14 @@ INSERT INTO Stores(Store_ID, BID, MID, Ops_Hour, Street, City, State, Zip_Code, 
 
 -- Populate Inventories
 INSERT INTO Inventories VALUES	
-	('S001', 'Fire Emblem: Three Houses', 'B05', 0),
-	('S001', 'Total War: THREE KINGDOMS', 'B06', 0.3),
-	('S001', 'Sekiro: Shadows Die Twice', 'B08', 0),
-	('S001', 'Xenogears', 'B10', 0),
-	('S002', 'Fire Emblem: Three Houses', 'B05', 0),
-	('S002', 'Sekiro: Shadows Die Twice', 'B08', 0.5),
-	('S003', 'Dota 2', 'B04', 0),
-	('S003', 'Total War: THREE KINGDOMS', 'B06', 0.15),
-	('S003', 'Sekiro: Shadows Die Twice', 'B08', 0),
-	('S003', 'Xenogears', 'B10', 0);
+	('S001', 'a0002', '0'),
+	('S001', 'a0003', '0.3'),
+	('S001', 'a0004', '0'),
+	('S001', 'a0005', '0'),
+	('S002', 'a0002', '0'),
+	('S002', 'a0004', '0.5'),
+	('S003', 'a0001', '0'),
+	('S003', 'a0003', '0.15'),
+	('S003', 'a0004', '0'),
+	('S003', 'a0005', '0');
+

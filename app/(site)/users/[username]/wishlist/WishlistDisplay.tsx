@@ -3,12 +3,36 @@
 import React from "react";
 import Image from "next/image";
 import WishlistRow from "@/types/models/WishlistRow";
+import { useParams } from "next/navigation";
 
 interface WishlistDisplayProps {
     wishlist: WishlistRow[];
 }
 
+
+
 export default function WishlistDisplay({ wishlist }: WishlistDisplayProps) {
+    const { username } = useParams();
+    
+    const handleRemove = async (gid: string) => {    
+        try {
+            const response = await fetch(`/api/users/${username}/wishlist?gid=${gid}`, {
+                method: "GET",
+            });
+            
+            if (!response.ok) {
+                throw new Error("Failed to remove item");
+            }
+    
+            alert("Item removed successfully!");
+            window.location.reload();
+    
+        } catch (error) {
+            console.error("Failed to remove item:", error);
+            alert("Failed to remove the item. Please try again.");
+        }
+    };
+
     return (
         <div className="space-y-4">
             {wishlist.length > 0 ? (
@@ -25,7 +49,7 @@ export default function WishlistDisplay({ wishlist }: WishlistDisplayProps) {
                             {game.Image ? (
                                 <Image
                                     src={game.Image}
-                                    alt={`${game.Game_Title} cover`}
+                                    alt={`${game.Title} cover`}
                                     className="w-full h-full object-contain"
                                     width={1000}
                                     height={1000}
@@ -40,7 +64,7 @@ export default function WishlistDisplay({ wishlist }: WishlistDisplayProps) {
 
                         {/* Game Details */}
                         <div className="ml-4 flex-grow">
-                            <h2 className="text-xl font-bold">{game.Game_Title}</h2>
+                            <h2 className="text-xl font-bold">{game.Title}</h2>
                             <p className="text-gray-400">Developer: {game.Name}</p>
                             <div className="mt-2 text-sm">
                                 <span>${game.Price.toFixed(2)}</span>
@@ -52,7 +76,9 @@ export default function WishlistDisplay({ wishlist }: WishlistDisplayProps) {
                             <button className="btn bg-blue-500 hover:bg-blue-700 text-white">
                                 Add to Wishlist
                             </button>
-                            <button className="btn bg-red-700 hover:bg-red-800 text-white">
+                            <button className="btn bg-red-700 hover:bg-red-800 text-white"
+                                    onClick={() => handleRemove(game.gid)}
+                                >
                                 Remove
                             </button>
                         </div>

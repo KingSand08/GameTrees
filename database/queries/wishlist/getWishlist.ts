@@ -3,29 +3,31 @@ import executeQuery from "@/database/mysqldb";
 import WishlistRow from "@/types/models/WishlistRow";
 
 export default interface RawWishlistRow {
-    Game_Title: string;
+    Title: string;
     Name: string;
     Image?: Buffer;
     Price: number;
+    gid: string;
 }
 export class WishlistRepository {
     public async getGameByUsername(username: string): Promise<WishlistRow[]> {
         const query = `
             SELECT 
-                W.Game_Title,
+                G.Title,
                 B.Name,
+                P.Image,
                 G.Price,
-                P.Image
+                W.gid
             FROM 
                 Wishlists W
             LEFT JOIN 
-                Business B ON W.Dev_ID = B.BID
-            LEFT JOIN 
-                Games G ON W.Game_Title = G.Title AND W.Dev_ID = G.Dev_ID
+                Games G ON G.gid = W.gid
             LEFT JOIN
-                Game_Photos PG ON W.Game_Title = PG.Title AND W.Dev_ID = PG.Dev_ID
+                Game_Photos PG ON W.gid = PG.gid
             LEFT JOIN
                 Photos P ON P.Photo_ID = PG.Photo_ID
+            LEFT JOIN 
+                Business B ON G.Dev_ID = B.BID
             WHERE 
                 W.UID = (SELECT U.UID FROM Users U WHERE Username = ?);
         `;
