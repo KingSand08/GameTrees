@@ -25,7 +25,7 @@ export default function RootLayout({
       >
         <NextAuthSessionProvider>
           <Navbar />
-          <div className="mx-8">
+          <div>
             {children}
           </div>
         </NextAuthSessionProvider>
