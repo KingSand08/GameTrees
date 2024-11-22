@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Game from "@/types/models/Game";
 import { useRouter } from "next/navigation";
 import WishlistRow from "@/types/models/WishlistRow";
-import generatePhotoPid from "@/utils/generatePhotoId";
+// import generatePhotoPid from "@/utils/generatePhotoId";
 
 interface AllGamesDisplayProps {
     games: Game[];

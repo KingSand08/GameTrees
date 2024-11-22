@@ -1,7 +1,7 @@
 import Avatar from "../auth/Avatar";
 import Link from "next/link";
 import { User } from "@/types/models/User";
-import generatePhotoPid from "@/utils/generatePhotoId";
+// import generatePhotoPid from "@/utils/generatePhotoId";
 
 type DisplayUserDataProps = {
   currentUsername: string;

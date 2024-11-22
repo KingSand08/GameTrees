@@ -2,7 +2,6 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 import Avatar from "@/app/ui/components/auth/Avatar";
-import { getUserAccountImage } from "@/database/queries/photo/getUserAccountImage";
 import AccountSettingsPageWrapper from "./AccountSettingsWrapper";
 import SignOutButton from "@/app/ui/components/auth/SignOutButton";
 import { getUser } from "@/database/queries/user/getUser";

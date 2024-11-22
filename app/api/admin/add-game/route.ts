@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import sharp from "sharp";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 import { getServerSession } from "next-auth";
-import { insertGame } from "@/database/queries/game/insertGame";
+import insertGame from "@/database/queries/game/insertGame";
 import { revalidatePath } from "next/cache";
 
 export async function POST(req: Request) {
@@ -15,16 +15,18 @@ export async function POST(req: Request) {
     try {
         const formData = await req.formData();
         const title = formData.get("title")?.toString();
+        const description = formData.get("description")?.toString() || "";
         const price = parseFloat(formData.get("price")?.toString() || "");
-        const devId = formData.get("devId")?.toString();
+        const did = parseInt(formData.get("devId")?.toString() || "", 10);
+        const publishDate = formData.get("publishDate")?.toString() || "";
         const image = formData.get("image") as File;
 
-        if (!title || isNaN(price) || !devId || !image) {
+        if (!title || isNaN(price) || !did || !publishDate || !image) {
             revalidatePath("/admin/add-game");
             return NextResponse.json({ error: "Invalid input data" }, { status: 400 });
         }
 
-        // Limit file to only image types
+        // Validate file type
         const allowedMimeTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
         if (!allowedMimeTypes.includes(image.type)) {
             revalidatePath("/admin/add-game");
@@ -34,17 +36,18 @@ export async function POST(req: Request) {
             );
         }
 
+        // Process the image
         const imageData = Buffer.from(await image.arrayBuffer());
-        const MAX_FILE_SIZE = 3000000; // 300KB
+        const MAX_FILE_SIZE = 3000000; // 3MB
         const MIN_QUALITY = 10;
         const RESIZE_DIMENSIONS = 300;
 
-        // Resize image before compressing
+        // Resize image
         const resizedImage = await sharp(imageData)
             .resize({ width: RESIZE_DIMENSIONS, height: RESIZE_DIMENSIONS, fit: "inside" })
             .toBuffer();
 
-        // Compress the resized image
+        // Compress image
         let quality = 50;
         let compressedImage = resizedImage;
 
@@ -63,14 +66,21 @@ export async function POST(req: Request) {
             );
         }
 
-        await insertGame({
+        // Insert game data into the database
+        const result = await insertGame({
             title,
-            price: price as number,
-            devId,
-            imageBuffer: compressedImage,
+            description,
+            did,
+            price,
+            publishDate,
+            photo: compressedImage,
         });
 
-        return NextResponse.json({ message: "Game added successfully" }, { status: 201 });
+        if (result.status === "success") {
+            return NextResponse.json({ message: result.message }, { status: 201 });
+        } else {
+            throw new Error(result.message);
+        }
     } catch (error) {
         revalidatePath("/admin/add-game");
         console.error("Error adding game:", error);

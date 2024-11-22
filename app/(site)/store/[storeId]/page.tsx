@@ -47,7 +47,8 @@ export default function StorePage({ params }: StorePageProps) {
                 <div>
                     <h2>Store Information</h2>
                     <p><strong>Address:</strong> {storeDetails.address}</p>
-                    <p><strong>Hours of Operation:</strong> {storeDetails.opsHour}</p>
+                    <p><strong>Hours of Operation:</strong> {storeDetails.ops_days}</p>
+                    <p><strong>Hours of Operation:</strong> {storeDetails.ops_hours}</p>
                 </div>
             )}
 

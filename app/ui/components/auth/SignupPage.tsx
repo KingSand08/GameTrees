@@ -1,15 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { useFormStatus, useFormState } from "react-dom";
+import { useFormStatus } from "react-dom";
 import CustomerRegistration from "@/database/queries/auth/customerRegisteration";
 import CancelButton from "../buttons/CancelButton";
 import AcceptFormButton from "../buttons/AcceptFormButton";
 import { signIn } from "next-auth/react";
-
-const initialState = {
-    message: "",
-};
 
 type Props = {
     className?: string;
