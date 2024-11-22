@@ -5,57 +5,51 @@ type AvatarProps = {
     image?: string;
     username?: string;
     className?: string;
-    imgSize: string;
-    areaExpand?: string;
-    textSize?: string;
+    imgSize?: string; // Size class for the avatar (e.g., "w-24", "w-16", etc.)
+    textSize?: string; // Font size for initials (e.g., "text-xl")
 };
 
-const Avatar: React.FC<AvatarProps> = ({ image, username, className, imgSize, areaExpand, textSize }) => {
-    const txtSize = textSize ?? "text-xl";
+const Avatar: React.FC<AvatarProps> = ({
+    image,
+    username,
+    className = "",
+    imgSize = "w-24", // Default size
+    textSize,
+}) => {
+    // Determine text size dynamically if not provided
+    const getTextSize = () => {
+        switch (imgSize) {
+            case "w-24":
+                return "text-3xl";
+            case "w-16":
+                return "text-xl";
+            case "w-12":
+                return "text-base";
+            case "w-8":
+                return "text-xs";
+            default:
+                return textSize || "text-lg"; // Default size if custom class is passed
+        }
+    };
+
     return (
-        <div className="flex items-center justify-center">
+        <div className={`avatar ${className}`}>
             {image ? (
-                <div
-                    className="avatar flex items-center justify-center"
-                    style={{
-                        width: `${areaExpand || "3.5rem"}`,
-                        aspectRatio: '1 / 1',
-                    }}
-                >
-                    <div className={`${className} ${imgSize} rounded-full`}>
-                        <Image
-                            src={image || "/default/defaultProfilePhoto.png"}
-                            alt="Profile Image"
-                            width={500}
-                            height={500}
-                            quality={100}
-                            className="rounded-full object-cover"
-                        />
-                    </div>
+                <div className={`${imgSize} rounded-full ring-primary ring-offset-base-100 ring ring-offset-2`}>
+                    <Image
+                        src={image}
+                        alt="Profile Avatar"
+                        width={96} // Match "w-24" or override dynamically
+                        height={96}
+                        quality={100}
+                        className="rounded-full object-cover"
+                    />
                 </div>
             ) : (
-                <div
-                    className="flex items-center justify-center"
-                    style={{
-                        width: `${areaExpand || "3.6rem"}`,
-                        aspectRatio: "1 / 1",
-                        clipPath: "circle()",
-                    }}
-                >
-                    <div className="avatar placeholder flex items-center justify-center w-[80%]">
-                        <div className={`${className} ${imgSize} h-auto rounded-full flex items-center justify-center w-full`}>
-                            <div
-                                className={`bg-neutral text-neutral-content w-full h-full rounded-full flex items-center justify-center`}
-                                style={{
-                                    clipPath: "circle()", // Ensures the text background stays circular
-                                }}
-                            >
-                                <span className={`${txtSize}`}>
-                                    {username?.substring(0, 2)?.toUpperCase() || "?"}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                <div className={`avatar placeholder bg-neutral text-neutral-content ${imgSize} rounded-full flex items-center justify-center`}>
+                    <span className={`${getTextSize()}`}>
+                        {username?.substring(0, 2)?.toUpperCase() || "?"}
+                    </span>
                 </div>
             )}
         </div>
