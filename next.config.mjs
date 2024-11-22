@@ -3,6 +3,7 @@ const nextConfig = {
   images: {
     domains: ["avatars.githubusercontent.com"], // Allow this domain for images
     domains: ["lh3.googleusercontent.com"], // Allow this domain for images
+    domains: ["img.daisyui.com"]
   },
 };
 

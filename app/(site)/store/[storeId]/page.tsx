@@ -57,7 +57,7 @@ export default function StorePage({ params }: StorePageProps) {
                 {games.map((game, index) => (
                     <li key={index}>
                         <strong>Title:</strong> {game.title},
-                        <strong>Price:</strong> ${game.price.toFixed(2)},
+                        <strong>Price:</strong> ${game.price},
                         <strong>Platforms:</strong> {game.platforms || "No platforms available"}
                     </li>
                 ))}

@@ -1,8 +1,8 @@
-// app/account-settings/page.tsx (Server Component)
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 import Avatar from "@/app/ui/components/auth/Avatar";
 import AccountSettingsPageWrapper from "./AccountSettingsWrapper";
+
 import SignOutButton from "@/app/ui/components/auth/SignOutButton";
 import { getUser } from "@/database/queries/user/getUser";
 
@@ -10,7 +10,11 @@ export default async function AccountSettingsPage() {
     const session = await getServerSession(authOptions);
 
     if (!session?.user) {
-        return <p className="text-center text-red-500">You need to be logged in to access account settings.</p>;
+        return (
+            <p className="text-center text-error text-xl">
+                You need to be logged in to access account settings.
+            </p>
+        );
     }
 
     // Fetch the profile image from the database
@@ -62,7 +66,39 @@ export default async function AccountSettingsPage() {
                         <AccountSettingsPageWrapper />
                     </div>
                 </div>
-            </div>
-        </div>
+
+                {/* Editable User Details */}
+                <div className="label-and-text-field settings-space mb-6">
+                    <label className="block mb-2 text-base-content font-semibold">
+                        Username
+                    </label>
+                    <input
+                        type="text"
+                        defaultValue={session.user.username}
+                        placeholder="Username"
+                        className="input input-bordered w-full max-w-xs bg-base-100 text-base-content focus:outline-primary"
+                    />
+                </div>
+                <div className="label-and-text-field settings-space mb-6">
+                    <label className="block mb-2 text-base-content font-semibold">
+                        Email
+                    </label>
+                    <input
+                        type="text"
+                        defaultValue={session.user.email}
+                        placeholder="Email"
+                        className="input input-bordered w-full max-w-xs bg-base-100 text-base-content focus:outline-primary"
+                    />
+                </div>
+
+                {/* Save and Sign Out Buttons */}
+                <div className="flex flex-col items-center">
+                    <button className="btn btn-primary w-full max-w-xs mb-4">
+                        Save
+                    </button>
+                    <SignOutButton className="btn btn-error w-full max-w-xs" />
+                </div>
+            </section>
+        </section>
     );
 }

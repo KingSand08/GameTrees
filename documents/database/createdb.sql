@@ -221,6 +221,7 @@ CREATE TABLE GamePhotos(
         ON UPDATE CASCADE
 );
 
+
 CREATE TABLE Reviews(
     rid INT PRIMARY KEY,
     stars INT CHECK (stars BETWEEN 0 AND 5),
@@ -380,6 +381,7 @@ INSERT INTO Users(username, name, password, email) VALUES
 	('splendid','Steve', 'Admin@123', 'stevenlu156@gmail.com'),
 	('peasant','Jon Snow', 'Manager@123', 'thepikalot@yahoo.com'),
 	('manager','Joker', 'Manager@123', 'tuananh.ho@sjsu.edu');
+
 
 -- Populate Admins
 INSERT INTO Admins(uid) 

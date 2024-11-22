@@ -27,6 +27,7 @@ export async function getUserWishlist(username: string): Promise<WishlistRow[]> 
     // Execute the query
     const results = (await executeQuery(query, [username])) as RawWishlistRow[];
 
+
     if (!Array.isArray(results)) {
         console.error("Query returned non-array results:", results);
         throw new Error("Invalid data format returned from the database.");

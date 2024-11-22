@@ -5,6 +5,7 @@ import Image from "next/image";
 import WishlistRow from "@/types/models/WishlistRow";
 import { useRouter } from "next/navigation";
 
+
 interface WishlistDisplayProps {
     uid: string | "";
     wishlist: WishlistRow[];
@@ -47,6 +48,7 @@ export default function WishlistDisplay({ uid, wishlist, myWishlist, userRole }:
     const isGameInWishlist = (gid: number): boolean => {
         return myWishlist.some((game) => game.gid === gid);
     };
+
 
 
     return (

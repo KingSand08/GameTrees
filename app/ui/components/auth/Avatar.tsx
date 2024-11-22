@@ -2,11 +2,11 @@ import React from "react";
 import Image from "next/image";
 
 type AvatarProps = {
-    image?: string; // URL or Base64 for the image
-    username?: string; // User's name for placeholder initials
-    className?: string; // Additional styles
-    size: string; // Avatar size (e.g., "3.5rem", "4rem")
-    textSize?: string; // Text size for initials (optional)
+    image?: string;
+    username?: string;
+    className?: string;
+    size: string;
+    textSize?: string;
 };
 
 const Avatar: React.FC<AvatarProps> = ({ image, username, className = "", size, textSize = "text-xl" }) => {
