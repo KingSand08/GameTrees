@@ -27,6 +27,7 @@ const WishlistPage = async ({ params }: WishlistPageProps) => {
         new WishlistRepository().getGameByUsername(username),
         getUserAccountImage(userUID),
     ]);
+    console.log(wishlist)
 
     return (
         <div className="pb-8">
