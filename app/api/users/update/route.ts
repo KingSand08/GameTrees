@@ -41,7 +41,7 @@ export const PATCH = async (req: Request) => {
 
         // Check if username already exists for a different user
         if (username) {
-            const isUsernameTaken = await checkFieldAlreadyExists('Users', 'Username', username as string);
+            const isUsernameTaken = await checkFieldAlreadyExists('Users', 'username', username as string);
             if (isUsernameTaken) {
                 return NextResponse.json({ status: "error", message: "Username is already in use by another account" }, { status: 400 });
             }
@@ -53,7 +53,7 @@ export const PATCH = async (req: Request) => {
         }
         // Check if email already exists for a different user
         if (email) {
-            const isEmailTaken = await checkFieldAlreadyExists('Users', 'Email', email as string);
+            const isEmailTaken = await checkFieldAlreadyExists('Users', 'email', email as string);
             if (isEmailTaken) {
                 return NextResponse.json({ status: "error", message: "Email is already in use by another account" }, { status: 400 });
             }
@@ -119,9 +119,8 @@ export const PATCH = async (req: Request) => {
                     );
                 }
 
-
-                await updateUserAccountImage(session.user.id as unknown as number, compressedImage);
-
+                const result = await updateUserAccountImage(session.user.id as unknown as number, compressedImage);
+                console.log(result)
 
                 return NextResponse.json({ message: "File uploaded successfully", status: 201 });
             } catch (error) {

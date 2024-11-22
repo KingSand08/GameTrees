@@ -1,39 +1,80 @@
 import executeQuery from "@/database/mysqldb";
+import generatePhotoPid from "@/utils/generatePhotoId";
 
-/**
- * Update the user image in the database.
- * @param userId - The ID of the user.
- * @param imageData - The binary data of the image.
- */
-export async function addGameImage(devId: string, photoId: string, title: string, imageData: Buffer): Promise<void> {
-    const insertContentQuery = `
-            INSERT INTO Contents (Content_ID, Text_Desc)
-            VALUES (?, NULL)
-            ON DUPLICATE KEY UPDATE Content_ID = VALUES(Content_ID);
+type InsertResult = {
+    pid: number;
+    affectedRows: number;
+};
+
+type GameImageData = {
+    photo: Buffer;
+    gid: number;
+    title: string;
+    publish_date: string;
+};
+
+export const addGameCoverImage = async (imageData: GameImageData): Promise<{ status: string; message: string }> => {
+    const { photo, gid, title, publish_date } = imageData;
+
+    const pid = generatePhotoPid(`${gid}-${title}-${publish_date}`);
+
+    try {
+        const photoInsertQuery = `
+            INSERT INTO Photos (pid, add_date)
+            VALUES (pid, NOW())
         `;
+        await executeQuery(photoInsertQuery, [pid]);
 
-    const insertPhotoQuery = `
-            INSERT INTO Photos (Photo_ID, Image, DateAdded)
-            VALUES (?, ?, CURRENT_DATE)
-            ON DUPLICATE KEY UPDATE
-                Image = VALUES(Image),
-                DateAdded = VALUES(DateAdded);
+        const gamePhotoInsertQuery = `
+            INSERT INTO GamePhotos (gpid, gid, img, type)
+            VALUES (?, ?, ?, 'cover')
         `;
+        const gamePhotoData = [pid, gid, photo];
 
-    const linkPhotoQuery = `
-            INSERT INTO Game_Photos (Photo_ID, Dev_ID, Title)
-            VALUES (?, ?, ?)
-            ON DUPLICATE KEY UPDATE
-                Dev_ID = VALUES(Dev_ID),
-                Title = VALUES(Title);
+        await executeQuery(gamePhotoInsertQuery, gamePhotoData);
+
+        return { status: "success", message: "Photo linked to the game successfully!" };
+    } catch (error) {
+        console.error("Error adding game image:", error);
+        return { status: "error", message: "An unexpected error occurred while adding the game image." };
+    }
+};
+
+export const addGameContentImage = async (imageData: GameImageData): Promise<{ status: string; message: string }> => {
+    const { photo, gid } = imageData;
+
+    try {
+        // Step 1: Insert into the photos table
+        const photoInsertQuery = `
+            INSERT INTO Photos (add_date) 
+            VALUES (NOW())
         `;
+        const photoResult = (await executeQuery(photoInsertQuery, [])) as InsertResult;
 
-    // Ensure a record exists in Contents
-    await executeQuery(insertContentQuery, [photoId]);
+        // Check if the photo record was successfully inserted
+        if (!photoResult.pid || photoResult.affectedRows === 0) {
+            return { status: "error", message: "Failed to insert photo record." };
+        }
 
-    // Insert into Photos
-    await executeQuery(insertPhotoQuery, [photoId, imageData]);
+        const photoId = photoResult.pid;
 
-    // Insert into Game_Photos
-    await executeQuery(linkPhotoQuery, [photoId, devId, title]);
-}
+        // Step 2: Insert into the gamephotos table
+        const gamePhotoInsertQuery = `
+            INSERT INTO GamePhotos (gpid, gid, img, type)
+            VALUES (?, ?, ?, 'content')
+        `;
+        const gamePhotoData = [photoId, gid, photo];
+
+        const gamePhotoResult = (await executeQuery(gamePhotoInsertQuery, gamePhotoData)) as InsertResult;
+
+        // Check if the photo was successfully linked
+        if (gamePhotoResult.affectedRows === 0) {
+            return { status: "error", message: "Failed to link the photo to the game." };
+        }
+
+        return { status: "success", message: "Photo linked to the game successfully!" };
+    } catch (error) {
+        console.error("Error adding game image:", error);
+        return { status: "error", message: "An unexpected error occurred while adding the game image." };
+    }
+};

@@ -1,13 +1,12 @@
-export type User = {
+export type RawUser = {
     uid: string;
     username: string;
-    name: string;
     email: string;
-    phone?: string;
+    name: string;
     dob?: string;
     password?: string;
-    image?: string | null;
+    image?: Buffer | null;
     role: string;
 };
 
-export default User;
+export default RawUser;

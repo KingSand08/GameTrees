@@ -84,7 +84,7 @@ export default function ClientAccountSettings() {
 
     return (
         <>
-            <div className="relative flex justify-center items-center rounded-lg w-full">
+            <div className="relative flex justify-center items-center rounded-lg w-full select-none">
                 {/* Overlay and Spinner */}
                 {isUpdating && (
                     <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10 rounded-lg">
@@ -94,10 +94,10 @@ export default function ClientAccountSettings() {
 
                 {/* Main Form */}
                 <div
-                    className={`w-full bg-slate-800 shadow-lg rounded-lg p-8 transition-opacity duration-200 ${isUpdating ? "opacity-50" : "opacity-100"
+                    className={`w-full rounded-lg p-8 transition-opacity duration-200 ${isUpdating ? "opacity-50" : "opacity-100"
                         }`}
                 >
-                    <h2 className="w-full text-2xl font-semibold mb-6 text-white">
+                    <h2 className="w-full text-lg md:text-2xl font-semibold mb-6 text-white">
                         Update Account Information
                     </h2>
                     <form
@@ -108,17 +108,15 @@ export default function ClientAccountSettings() {
                         {/* Username Input */}
                         <div className="block">
                             <label className="text-sm font-medium text-gray-400">Username</label>
-                            <div className="flex flex-row space-x-3 items-center">
-                                <div className="input input-bordered flex items-center gap-2 w-full">
+                            <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
+                                <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 16 16"
                                         fill="currentColor"
                                         className="h-4 w-4 opacity-70"
                                     >
-                                        <path
-                                            d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z"
-                                        />
+                                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                                     </svg>
                                     <input
                                         type="text"
@@ -133,11 +131,9 @@ export default function ClientAccountSettings() {
                                 <button
                                     type="button"
                                     onClick={() => setIsEditingUsername(!isEditingUsername)}
-                                    className="px-4 py-2 w-[5em] bg-blue-500 rounded-lg hover:bg-blue-600"
+                                    className="mt-3 md:mt-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 md:w-[5em]"
                                 >
-                                    <p>
-                                        {isEditingUsername ? "Lock" : "Edit"}
-                                    </p>
+                                    {isEditingUsername ? "Lock" : "Edit"}
                                 </button>
                             </div>
                         </div>
@@ -145,8 +141,8 @@ export default function ClientAccountSettings() {
                         {/* Name Input */}
                         <div className="block">
                             <label className="text-sm font-medium text-gray-400">Name</label>
-                            <div className="flex flex-row space-x-3 items-center">
-                                <div className="input input-bordered flex items-center gap-2 w-full">
+                            <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
+                                <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         className="h-5 w-5 opacity-70"
@@ -174,7 +170,7 @@ export default function ClientAccountSettings() {
                                 <button
                                     type="button"
                                     onClick={() => setIsEditingName(!isEditingName)}
-                                    className="px-4 py-2 w-[5em] bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                                    className="mt-3 md:mt-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 md:w-[5em]"
                                 >
                                     <p>
                                         {isEditingName ? "Lock" : "Edit"}
@@ -186,8 +182,8 @@ export default function ClientAccountSettings() {
                         {/* Email Input */}
                         <div className="block">
                             <label className="text-sm font-medium text-gray-400">Email</label>
-                            <div className="flex flex-row space-x-3 items-center">
-                                <div className="input input-bordered flex items-center gap-2 w-full">
+                            <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
+                                <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 16 16"
@@ -210,7 +206,7 @@ export default function ClientAccountSettings() {
                                 <button
                                     type="button"
                                     onClick={() => setIsEditingEmail(!isEditingEmail)}
-                                    className="px-4 py-2 w-[5em] bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                                    className="mt-3 md:mt-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 md:w-[5em]"
                                 >
                                     <p>
                                         {isEditingEmail ? "Lock" : "Edit"}
@@ -222,8 +218,8 @@ export default function ClientAccountSettings() {
                         {/* Password Input */}
                         <div className="block">
                             <label className="text-sm font-medium text-gray-400">Password</label>
-                            <div className="flex flex-row space-x-3 items-center">
-                                <div className="input input-bordered flex items-center gap-2 w-full">
+                            <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
+                                <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 16 16"
@@ -249,7 +245,7 @@ export default function ClientAccountSettings() {
                                 <button
                                     type="button"
                                     onClick={() => setIsEditingPassword(!isEditingPassword)}
-                                    className="px-4 py-2 w-[5em] bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                                    className="mt-3 md:mt-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 md:w-[5em]"
                                 >
                                     <p>
                                         {isEditingPassword ? "Lock" : "Edit"}
@@ -278,7 +274,7 @@ export default function ClientAccountSettings() {
                                     <div className="flex items-center">
                                         <label
                                             htmlFor="file-upload"
-                                            className={`cursor-pointer flex items-center justify-center px-4 py-2 rounded-lg transition-all w-full mr-6
+                                            className={`cursor-pointer flex items-center justify-center px-4 py-2 rounded-lg transition-all w-full mr-3
                                             ${isEditingPhoto
                                                     ? "bg-blue-500 text-white hover:bg-blue-600"
                                                     : "bg-gray-600 text-gray-300 cursor-not-allowed"
@@ -298,7 +294,9 @@ export default function ClientAccountSettings() {
                                                     d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
                                                 />
                                             </svg>
-                                            {selectedFile ? "Replace File" : "Choose File"}
+                                            <span className="md:text-base">
+                                                {selectedFile ? "Replace File" : "Choose File"}
+                                            </span>
                                         </label>
                                         <input
                                             id="file-upload"

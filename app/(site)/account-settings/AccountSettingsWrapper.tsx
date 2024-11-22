@@ -16,13 +16,14 @@ export default function AccountSettingsPageWrapper() {
                     Edit User Account
                 </button>
             ) : (
-                <div className="flex flex-col rounded-lg max-w-3xl w-full items-center">
+                <div className="flex flex-col rounded-lg w-full items-center">
                     <button
                         onClick={() => setIsEditing(false)}
                         className="w-[12em] px-4 py-3 bg-red-500 text-white rounded-lg mb-4 hover:bg-red-600 transition"
                     >
                         Close
                     </button>
+                    <div className="w-full h-[3px] bg-gray-300 opacity-25 mb-4"></div>
                     <ClientAccountSettings />
                 </div>
             )}

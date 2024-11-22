@@ -1,29 +1,45 @@
 import executeQuery from "@/database/mysqldb";
-import { v4 as uuidv4 } from "uuid";
-import { addGameImage } from "../photo/addGameImage";
+import { addGameCoverImage } from "@/database/queries/photo/addGameImage";
+import Game from "@/types/models/Game";
 
-
-interface InsertGameInput {
+type GameInsertData = {
     title: string;
+    description: string;
+    did: number;
     price: number;
-    devId: string;
-    imageBuffer: Buffer;
-}
+    publishDate: string;
+    photo: Buffer;
+};
 
-export async function insertGame({ title, price, devId, imageBuffer }: InsertGameInput): Promise<void> {
-    const photoId = uuidv4().substring(0, 10); // Generate a unique Photo_ID //! NEEDS TO CHANGE ASAP
+
+const insertGame = async (gameData: GameInsertData): Promise<{ status: string; message: string }> => {
+    const { title, description, did, price, publishDate, photo } = gameData;
 
     try {
-        // Insert the game into Games table
-        const gameQuery = `
-            INSERT INTO Games (Title, Dev_ID, Price)
-            VALUE (?, ?, ?);
+        // Step 1: Insert the game into the games table
+        const gameInsertQuery = `
+            INSERT INTO Games (title, description, did, price, publish_date) 
+            VALUES (?, ?, ?, ?, ?)
         `;
-        await executeQuery(gameQuery, [title, devId, price]);
 
-        await addGameImage(devId, photoId, title, imageBuffer);
+        await executeQuery(gameInsertQuery, [title, description, did, price, publishDate]);
+
+        const getGameQuery = `
+            SELECT * FROM Games
+            WHERE title = ? AND did = ? AND publishDate = ?;
+        `;
+
+        const game = await executeQuery(getGameQuery, [title, did, publishDate]) as Game;
+
+
+        // Step 2: Add the game photo using addGameImage
+        await addGameCoverImage({ photo, gid: game.gid, title: title, publish_date: publishDate });
+
+        return { status: "success", message: "Game and its cover photo inserted successfully!" };
     } catch (error) {
-        console.error("Error inserting game:", error);
-        throw new Error("Failed to insert game");
+        console.error("Error inserting game and photo:", error);
+        return { status: "error", message: "An unexpected error occurred while inserting the game and its photo." };
     }
-}
+};
+
+export default insertGame;

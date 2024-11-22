@@ -1,43 +1,44 @@
 import blobToBase64 from "@/utils/blobToBase64";
 import executeQuery from "@/database/mysqldb";
 import WishlistRow from "@/types/models/WishlistRow";
+import RawWishlistRow from "@/types/models/RawWishlistRow";
 
-export default interface RawWishlistRow {
-    Game_Title: string;
-    Name: string;
-    Image?: Buffer;
-    Price: number;
-}
-export class WishlistRepository {
-    public async getGameByUsername(username: string): Promise<WishlistRow[]> {
-        const query = `
-            SELECT 
-                W.Game_Title,
-                B.Name,
-                G.Price,
-                P.Image
-            FROM 
+
+export async function getUserWishlist(username: string): Promise<WishlistRow[]> {
+    const query = `
+            SELECT
+                G.gid,
+                G.title AS title,
+                B.name AS developer,
+                P.image AS image,
+                G.price AS price
+            FROM
                 Wishlists W
-            LEFT JOIN 
-                Business B ON W.Dev_ID = B.BID
-            LEFT JOIN 
-                Games G ON W.Game_Title = G.Title AND W.Dev_ID = G.Dev_ID
             LEFT JOIN
-                Game_Photos PG ON W.Game_Title = PG.Title AND W.Dev_ID = PG.Dev_ID
+                Games G ON W.gid = G.gid
             LEFT JOIN
-                Photos P ON P.Photo_ID = PG.Photo_ID
-            WHERE 
-                W.UID = (SELECT U.UID FROM Users U WHERE Username = ?);
+                Business B ON G.did = B.bid
+            LEFT JOIN
+                GamePhotos P ON G.gid = P.gid
+            WHERE
+                W.uid = (SELECT U.uid FROM Users U WHERE U.username = ?);
         `;
 
-        const results = await executeQuery(query, [username]) as RawWishlistRow[];
+    // Execute the query
+    const results = (await executeQuery(query, [username])) as RawWishlistRow[];
 
-        // Convert images to Base64
-        const processedResults = results.map((result) => ({
-            ...result,
-            Image: result.Image ? blobToBase64(result.Image) : undefined,
-        }));
-
-        return processedResults;
+    if (!Array.isArray(results)) {
+        console.error("Query returned non-array results:", results);
+        throw new Error("Invalid data format returned from the database.");
     }
+
+    // Convert images to Base64
+    const processedResults: WishlistRow[] = results.map((result) => ({
+        ...result,
+        image: result.image ? blobToBase64(result.image) : undefined, // Convert Buffer to Base64
+    }));
+
+    return processedResults;
 }
+
+export default getUserWishlist;

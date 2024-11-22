@@ -19,26 +19,33 @@ const config: Config = {
   plugins: [
     daisyui,
   ],
-  daisyui: {
-    themes: [
-      {
-        exampleTheme: {
-          primary: "#1a73e8", // Blue for primary actions
-          secondary: "#ff9800", // Orange for secondary
-          accent: "#9c27b0", // Purple for accents
-          neutral: "#333333", // Neutral background
-          "base-100": "#f5f5f5", // Light background for components
-          "base-content": "#333333", // Content text on light background
-          info: "#2196f3", // Info notifications
-          success: "#4caf50", // Success messages
-          warning: "#ff9800", // Warning colors
-          error: "#f44336", // Error states
-        },
-      },
-      "light",
-      "dark",
-    ],
-    darkTheme: "dark", // Automatically use 'dark' as the dark mode theme
-  },
 };
 export default config;
+
+module.exports = {
+
+  plugins: [
+    require('daisyui'),
+  ],
+
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}',
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+
+  ],
+
+  daisyui: {
+    themes: ["light", "night"], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
+    darkTheme: "night", // name of one of the included themes for dark mode
+    base: true, // applies background color and foreground color for root element by default
+    styled: true, // include daisyUI colors and design decisions for all components
+    utils: true, // adds responsive and modifier utility classes
+    prefix: "", // prefix for daisyUI classnames (components, modifiers and responsive class names. Not colors)
+    logs: true, // Shows info about daisyUI version and used config in the console when building your CSS
+    themeRoot: ":root", // The element that receives theme color CSS variables
+  }
+
+}

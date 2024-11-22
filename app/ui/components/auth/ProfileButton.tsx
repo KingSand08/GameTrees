@@ -19,7 +19,7 @@ const ProfileButton = (props: Profile & ClassChange & LinkChange) => {
         <div
             className={`${props.className} flex items-center gap-3 bg-black sm:bg-opacity-35 bg-opacity-0 rounded-lg px-0 sm:px-4 py-[0.6em] space-x-0 sm:space-x-3`}
         >
-            <Avatar image={props.image} username={uname} className='ring-primary ring-offset-base-100 ring ring-offset-2 min' imgSize='w-12' />
+            <Avatar image={props.image} username={uname} className='ring-primary ring-offset-base-100 ring ring-offset-2 min' size='3.5em' />
             <div className="flex-shrink-0 hidden sm:block">
                 <p className="text-white">{uname || pname}</p>
             </div>

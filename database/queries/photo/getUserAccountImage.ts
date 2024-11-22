@@ -1,25 +1,23 @@
 import executeQuery from "@/database/mysqldb";
 
-export async function getUserAccountImage(userId: number): Promise<string | null> {
+export async function getUserAccountImage(uid: string | number): Promise<string | null> {
     const query = `
         SELECT
-            P.Image
+            AP.image
         FROM
             Users U
         JOIN
-            Acc_Photos AP ON U.UID = AP.UID
-        JOIN
-            Photos P ON AP.Photo_ID = P.Photo_ID
+            AccPhotos AP ON U.uid = AP.uid
         WHERE
-            U.UID = ?;
+            U.uid = ?;
     `;
-    const values = [userId];
+    const values = [uid];
 
     try {
-        const result = await executeQuery(query, values) as { Image?: Buffer }[];
+        const result = await executeQuery(query, values) as { image?: Buffer }[];
 
-        if (result.length > 0 && result[0].Image) {
-            return `data:image/jpeg;base64,${result[0].Image.toString("base64")}`;
+        if (result.length > 0 && result[0].image) {
+            return `data:image/jpeg;base64,${result[0].image.toString("base64")}`;
         }
 
         return null;

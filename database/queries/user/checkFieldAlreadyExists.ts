@@ -9,7 +9,7 @@ export const checkFieldAlreadyExists = async (
     const existingCheck = await executeQuery(
         `SELECT * FROM ${table} WHERE ${field} = ?`,
         [value]
-    ) as Array<{ id: number; username: string; name: string; email: string; password: string }>;
+    ) as Array<{ uid: number; }>;
 
     return existingCheck.length > 0;
 };

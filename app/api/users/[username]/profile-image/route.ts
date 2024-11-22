@@ -11,8 +11,7 @@ export async function GET() {
     }
 
     try {
-        const userId = parseInt(session.user.id as unknown as string, 10);
-        const image = await getUserAccountImage(userId);
+        const image = await getUserAccountImage(session.user.id);
 
         return NextResponse.json({ image });
     } catch (error) {

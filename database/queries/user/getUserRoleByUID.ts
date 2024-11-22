@@ -5,7 +5,8 @@ import executeQuery from "@/database/mysqldb";
  * @param uid - User ID
  * @returns The role of the user: "Customer", "StoreMgr", or "Admin".
  */
-export async function getUserRoleByUID(uid: number): Promise<string> {
+export async function getUserRoleByUID(uid: string | number): Promise<string> {
+
     const queries = [
         { table: "Customers", role: "customer" },
         { table: "StoreMgrs", role: "manager" },
@@ -13,9 +14,10 @@ export async function getUserRoleByUID(uid: number): Promise<string> {
     ];
 
     for (const { table, role } of queries) {
-        const result = await executeQuery(`SELECT UID FROM ${table} WHERE UID = ?`,
+        const result = await executeQuery(`SELECT uid FROM ${table} WHERE uid = ?`,
             [uid]) as string;
-
+        // console.log(`IN QT: ${table}`)
+        // console.log(uid)
         if (result.length > 0) {
             return role;
         }

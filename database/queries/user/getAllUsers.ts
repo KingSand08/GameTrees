@@ -1,6 +1,7 @@
 import executeQuery from "@/database/mysqldb";
 import { User } from "@/types/models/User";
 import { getUserRoleByUID } from "./getUserRoleByUID";
+import blobToBase64 from "@/utils/blobToBase64";
 
 /**
  * Get all users along with their associated photos.
@@ -16,23 +17,22 @@ export const getAllUsers = async (): Promise<(User)[]> => {
  * Get all users along with their associated photos.
  * @returns An array of users with both user and photo details.
  */
-export const getAllUsersWithPhotos = async (): Promise<(User & { Photo: Buffer | null })[]> => {
+export const getAllUsersWithPhotos = async (): Promise<(User & { image: Buffer | null })[]> => {
     const query = `
         SELECT 
-            u.UID,
-            u.Username,
-            u.Password,
-            u.Name,
-            u.DOB,
-            u.Phone,
-            u.Email,
-            p.Image AS Photo
+            u.uid,
+            u.username,
+            u.password,
+            u.name,
+            u.dob,
+            u.phone,
+            u.email,
+            ap.image
         FROM Users u
-        LEFT JOIN Acc_Photos ap ON u.UID = ap.UID
-        LEFT JOIN Photos p ON ap.Photo_ID = p.Photo_ID;
+        LEFT JOIN AccPhotos ap ON u.uid = ap.uid
     `;
 
-    const result = (await executeQuery(query, [])) as (User & { Photo: Buffer | null })[];
+    const result = (await executeQuery(query, [])) as (User & { image: Buffer | null })[];
     return result;
 };
 
@@ -43,36 +43,36 @@ export const getAllUsersWithPhotos = async (): Promise<(User & { Photo: Buffer |
  */
 export const getAllUsersWithRolesAndPhotos = async (): Promise<User[]> => {
     const query = `
-    SELECT 
-        u.UID,
-        u.Username,
-        u.Password,
-        u.Name,
-        u.DOB,
-        u.Phone,
-        u.Email,
-        p.Image AS Photo
-    FROM Users u
-    LEFT JOIN Acc_Photos ap ON u.UID = ap.UID
-    LEFT JOIN Photos p ON ap.Photo_ID = p.Photo_ID;
+        SELECT 
+            u.uid,
+            u.username,
+            u.password,
+            u.name,
+            u.dob,
+            u.phone,
+            u.email,
+            ap.image
+        FROM Users u
+        LEFT JOIN AccPhotos ap ON u.uid = ap.uid
   `;
 
     // Fetch users and photos
     const users = (await executeQuery(query, [])) as (Omit<User, "role"> & {
-        Photo: Buffer | null;
+        image: Buffer | null;
     })[];
 
     // Add roles by mapping through the users
     const usersWithRoles = await Promise.all(
         users.map(async (user) => {
-            const role = await getUserRoleByUID(Number(user.UID));
+            const role = await getUserRoleByUID(user.uid);
             return {
                 ...user,
                 role,
-                Image: user.Photo ? user.Photo.toString("base64") : undefined,
+                image: user.image ? await blobToBase64(user.image) : null,
             };
         })
     );
 
     return usersWithRoles;
 };
+

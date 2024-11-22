@@ -1,5 +1,6 @@
 // interfaces/StoreDetails.ts
 export default interface StoreDetails {
-    opsHour: string;
+    ops_days: string;
+    ops_hours: string;
     address: string;
 }
