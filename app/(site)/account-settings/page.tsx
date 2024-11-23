@@ -66,39 +66,7 @@ export default async function AccountSettingsPage() {
                         <AccountSettingsPageWrapper />
                     </div>
                 </div>
-
-                {/* Editable User Details */}
-                <div className="label-and-text-field settings-space mb-6">
-                    <label className="block mb-2 text-base-content font-semibold">
-                        Username
-                    </label>
-                    <input
-                        type="text"
-                        defaultValue={session.user.username}
-                        placeholder="Username"
-                        className="input input-bordered w-full max-w-xs bg-base-100 text-base-content focus:outline-primary"
-                    />
-                </div>
-                <div className="label-and-text-field settings-space mb-6">
-                    <label className="block mb-2 text-base-content font-semibold">
-                        Email
-                    </label>
-                    <input
-                        type="text"
-                        defaultValue={session.user.email}
-                        placeholder="Email"
-                        className="input input-bordered w-full max-w-xs bg-base-100 text-base-content focus:outline-primary"
-                    />
-                </div>
-
-                {/* Save and Sign Out Buttons */}
-                <div className="flex flex-col items-center">
-                    <button className="btn btn-primary w-full max-w-xs mb-4">
-                        Save
-                    </button>
-                    <SignOutButton className="btn btn-error w-full max-w-xs" />
-                </div>
-            </section>
-        </section>
+            </div>
+        </div>
     );
 }
