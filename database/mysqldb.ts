@@ -14,6 +14,7 @@ const createDatabaseConnection = async () => {
     database: process.env.DB_NAME,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
+    connectionLimit: 10, // Adjust based on server resources
   };
 
   if (sslCA) {

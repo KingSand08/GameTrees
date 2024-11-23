@@ -17,16 +17,10 @@ const ProfileButton = (props: Profile & ClassChange & LinkChange) => {
             className={`${props.className} flex items-center gap-4 bg-black sm:bg-opacity-35 bg-opacity-0 rounded-lg px-3 py-[0.6em]`}
             style={{ minWidth: "12rem" }}
         >
-            <div className="flex-shrink-0">
-                <Avatar
-                    image={props.image}
-                    username={uname}
-                    className="ring-primary ring-offset-base-100"
-                    imgSize="w-12"
-                />
-            </div>
-            <div className="hidden sm:block">
-                <p className="text-white text-sm font-semibold leading-tight">{uname || pname}</p>
+            <Avatar image={props.image} username={uname} className='ring-primary ring-offset-base-100 ring ring-offset-2 min' size='3.5em' />
+            <div className="flex-shrink-0 hidden sm:block">
+                <p className="text-white">{uname || pname}</p>
+
             </div>
         </div>
     );

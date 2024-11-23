@@ -1,14 +1,14 @@
 import Avatar from "../auth/Avatar";
 import Link from "next/link";
-import { processUserImages } from "@/utils/processUserImages";
-import { getAllUsersWithRolesAndPhotos } from "@/database/queries/user/getAllUsers";
+import { User } from "@/types/models/User";
+// import generatePhotoPid from "@/utils/generatePhotoId";
 
-const DisplayUserData = async (): Promise<JSX.Element> => {
-  // Fetch all users with photos
-  const allUsersRaw = await getAllUsersWithRolesAndPhotos();
-  // Process user images to Base64
-  const users = await processUserImages(allUsersRaw);
+type DisplayUserDataProps = {
+  currentUsername: string;
+  users: User[];
+};
 
+const DisplayUserData: React.FC<DisplayUserDataProps> = ({ currentUsername, users }) => {
   return (
     <div className="overflow-x-auto">
       <div className="flex flex-col space-y-8">
@@ -32,28 +32,30 @@ const DisplayUserData = async (): Promise<JSX.Element> => {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.UID} className="text-center">
+              <tr key={user.uid} className="text-center">
                 <td className="px-6 py-3">
                   <label>
                     <input type="checkbox" className="checkbox" />
                   </label>
                 </td>
                 <td className="px-6 py-3">
-                  <Link href={`/users/${user.Username}/wishlist`}>
+                  <Link href={`/users/${user.username}/wishlist`}>
                     <Avatar
-                      image={user.Image ?? undefined}
-                      username={user.Username}
-                      imgSize="w-12"
-                      areaExpand=""
+                      image={user.image ?? undefined}
+                      className={`${currentUsername === user.username ?
+                        "ring-2 ring-offset-base-100 ring-offset-2 ring-purple-700" : ""}`}
+                      username={user.username}
+                      size="5em"
+                      textSize="text-2xl"
                     />
                   </Link>
                 </td>
-                <td className="px-6 py-3">{user.UID}</td>
+                <td className="px-6 py-3">{user.uid}</td>
                 <td className="px-6 py-3">{user.role}</td>
-                <td className="px-6 py-3">{user.Username}</td>
-                <td className="px-6 py-3">{user.Name}</td>
-                <td className="px-6 py-3">{user.Email}</td>
-                <td className="px-6 py-3">{user.Password}</td>
+                <td className="px-6 py-3">{user.username}</td>
+                <td className="px-6 py-3">{user.name}</td>
+                <td className="px-6 py-3">{user.email}</td>
+                <td className="px-6 py-3">{user.password}</td>
               </tr>
             ))}
           </tbody>

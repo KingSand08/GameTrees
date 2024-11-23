@@ -46,6 +46,8 @@ export default function HamburgerMenu() {
                 )}
                 <li><NavButton page="Home" route="/" className='block text-center' /></li>
                 <hr className='opacity-25 my-2 border-white' />
+                <li><NavButton page="Games" route="/temp/all-games" className='block text-center' /></li>
+                <hr className='opacity-25 my-2 border-white' />
                 {session && (
                     <>
                         <li><NavButton page="Account Settings" route="/account-settings" className='block text-center' /></li>

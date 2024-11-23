@@ -8,19 +8,19 @@ import executeQuery from "@/database/mysqldb";
 export const getUserIdByUsername = async (username: string): Promise<number | null> => {
     try {
         const query = `
-            SELECT UID 
+            SELECT uid 
             FROM Users 
-            WHERE Username = ?;
+            WHERE username = ?;
         `;
 
-        interface QueryResult {
-            UID: number;
+        const results = await executeQuery(query, [username]) as { uid: number }[];
+
+        if (results.length > 0) {
+            return results[0].uid;
         }
 
-        // Run the query using executeQuery
-        const results = await executeQuery(query, [username]) as QueryResult[];
+        return null;
 
-        return results.length > 0 ? results[0].UID : null;
     } catch (error) {
         console.error("Error fetching user ID by username:", error);
         return null;

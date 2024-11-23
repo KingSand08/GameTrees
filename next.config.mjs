@@ -1,9 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["avatars.githubusercontent.com"], // Allow this domain for images
-    domains: ["lh3.googleusercontent.com"], // Allow this domain for images
-    domains: ["img.daisyui.com"]
+    domains: [
+      "avatars.githubusercontent.com",
+      "lh3.googleusercontent.com",
+      "img.daisyui.com",
+      "www.giantbomb.com",
+      "gamekastle.com", // Added Game Kastle domain
+    ],
   },
 };
 

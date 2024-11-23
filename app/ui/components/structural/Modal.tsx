@@ -52,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({ children, onClose, callbackUrl = "/", sho
     return (
         <div autoFocus={false}>
             <dialog id="custom_modal" className="modal">
-                <div className="modal-box relative">
+                <div className="modal-box relative bg-neutral">
                     {/* Close button */}
                     <button
                         className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"

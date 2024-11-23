@@ -3,59 +3,53 @@
 import React from "react";
 import Image from "next/image";
 import WishlistRow from "@/types/models/WishlistRow";
-import { useParams } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 
 interface WishlistDisplayProps {
+    uid: string | "";
     wishlist: WishlistRow[];
+    myWishlist: WishlistRow[];
+    userRole: string | "";
 }
 
-export default function WishlistDisplay({ wishlist }: WishlistDisplayProps) {
-    const { username } = useParams();
-    const { data: session, update: updateSession } = useSession();
+export default function WishlistDisplay({ uid, wishlist, myWishlist, userRole }: WishlistDisplayProps) {
+    const router = useRouter();
 
-    const handleAddWishlist = async (gid: string) => {
+    const handleAddToWishlist = async (gid: number) => {
         try {
-            const response = await fetch(`/api/users/${session?.user?.username}/wishlist?gid=${gid}`, {
+            await fetch("/api/wishlist/addTo", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ gid }),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ uid, gid }),
             });
-            console.log("fetch username: ", username);
 
-
-            if (!response.ok) {
-                throw new Error("Failed to add item");
-            }
-
-            alert("Game added successfully!");
-
+            router.refresh();
         } catch (error) {
-            console.error("Failed to add game:", error);
-            alert("Failed to add into the wishlist. Please try again.");
+            console.error("Error adding to wishlist:", error);
         }
     };
-    
-    const handleRemove = async (gid: string) => {    
+
+    // Remove game from wishlist
+    const handleRemoveFromWishlist = async (gid: number) => {
         try {
-            const response = await fetch(`/api/users/${username}/wishlist?gid=${gid}`, {
-                method: "GET",
+            await fetch("/api/wishlist/removeFrom", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ uid, gid }),
             });
-            
-            if (!response.ok) {
-                throw new Error("Failed to remove game");
-            }
-    
-            alert("Game removed successfully!");
-            window.location.reload();
-    
+
+            router.refresh();
         } catch (error) {
-            console.error("Failed to remove game:", error);
-            alert("Failed to remove the item. Please try again.");
+            console.error("Error removing from wishlist:", error);
         }
     };
+
+    const isGameInWishlist = (gid: number): boolean => {
+        return myWishlist.some((game) => game.gid === gid);
+    };
+
+
 
     return (
         <div className="space-y-4">
@@ -63,17 +57,17 @@ export default function WishlistDisplay({ wishlist }: WishlistDisplayProps) {
                 wishlist.map((game, index) => (
                     <div
                         key={index}
-                        className="flex flex-col md:flex-row items-center bg-gray-800 rounded-lg p-4 shadow-lg"
+                        className="flex flex-col min-[1110px]:flex-row items-center bg-gray-800 rounded-lg p-4 shadow-lg"
                     >
                         {/* Game Image */}
                         <div
                             className="flex-shrink-0 w-60 h-56 overflow-hidden rounded-lg bg-gray-700"
                             style={{ flexBasis: "22rem" }}
                         >
-                            {game.img? (
+                            {game.image ? (
                                 <Image
-                                    src={game.img}
-                                    alt={`${game.Title} cover`}
+                                    src={game.image}
+                                    alt={`${game.title} cover`}
                                     className="w-full h-full object-contain"
                                     width={1000}
                                     height={1000}
@@ -88,29 +82,34 @@ export default function WishlistDisplay({ wishlist }: WishlistDisplayProps) {
 
                         {/* Game Details */}
                         <div className="ml-4 flex-grow">
-                            <h2 className="text-xl font-bold">{game.Title}</h2>
-                            <p className="text-gray-400">Developer: {game.Name}</p>
-                            <div className="mt-2 text-sm">
-                                <span>${game.Price}</span>
+                            <h2 className="max-[1200px]:pt-8 text-xl font-bold">{game.title}</h2>
+                            <p className="max-[1200px]:pt-2 text-gray-400">Developer: {game.developer}</p>
+                            <div className="max-[1200px]:pt-2 mt-2 text-sm">
+                                <span>${game.price.toFixed(2)}</span>
                             </div>
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="flex flex-col md:flex-row items-center mt-4 md:mt-0 md:ml-auto space-y-2 md:space-y-0 md:space-x-2">
-                            {username !== session?.user?.username ? (
-                                <button className="btn bg-blue-500 hover:bg-blue-700 text-white"
-                                    onClick={() => handleAddWishlist(game.gid)}
-                                    >
-                                    Add to Wishlist
-                                </button>
-                            ): null }
-                            {username === session?.user?.username ? (
-                                <button className="btn bg-red-700 hover:bg-red-800 text-white"
-                                        onClick={() => handleRemove(game.gid)}
-                                    >
-                                    Remove
-                                </button>
-                            ): null}
+                        <div className="flex flex-col min-[1110px]:flex-row items-center max-[1200px]:pt-4 max-[1200px]:pb-4 mt-4 md:mr-8 min-[1110px]:ml-auto space-y-2 md:space-y-0 md:space-x-2">
+                            {userRole === "customer" && (
+                                <>
+                                    {isGameInWishlist(game.gid) ? (
+                                        <button
+                                            className="w-full md:w-auto px-4 py-2 bg-red-700 hover:bg-red-800 text-white rounded-lg"
+                                            onClick={() => handleRemoveFromWishlist(game.gid)}
+                                        >
+                                            Remove game
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="w-full md:w-auto px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-lg"
+                                            onClick={() => handleAddToWishlist(game.gid)}
+                                        >
+                                            Add game
+                                        </button>
+                                    )}
+                                </>
+                            )}
                         </div>
                     </div>
                 ))

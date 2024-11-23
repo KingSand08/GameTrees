@@ -1,7 +1,7 @@
 import executeQuery from "@/database/mysqldb";
 
 export async function isUserManager(uid: number): Promise<string | null> {
-    const isManager = await executeQuery(`SELECT M.UID FROM Users U JOIN StoreMgrs M WHERE U.UID = M.UID`,
+    const isManager = await executeQuery(`SELECT M.uid FROM Users U JOIN StoreMgrs M WHERE U.uid = M.uid`,
         [uid]) as string;
 
     if (isManager.length > 0) {
@@ -12,7 +12,7 @@ export async function isUserManager(uid: number): Promise<string | null> {
 }
 
 export async function isUserAdmin(uid: number): Promise<string | null> {
-    const isAdmin = await executeQuery(`SELECT A.UID FROM Users U JOIN Admins A WHERE U.UID = A.UID`,
+    const isAdmin = await executeQuery(`SELECT A.uid FROM Users U JOIN Admins A WHERE U.uid = A.uid`,
         [uid]) as string;
 
     if (isAdmin.length > 0) {

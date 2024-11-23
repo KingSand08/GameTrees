@@ -6,7 +6,7 @@ import { ResultSetHeader } from "mysql2";
 import { checkFieldAlreadyExists } from "../user/checkFieldAlreadyExists";
 
 
-const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: string) => unknown; }) => {
+const CustomerRegistration = async (formData: { get: (arg0: string) => unknown; }) => {
     const username = formData.get("username");
     const fname = formData.get("name");
     const email = formData.get("email");
@@ -16,7 +16,7 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
 
     // Ensure only non-empty fields
     if (username != "") {
-        const isUsernameTaken = await checkFieldAlreadyExists('Users', 'Username', username as string);
+        const isUsernameTaken = await checkFieldAlreadyExists('Users', 'username', username as string);
         if (isUsernameTaken) {
             revalidatePath("/signup");
             return { status: "error", message: "Username is already in use by another account" };
@@ -27,7 +27,7 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
     }
     // Check if email already exists for a different user
     if (email != "" && email) {
-        const isEmailTaken = await checkFieldAlreadyExists('Users', 'Email', email as string);
+        const isEmailTaken = await checkFieldAlreadyExists('Users', 'email', email as string);
         if (isEmailTaken) {
             revalidatePath("/signup");
             return { status: "error", message: "Email is already in use by another account" };
@@ -41,7 +41,7 @@ const CustomerRegistration = async (prevState: unknown, formData: { get: (arg0: 
     if (username != "" && fname != "" && email != "" && dob != "" && password != "") {
 
         const result = await executeQuery(
-            "INSERT INTO Users(Username, Name, Email, DOB, Phone, Password) VALUE (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO Users(username, name, email, dob, phone, password) VALUE (?, ?, ?, ?, ?, ?)",
             [
                 username,
                 fname,

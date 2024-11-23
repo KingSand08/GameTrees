@@ -11,9 +11,10 @@ export const updateUserDetails = async (userId: number, updateData: Record<strin
         const fields = Object.keys(updateData)
             .map((key) => `${key} = ?`)
             .join(", ");
+
         const values = Object.values(updateData);
 
-        const query = `UPDATE Users SET ${fields} WHERE UID = ?`;
+        const query = `UPDATE Users SET ${fields} WHERE uid = ?`;
 
         interface QueryResult {
             affectedRows: number;

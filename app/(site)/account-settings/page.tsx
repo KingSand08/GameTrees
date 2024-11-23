@@ -1,8 +1,10 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 import Avatar from "@/app/ui/components/auth/Avatar";
-import { getUserAccountImage } from "@/database/queries/photo/getUserAccountImage";
+import AccountSettingsPageWrapper from "./AccountSettingsWrapper";
+
 import SignOutButton from "@/app/ui/components/auth/SignOutButton";
+import { getUser } from "@/database/queries/user/getUser";
 
 export default async function AccountSettingsPage() {
     const session = await getServerSession(authOptions);
@@ -16,83 +18,55 @@ export default async function AccountSettingsPage() {
     }
 
     // Fetch the profile image from the database
-    const profileImage = session.user.username
-        ? await getUserAccountImage(session.user.id as unknown as number)
-        : null;
+    const thisUser = await getUser(session.user.id);
+
+    // Format the DOB
+    const formattedDOB = thisUser?.dob ? new Date(thisUser.dob).toLocaleDateString() : "N/A";
 
     return (
-        <section className="flex min-h-screen pb-10 bg-neutral text-base-content">
-            {/* Sidebar Menu */}
-            <ul className="menu menu-md bg-base-200 w-56 rounded-box shadow-lg">
-                <li>
-                    <a className="active text-primary">Account Settings</a>
-                </li>
-                <li>
-                    <a className="hover:text-secondary">Reviews</a>
-                </li>
-                <li>
-                    <a className="hover:text-secondary">Messages From Admin</a>
-                </li>
-                <li>
-                    <a className="hover:text-secondary">Help And Support</a>
-                </li>
-                <li>
-                    <a className="hover:text-error">Delete Account</a>
-                </li>
-            </ul>
+        <div className="pb-[5rem] min-h-screen">
+            <div className="flex justify-center">
+                <div className="w-[90%] max-w-4xl bg-gradient-to-b from-gray-800 to-gray-900 shadow-lg rounded-lg p-8 select-none">
+                    <h1 className="text-3xl font-bold text-white mb-8 text-center">Account Settings</h1>
 
-            {/* Content Area */}
-            <section className="setting-content flex-grow lg px-8">
-                <h1 className="text-4xl mb-8 font-bold text-center text-primary">
-                    Account Settings
-                </h1>
+                    {/* Profile Avatar */}
+                    <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-6">
+                        {/* Avatar */}
+                        <Avatar
+                            image={thisUser?.image || undefined}
+                            username={thisUser?.username}
+                            className="ring-4 ring-primary ring-offset-base-100 ring-offset-4"
+                            size="8rem"
+                            textSize="text-2xl"
+                        />
 
-                {/* Profile Avatar Section */}
-                <div className="avatar btn btn-lg btn-circle settings-space lg-pfp mx-auto mb-8">
-                    <div className="ring-primary ring-offset-base-100 w-24 rounded-full ring ring-offset-2">
-                    <Avatar
-                        image={profileImage || undefined} // Dynamically fetched image
-                        username={session.user.username}
-                        className="ring-primary ring-offset-base-100"
-                        imgSize="w-16"
-                        textSize="text-lg"
-                    />
-
+                        {/* User Info */}
+                        <div className="flex-grow w-full">
+                            <p className="w-full text-xl font-semibold mb-2">{thisUser?.name || "Anonymous"}</p>
+                            <p className="text-sm text-gray-300">
+                                <span className="font-semibold text-base">Username:</span> {thisUser?.username}
+                            </p>
+                            <p className="w-full text-sm text-gray-300">
+                                <span className="font-semibold text-base">Email:</span> {thisUser?.email}
+                            </p>
+                            <p className="w-full text-sm text-gray-300">
+                                <span className="font-semibold text-base">Mobile Phone Number:</span> {thisUser?.phone}
+                            </p>
+                            <p className="w-full text-sm text-gray-300">
+                                <span className="font-semibold text-base">DOB:</span> {formattedDOB}
+                            </p>
+                            <p className="w-full text-sm text-gray-300">
+                                <span className="font-semibold text-base">UID:</span> {thisUser?.uid}
+                            </p>
+                            <SignOutButton className="mt-5 px-3 py-2 w-full" />
+                        </div>
+                    </div>
+                    {/* Client Component for Upload */}
+                    <div className="mt-8">
+                        <AccountSettingsPageWrapper />
                     </div>
                 </div>
-
-                {/* Editable User Details */}
-                <div className="label-and-text-field settings-space mb-6">
-                    <label className="block mb-2 text-base-content font-semibold">
-                        Username
-                    </label>
-                    <input
-                        type="text"
-                        defaultValue={session.user.username}
-                        placeholder="Username"
-                        className="input input-bordered w-full max-w-xs bg-base-100 text-base-content focus:outline-primary"
-                    />
-                </div>
-                <div className="label-and-text-field settings-space mb-6">
-                    <label className="block mb-2 text-base-content font-semibold">
-                        Email
-                    </label>
-                    <input
-                        type="text"
-                        defaultValue={session.user.email}
-                        placeholder="Email"
-                        className="input input-bordered w-full max-w-xs bg-base-100 text-base-content focus:outline-primary"
-                    />
-                </div>
-
-                {/* Save and Sign Out Buttons */}
-                <div className="flex flex-col items-center">
-                    <button className="btn btn-primary w-full max-w-xs mb-4">
-                        Save
-                    </button>
-                    <SignOutButton className="btn btn-error w-full max-w-xs" />
-                </div>
-            </section>
-        </section>
+            </div>
+        </div>
     );
 }

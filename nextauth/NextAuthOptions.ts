@@ -56,16 +56,16 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null;
         const { email, password } = credentials;
-        const user = await findUserByEmailAndPassword(email, password) as { UID: string, Username: string, Email: string, Name: string }[];
+        const user = await findUserByEmailAndPassword(email, password) as { uid: string, username: string, email: string, name: string }[];
 
         if (user && user.length > 0) {
-          const role = await getUserRoleByUID(user[0].UID as unknown as number);
+          const role = await getUserRoleByUID(user[0].uid);
 
           return {
-            id: user[0].UID,
-            username: user[0].Username,
-            email: user[0].Email,
-            name: user[0].Name,
+            id: user[0].uid,
+            username: user[0].username,
+            email: user[0].email,
+            name: user[0].name,
             role,
           };
         } else {
@@ -108,14 +108,14 @@ export const authOptions: AuthOptions = {
       }
       else {
         const existingUser = await findUserByEmail(user.email);
-        const role = await getUserRoleByUID(existingUser[0].UID as unknown as number);
+        const role = await getUserRoleByUID(existingUser[0].uid);
 
         // If the user exists, proceed with the sign-in process
         if (existingUser.length > 0) {
-          user.id = existingUser[0].UID;
-          user.username = existingUser[0].Username;
-          user.email = existingUser[0].Email;
-          user.name = existingUser[0].Name;
+          user.id = existingUser[0].uid;
+          user.username = existingUser[0].username;
+          user.email = existingUser[0].email;
+          user.name = existingUser[0].name;
           user.role = role;
           return true;
         } else {
