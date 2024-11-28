@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { StoreRepository } from "@/database/queries/store/StoreRepository";
-import { StoreDetailRep } from "@/database/queries/store/StoreDetailRep";
+import { StoreRepository } from "@/database/queries/store/StoreContents";
+import { StoreDetailRep } from "@/database/queries/store/StoreDetails";
 
 const storeRepository = new StoreRepository();
 const storeDetailRep = new StoreDetailRep();
