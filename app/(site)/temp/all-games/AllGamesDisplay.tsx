@@ -95,7 +95,7 @@ export default function AllGamesDisplay({
                                 <h2 className="text-xl font-bold">{game.title}</h2>
                                 <p className="text-gray-400">Developer: {game.developer}</p>
                                 <div className="mt-2 text-sm">
-                                    <span>${game.price.toFixed(2)}</span>
+                                    <span>${game.price}</span>
                                 </div>
                                 {/* <div className="mt-1 text-xs text-gray-500">
                                     Photo ID: {photoPid}

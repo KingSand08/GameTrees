@@ -1,7 +1,7 @@
--- -- Reset DB
--- DROP DATABASE gtsdb;
--- CREATE DATABASE gtsdb;
--- USE gtsdb;
+-- Reset DB
+DROP DATABASE gtsdb;
+CREATE DATABASE gtsdb;
+USE gtsdb;
 
 -- Define Tables
 -- To be updated (Name -> firstname, lastname)
