@@ -1,4 +1,4 @@
-SELECT G.Title AS title, 
+SELECT G.gid, G.Title AS title, 
     ROUND(G.Price * (1 - I.Discount), 2) AS price, GP.image,
 GROUP_CONCAT(L.Platform SEPARATOR ', ') AS platforms
 FROM Inventories I 
