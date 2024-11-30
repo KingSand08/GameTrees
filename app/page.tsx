@@ -1,3 +1,4 @@
+"use server";
 // import Image from "next/image";
 
 // import Link from "next/link";
@@ -17,7 +18,7 @@ import ScrollSection from "./ui/components/structural/ScrollSection";
 //   { id: 8, title: "Resident Evil 4 (2023)", price: "$14.44", discount: "-64%" },
 // ];
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="min-h-screen bg-base-100 text-gray-100 space-y-12">
       <HighlightGameCards />
