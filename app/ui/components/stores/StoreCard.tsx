@@ -1,14 +1,20 @@
 import React from "react";
 
+type StoreHours = {
+    day: string;
+    startTime: string;
+    endTime: string;
+};
+
 type StoreCardProps = {
     name: string;
     address: string;
-    opsDays: string;
-    opsHours: string;
     modality: string;
+    city: string;
+    hours: StoreHours[];
 };
 
-const StoreCard: React.FC<StoreCardProps> = ({ name, address, opsDays, opsHours, modality }) => {
+const StoreCard: React.FC<StoreCardProps> = ({ name, address, modality, city, hours }) => {
     return (
         <div className="card bg-base-200 w-96 shadow-2xl">
             <div className="card-body">
@@ -17,14 +23,25 @@ const StoreCard: React.FC<StoreCardProps> = ({ name, address, opsDays, opsHours,
                     <strong>Address:</strong> {address}
                 </p>
                 <p>
-                    <strong>Operating Days:</strong> {opsDays}
-                </p>
-                <p>
-                    <strong>Operating Hours:</strong> {opsHours}
+                    <strong>City:</strong> {city}
                 </p>
                 <p>
                     <strong>Modality:</strong> {modality}
                 </p>
+                <div>
+                    <strong>Hours:</strong>
+                    <ul className="list-disc ml-5">
+                        {hours.length > 0 ? (
+                            hours.map((hour, index) => (
+                                <li key={index}>
+                                    {hour.day}: {hour.startTime} - {hour.endTime}
+                                </li>
+                            ))
+                        ) : (
+                            <li>Hours not available</li>
+                        )}
+                    </ul>
+                </div>
                 <div className="card-actions justify-end">
                     <button className="btn btn-primary">View Details</button>
                 </div>

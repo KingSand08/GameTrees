@@ -29,7 +29,7 @@ const stores = [
   },
 ];
 
-export default function HighlightGameCards() {
+export default function HighlightStores() {
   return (
     <>
       {/* Carousel Section */}
