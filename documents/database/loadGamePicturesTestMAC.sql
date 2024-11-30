@@ -1,3 +1,10 @@
+-- To have this work, make sure your mysql main dir has proper my.cnf, if not create the file:
+    -- [mysqld]
+    -- secure_file_priv=""
+    -- max_allowed_packet=16M
+-- Have the a dir called mysql-files with all of your photos
+-- Then run the code below
+
 -- Populate Game Photos
 INSERT INTO Photos (pid, add_date)
 VALUES 
