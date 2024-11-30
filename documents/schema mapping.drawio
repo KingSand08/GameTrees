@@ -1,23 +1,11 @@
 <mxfile host="65bd71144e">
     <diagram id="R7mboGqaUj7lxMQfJWJF" name="Page-1">
-        <mxGraphModel dx="1504" dy="909" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1732" dy="959" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="2" value="Users(&lt;u&gt;UID: Integer&lt;/u&gt;, Username: Text, Password: Text, Name: Text, DOB: Date, Phone: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="224" y="62" width="518" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="5" style="edgeStyle=none;html=1;entryX=0.155;entryY=-0.072;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.444;exitY=1.039;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" parent="1" source="3" target="2" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="3" value="Emails(&lt;u&gt;UID: Integer&lt;/u&gt;,&lt;u&gt;&amp;nbsp;Email: Text&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="168" y="-9" width="192" height="30" as="geometry"/>
-                </mxCell>
-                <mxCell id="105" style="edgeStyle=none;html=1;entryX=0.37;entryY=1.093;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="10" target="98" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
-                </mxCell>
-                <mxCell id="10" value="Systems_Owned(&lt;u&gt;UID: Integer&lt;/u&gt;,&lt;u&gt;&amp;nbsp;Device: Text&lt;/u&gt;)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="107.5" y="222" width="304" height="30" as="geometry"/>
+                <mxCell id="2" value="Users(&lt;u&gt;UID: Integer&lt;/u&gt;, Username: Text, Password: Text, Firstname: Text, Lastname: Text, DOB: Date, Phone: Text,Last_Login: Timestamp)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="59" y="46" width="811" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="12" value="Business(&lt;u&gt;BID: Text&lt;/u&gt;, Name: Text, PC_Flag: enum, D_Flag: enum, P_Flag: enum, Street: Text, City: Text, State: Text, Zip_Code: Integer, Country: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="30" y="474" width="807" height="30" as="geometry"/>
@@ -209,27 +197,27 @@
                 <mxCell id="92" value="Comments(&lt;u&gt;DatePublished: Timestamp, RID: Text&lt;/u&gt;, UID: Integer, DateEdited: Timestamp, Content_ID: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="778" y="1942" width="583" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="101" style="edgeStyle=none;html=1;entryX=0.2;entryY=1.053;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.393;exitY=-0.027;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" parent="1" source="98" target="2" edge="1">
+                <mxCell id="101" style="edgeStyle=none;html=1;entryX=0.122;entryY=1.027;entryDx=0;entryDy=0;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryPerimeter=0;" parent="1" source="98" target="2" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="98" value="Customer(&lt;u&gt;UID: Integer&lt;/u&gt;, Last_Login: Timestamp&lt;u&gt;)&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                <mxCell id="98" value="Customer(&lt;u&gt;UID: Integer&lt;/u&gt;&lt;u&gt;)&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="5" y="140" width="274" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="102" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="99" edge="1">
+                <mxCell id="102" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.123;entryY=0.973;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="99" edge="1" target="2">
                     <mxGeometry relative="1" as="geometry">
-                        <mxPoint x="332" y="93" as="targetPoint"/>
+                        <mxPoint x="297" y="91" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="99" value="StoreMgrs(&lt;u&gt;UID: Integer&lt;/u&gt;&lt;u&gt;)&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="293" y="142" width="274" height="30" as="geometry"/>
+                    <mxGeometry x="279" y="138" width="274" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="103" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.202;entryY=1.027;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="100" target="2" edge="1">
+                <mxCell id="103" style="edgeStyle=none;html=1;endArrow=none;endFill=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.123;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="100" target="2" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="235.20004272460938" y="100" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="100" value="Admin(&lt;u&gt;UID: Integer&lt;/u&gt;&lt;u&gt;)&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-                    <mxGeometry x="553" y="142" width="274" height="30" as="geometry"/>
+                    <mxGeometry x="553" y="140" width="274" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="106" value="StoreMgrs(&lt;u&gt;UID: Integer&lt;/u&gt;&lt;u&gt;)&lt;/u&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="215.5" y="618" width="190.5" height="30" as="geometry"/>
@@ -350,6 +338,9 @@
                 </mxCell>
                 <mxCell id="145" value="Platform_List(&lt;u&gt;Platform_ID: Text&lt;/u&gt;, Platform: Text)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
                     <mxGeometry x="1352" y="381" width="266" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="147" value="Users(&lt;u&gt;UID: Integer&lt;/u&gt;, Username: Text, Password: Text, Firstname: Text, Lastname: Text, DOB: Date, Phone: Text,Last_Login: Timestamp, User_Type: enum)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="77" y="-37" width="873" height="30" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

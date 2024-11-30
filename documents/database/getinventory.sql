@@ -9,7 +9,10 @@ LEFT JOIN PlatformList L ON P.plat_id = L.plat_id
 WHERE I.Sid = 1 
 GROUP BY I.gid, G.Price, I.Discount, GP.image;
 
-SELECT Ops_Hours AS opsHour,
-CONCAT_WS(', ', Street, City, State, Zip, Country) AS address
-FROM Stores
-WHERE sid = 1
+SELECT  S.store_name AS name, S.modality, 
+        CONCAT_WS(', ', Street, City, State, Zip, Country) AS address
+FROM Stores S
+WHERE sid = 1;
+
+SELECT * FROM StoreHours
+WHERE sid = 1;
