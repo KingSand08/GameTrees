@@ -14,7 +14,7 @@ export class StoreRepository {
             LEFT JOIN GamePhotos GP ON GP.gid = G.gid 
             LEFT JOIN Platforms P ON P.gid = G.gid
             LEFT JOIN PlatformList L ON P.plat_id = L.plat_id
-            WHERE I.Sid = 1 
+            WHERE I.Sid = ? 
             GROUP BY I.gid, G.Price, I.Discount, GP.image;
             `;
         const results = await executeQuery(query, [storeId]) as GameRow[];
