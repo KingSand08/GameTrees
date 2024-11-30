@@ -85,7 +85,7 @@ export default function WishlistDisplay({ uid, wishlist, myWishlist, userRole }:
                             <h2 className="max-[1200px]:pt-8 text-xl font-bold">{game.title}</h2>
                             <p className="max-[1200px]:pt-2 text-gray-400">Developer: {game.developer}</p>
                             <div className="max-[1200px]:pt-2 mt-2 text-sm">
-                                <span>${game.price.toFixed(2)}</span>
+                                <span>${game.price}</span>
                             </div>
                         </div>
 

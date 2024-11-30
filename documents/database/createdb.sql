@@ -1,9 +1,10 @@
--- Reset DB
-DROP DATABASE gtsdb;
-CREATE DATABASE gtsdb;
-USE gtsdb;
+-- -- Reset DB
+-- DROP DATABASE gtsdb;
+-- CREATE DATABASE gtsdb;
+-- USE gtsdb;
 
 -- Define Tables
+-- To be updated (Name -> firstname, lastname)
 CREATE TABLE Users (
     uid INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(25) NOT NULL UNIQUE,
@@ -22,14 +23,15 @@ CREATE TABLE Customers(
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Systems_Owned(
-    uid INT,
-    device VARCHAR(30),
-    PRIMARY KEY (uid, Device),
-    FOREIGN KEY (uid) REFERENCES Customers(uid)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
+-- Temporary dormant
+-- CREATE TABLE Systems_Owned( 
+--     uid INT,
+--     device VARCHAR(30),
+--     PRIMARY KEY (uid, Device),
+--     FOREIGN KEY (uid) REFERENCES Customers(uid)
+--         ON DELETE CASCADE
+--         ON UPDATE CASCADE
+-- );
 
 CREATE TABLE StoreMgrs(
     uid INT PRIMARY KEY,
@@ -55,22 +57,23 @@ CREATE TABLE Business(
     city VARCHAR(25),
     state CHAR(2),
     zip INT,
-    country VARCHAR(25)
+    country VARCHAR(25),
+    UNIQUE (name, street, city, state, zip, country)
 );
 
+-- To be updated
 CREATE TABLE Stores(
     sid INT AUTO_INCREMENT PRIMARY KEY,
     bid INT NOT NULL,
     mid INT, -- Manager ID
     store_name VARCHAR(300),
-    ops_days VARCHAR(500),
-    ops_hours VARCHAR(500),
-    modality VARCHAR(50),
+    modality ENUM('Digital', 'Physical', 'Digital & Physical'),
     street VARCHAR(100),
     city VARCHAR(180),
     state CHAR(2),
     zip INT,
     country VARCHAR(60),
+    UNIQUE (store_name, street, city, state, zip, country),
     FOREIGN KEY (bid) REFERENCES Business(bid)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
@@ -79,13 +82,25 @@ CREATE TABLE Stores(
         ON UPDATE CASCADE
 );
 
+CREATE TABLE StoreHours(
+    day ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'),
+    sid INT,        -- Store ID
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    PRIMARY KEY (day, sid),
+    FOREIGN KEY (sid) REFERENCES Stores(sid)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
 CREATE TABLE Games(
     gid INT AUTO_INCREMENT PRIMARY KEY, -- Hashing of title and publish_date
     title VARCHAR(300) NOT NULL,
     description TEXT,
     did INT, -- developer ID (refers to business id as developers are actually businesses)
-    price FLOAT(2),
+    price DECIMAL(5, 2),
     publish_date DATE,
+    UNIQUE (title, did, publish_date),
     FOREIGN KEY (did) REFERENCES Business(bid)
         ON DELETE NO ACTION
         ON UPDATE CASCADE
@@ -162,10 +177,11 @@ CREATE TABLE Wishlists(
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Contents(
-    cid INT AUTO_INCREMENT PRIMARY KEY,
-    content TEXT
-);
+-- Temporary dormant
+-- CREATE TABLE Contents(
+--     cid INT AUTO_INCREMENT PRIMARY KEY,
+--     content TEXT
+-- );
 
 CREATE TABLE Photos(
     pid BIGINT PRIMARY KEY,
@@ -221,101 +237,104 @@ CREATE TABLE GamePhotos(
         ON UPDATE CASCADE
 );
 
+-- Temporary dormant
+-- CREATE TABLE Reviews(
+--     rid INT PRIMARY KEY,
+--     stars INT CHECK (stars BETWEEN 0 AND 5),
+--     uid INT,
+--     cid INT NOT NULL,
+--     FOREIGN KEY (uid) REFERENCES Users(uid)
+--         ON DELETE SET NULL
+--         ON UPDATE CASCADE,
+--     FOREIGN KEY (cid) REFERENCES Contents(cid)
+--         ON DELETE CASCADE
+--         ON UPDATE CASCADE
+-- );
 
-CREATE TABLE Reviews(
-    rid INT PRIMARY KEY,
-    stars INT CHECK (stars BETWEEN 0 AND 5),
-    uid INT,
-    cid INT NOT NULL,
-    FOREIGN KEY (uid) REFERENCES Users(uid)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE,
-    FOREIGN KEY (cid) REFERENCES Contents(cid)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
+-- Temporary Dormant
+-- CREATE TABLE StoreReviews( -- Store reviews
+--     rid INT PRIMARY KEY,
+--     sid INT NOT NULL,
+--     FOREIGN KEY (rid) REFERENCES Reviews(rid)
+--         ON DELETE CASCADE
+--         ON UPDATE CASCADE,
+--     FOREIGN KEY (sid) REFERENCES Stores(sid)
+--         ON DELETE CASCADE
+--         ON UPDATE CASCADE
+-- );
 
-CREATE TABLE StoreReviews( -- Store reviews
-    rid INT PRIMARY KEY,
-    sid INT NOT NULL,
-    FOREIGN KEY (rid) REFERENCES Reviews(rid)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (sid) REFERENCES Stores(sid)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
+-- Temporary Dormant
+-- CREATE TABLE GameReviews( -- Game reviews
+--     rid INT PRIMARY KEY,
+--     gid INT NOT NULL, 
+--     FOREIGN KEY (rid) REFERENCES Reviews(rid)
+--         ON DELETE CASCADE
+--         ON UPDATE CASCADE,
+--     FOREIGN KEY (gid) REFERENCES Games(gid)
+--         ON DELETE CASCADE
+--         ON UPDATE CASCADE
+-- );
 
-CREATE TABLE GameReviews( -- Game reviews
-    rid INT PRIMARY KEY,
-    gid INT NOT NULL, 
-    FOREIGN KEY (rid) REFERENCES Reviews(rid)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (gid) REFERENCES Games(gid)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
+-- Temporary Dormant
+-- CREATE TABLE Removed_Reviews(
+--     uid INT,
+--     rid INT,
+--     PRIMARY KEY (uid, rid),
+--     FOREIGN KEY (uid) REFERENCES Admins(uid)
+--         ON DELETE NO ACTION
+--         ON UPDATE CASCADE,
+--     FOREIGN KEY (rid) REFERENCES Reviews(rid)
+--         ON DELETE CASCADE
+--         ON UPDATE CASCADE
+-- );
 
-CREATE TABLE Removed_Reviews(
-    uid INT,
-    rid INT,
-    PRIMARY KEY (uid, rid),
-    FOREIGN KEY (uid) REFERENCES Admins(uid)
-        ON DELETE NO ACTION
-        ON UPDATE CASCADE,
-    FOREIGN KEY (rid) REFERENCES Reviews(rid)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
+-- CREATE TABLE Comments(
+--     publish_date TIMESTAMP,
+--     rid INT,
+--     uid INT,
+--     edit_date TIMESTAMP,
+--     cid INT NOT NULL,
+--     pid BIGINT,
+--     PRIMARY KEY (publish_date, rid),
+--     FOREIGN KEY (rid) REFERENCES Reviews(rid)
+--         ON DELETE CASCADE
+--         ON UPDATE CASCADE,
+--     FOREIGN KEY (cid) REFERENCES Contents(cid)
+--         ON DELETE CASCADE
+--         ON UPDATE CASCADE,
+--     FOREIGN KEY (pid) REFERENCES Photos(pid)
+--         ON DELETE SET NULL
+--         ON UPDATE CASCADE,
+--     FOREIGN KEY (uid) REFERENCES Users(uid)
+--         ON DELETE SET NULL
+--         ON UPDATE CASCADE
+-- );
 
-CREATE TABLE Comments(
-    publish_date TIMESTAMP,
-    rid INT,
-    uid INT,
-    edit_date TIMESTAMP,
-    cid INT NOT NULL,
-    pid BIGINT,
-    PRIMARY KEY (publish_date, rid),
-    FOREIGN KEY (rid) REFERENCES Reviews(rid)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (cid) REFERENCES Contents(cid)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (pid) REFERENCES Photos(pid)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE,
-    FOREIGN KEY (uid) REFERENCES Users(uid)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE
-);
+-- CREATE TABLE Warnings(
+--     issue_num INT CHECK (issue_num BETWEEN 1 AND 3),
+--     uid INT,
+--     warn_desc VARCHAR(255),
+--     admin_id INT NOT NULL,
+--     PRIMARY KEY (issue_num, uid),
+--     FOREIGN KEY (uid) REFERENCES Users(uid)
+--         ON DELETE CASCADE
+--         ON UPDATE CASCADE,
+--     FOREIGN KEY (admin_id) REFERENCES Admins(uid)
+--         ON DELETE NO ACTION
+--         ON UPDATE CASCADE    
+-- );
 
-CREATE TABLE Warnings(
-    issue_num INT CHECK (issue_num BETWEEN 1 AND 3),
-    uid INT,
-    warn_desc VARCHAR(255),
-    admin_id INT NOT NULL,
-    PRIMARY KEY (issue_num, uid),
-    FOREIGN KEY (uid) REFERENCES Users(uid)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (admin_id) REFERENCES Admins(uid)
-        ON DELETE NO ACTION
-        ON UPDATE CASCADE    
-);
-
-CREATE TABLE Ban_List(
-    ban_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    admin_id INT,
-    FOREIGN KEY (user_id) REFERENCES Users(uid)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE,
-    FOREIGN KEY (admin_id) REFERENCES Admins(uid)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE
-);
+-- CREATE TABLE Ban_List(
+--     ban_id INT AUTO_INCREMENT PRIMARY KEY,
+--     user_id INT,
+--     admin_id INT,
+--     FOREIGN KEY (user_id) REFERENCES Users(uid)
+--         ON DELETE SET NULL
+--         ON UPDATE CASCADE,
+--     FOREIGN KEY (admin_id) REFERENCES Admins(uid)
+--         ON DELETE SET NULL
+--         ON UPDATE CASCADE
+-- );
 
 DELIMITER //
 
@@ -358,15 +377,15 @@ CREATE TRIGGER businessBecomesPublisher -- This trigger ensures only a Publisher
         END IF;
     END//
 
-CREATE TRIGGER autoBansUserAfterThreeWarnings -- This trigger ensures an uid is banned upon receiving the third warning
-    AFTER INSERT ON Warnings
-    FOR EACH ROW
-    BEGIN
-        IF (NEW.issue_num = 3)
-        THEN INSERT INTO Ban_List (uid, admin_id)
-        VALUES (NEW.uid, NEW.admin_id);
-        END IF;
-    END//
+-- CREATE TRIGGER autoBansUserAfterThreeWarnings -- This trigger ensures an uid is banned upon receiving the third warning
+--     AFTER INSERT ON Warnings
+--     FOR EACH ROW
+--     BEGIN
+--         IF (NEW.issue_num = 3)
+--         THEN INSERT INTO Ban_List (uid, admin_id)
+--         VALUES (NEW.uid, NEW.admin_id);
+--         END IF;
+--     END//
 
 DELIMITER ;
 
@@ -431,29 +450,29 @@ INSERT INTO Customers (UID)
         'arthurM'
 );
 
--- Insert the top 20 game publishers, developers, and parent companies into the Business table
-INSERT INTO Business (name, is_pc, is_dev, is_pub, street, city, state, zip, country)
+-- Insert the top 21 game publishers, developers, and parent companies into the Business table
+INSERT INTO Business (name, street, city, state, zip, country)
 VALUES
-    ('Microsoft Gaming', 'Y', 'Y', 'Y', '1 Microsoft Way', 'Redmond', 'WA', 98052, 'USA'),
-    ('Sony Interactive Entertainment', 'Y', 'Y', 'Y', '2207 Bridgepointe Pkwy', 'San Mateo', 'CA', 94404, 'USA'),
-    ('Tencent Games', 'Y', 'Y', 'Y', 'Nanshan District', 'Shenzhen', 'GD', 518052, 'China'),
-    ('Apple Inc.', 'Y', 'N', 'Y', '1 Infinite Loop', 'Cupertino', 'CA', 95014, 'USA'),
-    ('NetEase Games', 'Y', 'Y', 'Y', 'Binjiang District', 'Hangzhou', 'ZJ', 310052, 'China'),
-    ('Google', 'Y', 'N', 'Y', '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 94043, 'USA'),
-    ('Electronic Arts', 'Y', 'Y', 'Y', '209 Redwood Shores Pkwy', 'Redwood City', 'CA', 94065, 'USA'),
-    ('Nintendo Co., Ltd.', 'Y', 'Y', 'Y', '11-1 Kamitoba', 'Kyoto', NULL, 601-8501, 'Japan'),
-    ('Take-Two Interactive', 'Y', 'Y', 'Y', '110 West 44th St', 'New York', 'NY', 10036, 'USA'),
-    ('Nexon Co., Ltd.', 'Y', 'Y', 'Y', '6 Shinjuku', 'Tokyo', NULL, 160-0022, 'Japan'),
-    ('Bandai Namco Holdings Inc.', 'Y', 'Y', 'Y', '3-6-7 Minato-ku', 'Tokyo', NULL, 108-0014, 'Japan'),
-    ('Embracer Group AB', 'Y', 'Y', 'Y', '4 Drottninggatan', 'Karlstad', NULL, 652-25, 'Sweden'),
-    ('Epic Games', 'Y', 'Y', 'Y', '620 Crossroads Blvd', 'Cary', 'NC', 27518, 'USA'),
-    ('Valve Corporation (Steam)', 'Y', 'Y', 'Y', '10400 NE 4th St', 'Bellevue', 'WA', 98004, 'USA'),
-    ('Ubisoft Entertainment SA', 'Y', 'Y', 'Y', '28 Rue Armand Carrel', 'Montreuil', NULL, 93100, 'France'),
-    ('Square Enix Holdings Co., Ltd.', 'Y', 'Y', 'Y', '6-27-30 Shinjuku', 'Tokyo', NULL, 160-8430, 'Japan'),
-    ('Konami Holdings Corporation', 'Y', 'Y', 'Y', '9-7-2 Akasaka', 'Tokyo', NULL, 107-8324, 'Japan'),
-    ('Sega Sammy Holdings Inc.', 'Y', 'Y', 'Y', '1-2-12 Haneda', 'Tokyo', NULL, 144-0052, 'Japan'),
-    ('Roblox Corporation', 'Y', 'Y', 'Y', '970 Park Place', 'San Mateo', 'CA', 94403, 'USA'),
-    ('Krafton Inc.', 'Y', 'Y', 'Y', '231 Teheran-ro', 'Seoul', NULL, NULL, 'South Korea');
+    ('Microsoft Gaming', '1 Microsoft Way', 'Redmond', 'WA', 98052, 'USA'),
+    ('Sony Interactive Entertainment', '2207 Bridgepointe Pkwy', 'San Mateo', 'CA', 94404, 'USA'),
+    ('Tencent Games', 'Nanshan District', 'Shenzhen', 'GD', 518052, 'China'),
+    ('Apple Inc.', '1 Infinite Loop', 'Cupertino', 'CA', 95014, 'USA'),
+    ('NetEase Games', 'Binjiang District', 'Hangzhou', 'ZJ', 310052, 'China'),
+    ('Google', '1600 Amphitheatre Parkway', 'Mountain View', 'CA', 94043, 'USA'),
+    ('Electronic Arts', '209 Redwood Shores Pkwy', 'Redwood City', 'CA', 94065, 'USA'),
+    ('Nintendo Co., Ltd.', '11-1 Kamitoba', 'Kyoto', NULL, 601-8501, 'Japan'),
+    ('Take-Two Interactive', '110 West 44th St', 'New York', 'NY', 10036, 'USA'),
+    ('Nexon Co., Ltd.', '6 Shinjuku', 'Tokyo', NULL, 160-0022, 'Japan'),
+    ('Bandai Namco Holdings Inc.', '3-6-7 Minato-ku', 'Tokyo', NULL, 108-0014, 'Japan'),
+    ('Embracer Group AB', '4 Drottninggatan', 'Karlstad', NULL, 652-25, 'Sweden'),
+    ('Epic Games', '620 Crossroads Blvd', 'Cary', 'NC', 27518, 'USA'),
+    ('Valve Corporation (Steam)', '10400 NE 4th St', 'Bellevue', 'WA', 98004, 'USA'),
+    ('Ubisoft Entertainment SA', '28 Rue Armand Carrel', 'Montreuil', NULL, 93100, 'France'),
+    ('Square Enix Holdings Co., Ltd.', '6-27-30 Shinjuku', 'Tokyo', NULL, 160-8430, 'Japan'),
+    ('Konami Holdings Corporation', '9-7-2 Akasaka', 'Tokyo', NULL, 107-8324, 'Japan'),
+    ('Sega Sammy Holdings Inc.', '1-2-12 Haneda', 'Tokyo', NULL, 144-0052, 'Japan'),
+    ('Roblox Corporation', '970 Park Place', 'San Mateo', 'CA', 94403, 'USA'),
+    ('Krafton Inc.', '231 Teheran-ro', 'Seoul', NULL, NULL, 'South Korea');
 
 -- Insert the top 30 game genres into the GenreList table
 INSERT INTO GenreList (type)
@@ -491,7 +510,6 @@ VALUES
     ('Virtual Reality (VR)');
 
 -- Insert the top 40 gaming platforms into the PlatformList table
-
 INSERT INTO PlatformList (platform)
 VALUES
     ('PC'),
@@ -677,58 +695,54 @@ VALUES
 
 -- Insert 25 game stores into the Stores table with store_name and ops_days included
 -- Bay Area Stores
-INSERT INTO Stores (bid, mid, store_name, ops_days, ops_hours, modality, street, city, state, zip, country)
+INSERT INTO Stores (bid, mid, store_name, modality, street, city, state, zip, country)
 VALUES
-    (1, 6, 'San Francisco Gaming Hub', 'Monday-Sunday', '10AM-8PM', 'Physical', '123 Market St', 'San Francisco', 'CA', 94103, 'USA'),
-    (1, 7, 'Mountain View Game Store', 'Monday-Sunday', '10AM-8PM', 'Physical', '456 Castro St', 'Mountain View', 'CA', 94041, 'USA'),
-    (2, 6, 'Palo Alto Gamers', 'Monday-Saturday', '9AM-7PM', 'Physical', '789 El Camino Real', 'Palo Alto', 'CA', 94301, 'USA'),
-    (2, 7, 'Berkeley Esports Arena', 'Monday-Friday', '11AM-9PM', 'Physical', '321 University Ave', 'Berkeley', 'CA', 94704, 'USA'),
-    (3, 6, 'San Jose Game Arena', 'Tuesday-Sunday', '9AM-7PM', 'Physical', '111 Santana Row', 'San Jose', 'CA', 95128, 'USA'),
-    (3, 7, 'Oakland Game Center', 'Monday-Sunday', '10AM-8PM', 'Physical', '222 Broadway', 'Oakland', 'CA', 94607, 'USA'),
-    (4, 6, 'Fremont Gaming World', 'Monday-Friday', '11AM-9PM', 'Physical', '333 Main St', 'Fremont', 'CA', 94538, 'USA'),
-    (4, 7, 'Burlingame Game Stop', 'Wednesday-Sunday', '10AM-8PM', 'Physical', '444 California Dr', 'Burlingame', 'CA', 94010, 'USA'),
-    (5, 6, 'Redwood City Gamers Lounge', 'Monday-Saturday', '10AM-9PM', 'Physical', '555 Walnut St', 'Redwood City', 'CA', 94063, 'USA'),
-    (5, 7, 'Santa Clara Gaming Plaza', 'Tuesday-Sunday', '9AM-7PM', 'Physical', '666 Great America Pkwy', 'Santa Clara', 'CA', 95054, 'USA');
-
--- Other USA Stores
-INSERT INTO Stores (bid, mid, store_name, ops_days, ops_hours, modality, street, city, state, zip, country)
-VALUES
-    (6, 6, 'New York Gamers Central', 'Monday-Sunday', '9AM-9PM', 'Physical', '123 Main St', 'New York', 'NY', 10001, 'USA'),
-    (6, 7, 'Boston Game House', 'Monday-Saturday', '10AM-8PM', 'Physical', '456 Elm St', 'Boston', 'MA', 02108, 'USA'),
-    (7, 6, 'Chicago Gaming Hub', 'Tuesday-Sunday', '10AM-8PM', 'Physical', '789 Pine St', 'Chicago', 'IL', 60605, 'USA'),
-    (7, 7, 'Dallas Game Zone', 'Monday-Friday', '11AM-9PM', 'Physical', '321 Maple Ave', 'Dallas', 'TX', 75201, 'USA'),
-    (8, 6, 'LA Gaming Plaza', 'Monday-Saturday', '10AM-8PM', 'Physical', '111 Sunset Blvd', 'Los Angeles', 'CA', 90028, 'USA'),
-    (8, 7, 'Orlando Gamers Park', 'Wednesday-Sunday', '9AM-7PM', 'Physical', '222 Hollywood Blvd', 'Orlando', 'FL', 32801, 'USA'),
-    (9, 6, 'Miami Game World', 'Monday-Sunday', '10AM-8PM', 'Physical', '333 Ocean Dr', 'Miami', 'FL', 33139, 'USA'),
-    (9, 7, 'Detroit Esports Center', 'Monday-Friday', '11AM-9PM', 'Physical', '444 River St', 'Detroit', 'MI', 48226, 'USA'),
-    (10, 6, 'Seattle Gaming Nexus', 'Monday-Saturday', '9AM-7PM', 'Physical', '555 Broadway', 'Seattle', 'WA', 98122, 'USA'),
-    (10, 7, 'Austin Game Stop', 'Tuesday-Sunday', '10AM-9PM', 'Physical', '666 Lake Ave', 'Austin', 'TX', 78701, 'USA'),
-    (11, 6, 'Denver Gamers Lounge', 'Monday-Saturday', '11AM-9PM', 'Physical', '777 Forest Ln', 'Denver', 'CO', 80202, 'USA'),
-    (11, 7, 'Atlanta Game Zone', 'Monday-Sunday', '10AM-8PM', 'Physical', '888 Grand Ave', 'Atlanta', 'GA', 30303, 'USA'),
-    (12, 6, 'Phoenix Gaming Center', 'Tuesday-Sunday', '9AM-7PM', 'Physical', '999 Oak St', 'Phoenix', 'AZ', 85004, 'USA'),
-    (12, 7, 'Las Vegas Game Plaza', 'Monday-Friday', '10AM-8PM', 'Physical', '123 Aspen Dr', 'Las Vegas', 'NV', 89109, 'USA'),
-    (13, 6, 'Portland Game Nexus', 'Monday-Sunday', '10AM-9PM', 'Physical', '456 Birch St', 'Portland', 'OR', 97209, 'USA');
+    (1, 6, 'San Francisco Gaming Hub', 'Physical', '123 Market St', 'San Francisco', 'CA', 94103, 'USA'),
+    (1, 7, 'Mountain View Game Store', 'Physical', '456 Castro St', 'Mountain View', 'CA', 94041, 'USA'),
+    (2, 6, 'Palo Alto Gamers', 'Physical', '789 El Camino Real', 'Palo Alto', 'CA', 94301, 'USA'),
+    (2, 7, 'Berkeley Esports Arena', 'Physical', '321 University Ave', 'Berkeley', 'CA', 94704, 'USA'),
+    (3, 6, 'San Jose Game Arena', 'Physical', '111 Santana Row', 'San Jose', 'CA', 95128, 'USA'),
+    (3, 7, 'Oakland Game Center', 'Physical', '222 Broadway', 'Oakland', 'CA', 94607, 'USA'),
+    (4, 6, 'Fremont Gaming World', 'Physical', '333 Main St', 'Fremont', 'CA', 94538, 'USA'),
+    (4, 7, 'Burlingame Game Stop', 'Physical', '444 California Dr', 'Burlingame', 'CA', 94010, 'USA'),
+    (5, 6, 'Redwood City Gamers Lounge', 'Physical', '555 Walnut St', 'Redwood City', 'CA', 94063, 'USA'),
+    (5, 7, 'Santa Clara Gaming Plaza', 'Physical', '666 Great America Pkwy', 'Santa Clara', 'CA', 95054, 'USA'),
+    (6, 6, 'New York Gamers Central', 'Physical', '123 Main St', 'New York', 'NY', 10001, 'USA'),
+    (6, 7, 'Boston Game House', 'Physical', '456 Elm St', 'Boston', 'MA', 02108, 'USA'),
+    (7, 6, 'Chicago Gaming Hub', 'Physical', '789 Pine St', 'Chicago', 'IL', 60605, 'USA'),
+    (7, 7, 'Dallas Game Zone', 'Physical', '321 Maple Ave', 'Dallas', 'TX', 75201, 'USA'),
+    (8, 6, 'LA Gaming Plaza', 'Physical', '111 Sunset Blvd', 'Los Angeles', 'CA', 90028, 'USA'),
+    (8, 7, 'Orlando Gamers Park', 'Physical', '222 Hollywood Blvd', 'Orlando', 'FL', 32801, 'USA'),
+    (9, 6, 'Miami Game World', 'Physical', '333 Ocean Dr', 'Miami', 'FL', 33139, 'USA'),
+    (9, 7, 'Detroit Esports Center', 'Physical', '444 River St', 'Detroit', 'MI', 48226, 'USA'),
+    (10, 6, 'Seattle Gaming Nexus', 'Physical', '555 Broadway', 'Seattle', 'WA', 98122, 'USA'),
+    (10, 7, 'Austin Game Stop', 'Physical', '666 Lake Ave', 'Austin', 'TX', 78701, 'USA'),
+    (11, 6, 'Denver Gamers Lounge', 'Physical', '777 Forest Ln', 'Denver', 'CO', 80202, 'USA'),
+    (11, 7, 'Atlanta Game Zone', 'Physical', '888 Grand Ave', 'Atlanta', 'GA', 30303, 'USA'),
+    (12, 6, 'Phoenix Gaming Center', 'Physical', '999 Oak St', 'Phoenix', 'AZ', 85004, 'USA'),
+    (12, 7, 'Las Vegas Game Plaza', 'Physical', '123 Aspen Dr', 'Las Vegas', 'NV', 89109, 'USA'),
+    (13, 6, 'Portland Game Nexus', 'Physical', '456 Birch St', 'Portland', 'OR', 97209, 'USA');
 
 -- Add GameStop as a Parent Company in the Business table
-INSERT INTO Business (name, is_pc, is_dev, is_pub, street, city, state, zip, country)
-VALUES ('GameStop', 'Y', 'N', 'N', '625 Westport Pkwy', 'Grapevine', 'TX', 76051, 'USA');
+INSERT INTO Business (name, street, city, state, zip, country)
+VALUES ('GameStop', '625 Westport Pkwy', 'Grapevine', 'TX', 76051, 'USA');
 
 -- Assume GameStop's `bid` is retrieved after the above insertion
 -- Example: SELECT bid FROM Business WHERE name = 'GameStop';
 
 -- Insert 10 GameStop stores into the Stores table
-INSERT INTO Stores (bid, mid, store_name, ops_days, ops_hours, modality, street, city, state, zip, country)
+INSERT INTO Stores (bid, mid, store_name, modality, street, city, state, zip, country)
 VALUES
-    (LAST_INSERT_ID(), NULL, 'GameStop - San Francisco', 'Monday-Sunday', '10AM-8PM', 'Physical', '101 Market St', 'San Francisco', 'CA', 94103, 'USA'),
-    (LAST_INSERT_ID(), NULL, 'GameStop - Oakland', 'Monday-Saturday', '9AM-7PM', 'Physical', '202 Broadway', 'Oakland', 'CA', 94607, 'USA'),
-    (LAST_INSERT_ID(), NULL, 'GameStop - San Jose', 'Monday-Sunday', '10AM-8PM', 'Physical', '303 Tech Row', 'San Jose', 'CA', 95128, 'USA'),
-    (LAST_INSERT_ID(), NULL, 'GameStop - Los Angeles', 'Monday-Friday', '11AM-9PM', 'Physical', '404 Sunset Blvd', 'Los Angeles', 'CA', 90028, 'USA'),
-    (LAST_INSERT_ID(), NULL, 'GameStop - New York', 'Monday-Sunday', '9AM-9PM', 'Physical', '505 Broadway', 'New York', 'NY', 10001, 'USA'),
-    (LAST_INSERT_ID(), NULL, 'GameStop - Chicago', 'Monday-Saturday', '10AM-8PM', 'Physical', '606 Pine St', 'Chicago', 'IL', 60605, 'USA'),
-    (LAST_INSERT_ID(), NULL, 'GameStop - Dallas', 'Monday-Friday', '11AM-9PM', 'Physical', '707 Maple Ave', 'Dallas', 'TX', 75201, 'USA'),
-    (LAST_INSERT_ID(), NULL, 'GameStop - Orlando', 'Monday-Saturday', '10AM-8PM', 'Physical', '808 Hollywood Blvd', 'Orlando', 'FL', 32801, 'USA'),
-    (LAST_INSERT_ID(), NULL, 'GameStop - Seattle', 'Monday-Sunday', '10AM-8PM', 'Physical', '909 Broadway', 'Seattle', 'WA', 98122, 'USA'),
-    (LAST_INSERT_ID(), NULL, 'GameStop - Denver', 'Monday-Friday', '10AM-9PM', 'Physical', '1010 Forest Ln', 'Denver', 'CO', 80202, 'USA');
+    (LAST_INSERT_ID(), NULL, 'GameStop - San Francisco', 'Physical', '101 Market St', 'San Francisco', 'CA', 94103, 'USA'),
+    (LAST_INSERT_ID(), NULL, 'GameStop - Oakland', 'Physical', '202 Broadway', 'Oakland', 'CA', 94607, 'USA'),
+    (LAST_INSERT_ID(), NULL, 'GameStop - San Jose', 'Physical', '303 Tech Row', 'San Jose', 'CA', 95128, 'USA'),
+    (LAST_INSERT_ID(), NULL, 'GameStop - Los Angeles', 'Physical', '404 Sunset Blvd', 'Los Angeles', 'CA', 90028, 'USA'),
+    (LAST_INSERT_ID(), NULL, 'GameStop - New York', 'Physical', '505 Broadway', 'New York', 'NY', 10001, 'USA'),
+    (LAST_INSERT_ID(), NULL, 'GameStop - Chicago', 'Physical', '606 Pine St', 'Chicago', 'IL', 60605, 'USA'),
+    (LAST_INSERT_ID(), NULL, 'GameStop - Dallas', 'Physical', '707 Maple Ave', 'Dallas', 'TX', 75201, 'USA'),
+    (LAST_INSERT_ID(), NULL, 'GameStop - Orlando', 'Physical', '808 Hollywood Blvd', 'Orlando', 'FL', 32801, 'USA'),
+    (LAST_INSERT_ID(), NULL, 'GameStop - Seattle', 'Physical', '909 Broadway', 'Seattle', 'WA', 98122, 'USA'),
+    (LAST_INSERT_ID(), NULL, 'GameStop - Denver', 'Physical', '1010 Forest Ln', 'Denver', 'CO', 80202, 'USA');
 
 -- Populate inventories for all 35 stores (25 general + 10 GameStop)
 
@@ -808,3 +822,233 @@ WHERE U.username IN (
     'geraltR',
     'arthurM'
 );
+
+INSERT INTO StoreHours VALUES 
+	('Monday', 1, '10:00:00', '20:00:00'),
+	('Tuesday', 1, '10:00:00', '20:00:00'),
+	('Wednesday', 1, '10:00:00', '20:00:00'),
+	('Thursday', 1, '10:00:00', '20:00:00'),
+	('Friday', 1, '10:00:00', '20:00:00'),
+	('Saturday', 1, '10:00:00', '22:00:00'),
+	('Sunday', 1, '10:00:00', '16:00:00'),
+	('Monday', 2, '10:00:00', '22:00:00'),
+	('Tuesday', 2, '10:00:00', '22:00:00'),
+	('Wednesday', 2, '10:00:00', '22:00:00'),
+	('Thursday', 2, '10:00:00', '22:00:00'),
+	('Friday', 2, '10:00:00', '22:00:00'),
+	('Saturday', 2, '08:00:00', '22:00:00'),
+	('Sunday', 2, '08:00:00', '22:00:00'),
+	('Monday', 3, '10:00:00', '20:00:00'),
+	('Tuesday', 3, '10:00:00', '20:00:00'),
+	('Thursday', 3, '10:00:00', '20:00:00'),
+	('Friday', 3, '08:00:00', '20:00:00'),
+	('Saturday', 3, '08:00:00', '20:00:00'),
+	('Sunday', 3, '12:00:00', '20:00:00'),
+	('Monday', 4, '08:00:00', '21:00:00'),
+	('Tuesday', 4, '08:00:00', '21:00:00'),
+	('Wednesday', 4, '08:00:00', '21:00:00'),
+	('Thursday', 4, '08:00:00', '21:00:00'),
+	('Friday', 4, '08:00:00', '21:00:00'),
+	('Saturday', 4, '08:00:00', '21:00:00'),
+	('Monday', 5, '09:00:00', '21:00:00'),
+	('Tuesday', 5, '09:00:00', '21:00:00'),
+	('Wednesday', 5, '09:00:00', '21:00:00'),
+	('Thursday', 5, '09:00:00', '21:00:00'),
+	('Friday', 5, '09:00:00', '21:00:00'),
+	('Saturday', 5, '12:00:00', '21:00:00'),
+	('Sunday', 5, '12:00:00', '21:00:00'),
+	('Tuesday', 6, '09:00:00', '21:00:00'),
+	('Wednesday', 6, '09:00:00', '21:00:00'),
+	('Thursday', 6, '09:00:00', '21:00:00'),
+	('Friday', 6, '09:00:00', '21:00:00'),
+	('Saturday', 6, '08:00:00', '21:00:00'),
+	('Sunday', 6, '08:00:00', '21:00:00'),
+	('Monday', 7, '08:00:00', '21:00:00'),
+	('Tuesday', 7, '08:00:00', '21:00:00'),
+	('Thursday', 7, '08:00:00', '21:00:00'),
+	('Friday', 7, '08:00:00', '21:00:00'),
+	('Saturday', 7, '08:00:00', '21:00:00'),
+	('Sunday', 7, '08:00:00', '21:00:00'),
+	('Monday', 8, '09:00:00', '21:00:00'),
+	('Tuesday', 8, '09:00:00', '21:00:00'),
+	('Wednesday', 8, '09:00:00', '21:00:00'),
+	('Thursday', 8, '09:00:00', '21:00:00'),
+	('Friday', 8, '09:00:00', '21:00:00'),
+	('Saturday', 8, '12:00:00', '21:00:00'),
+	('Sunday', 8, '12:00:00', '21:00:00'),
+	('Monday', 9, '08:00:00', '21:00:00'),
+	('Tuesday', 9, '08:00:00', '21:00:00'),
+	('Wednesday', 9, '08:00:00', '21:00:00'),
+	('Thursday', 9, '08:00:00', '21:00:00'),
+	('Friday', 9, '08:00:00', '21:00:00'),
+	('Saturday', 9, '10:00:00', '21:00:00'),
+	('Sunday', 9, '10:00:00', '21:00:00'),
+	('Monday', 10, '09:00:00', '20:00:00'),
+	('Wednesday', 10, '09:00:00', '20:00:00'),
+	('Thursday', 10, '09:00:00', '20:00:00'),
+	('Friday', 10, '09:00:00', '20:00:00'),
+	('Saturday', 10, '09:00:00', '20:00:00'),
+	('Sunday', 10, '09:00:00', '20:00:00'),
+	('Monday', 11, '06:00:00', '17:00:00'),
+	('Tuesday', 11, '06:00:00', '17:00:00'),
+	('Wednesday', 11, '06:00:00', '17:00:00'),
+	('Thursday', 11, '06:00:00', '17:00:00'),
+	('Friday', 11, '06:00:00', '17:00:00'),
+	('Saturday', 11, '06:00:00', '17:00:00'),
+	('Monday', 12, '09:00:00', '21:00:00'),
+	('Tuesday', 12, '09:00:00', '21:00:00'),
+	('Wednesday', 12, '09:00:00', '21:00:00'),
+	('Thursday', 12, '09:00:00', '21:00:00'),
+	('Friday', 12, '09:00:00', '21:00:00'),
+	('Saturday', 12, '12:00:00', '21:00:00'),
+	('Sunday', 12, '10:00:00', '22:00:00'),
+	('Monday', 13, '09:00:00', '21:00:00'),
+	('Tuesday', 13, '09:00:00', '21:00:00'),
+	('Wednesday', 13, '09:00:00', '21:00:00'),
+	('Thursday', 13, '09:00:00', '21:00:00'),
+	('Friday', 13, '09:00:00', '21:00:00'),
+	('Saturday', 13, '12:00:00', '21:00:00'),
+	('Sunday', 13, '12:00:00', '21:00:00'),
+	('Monday', 14, '09:00:00', '20:00:00'),
+	('Wednesday', 14, '09:00:00', '20:00:00'),
+	('Thursday', 14, '09:00:00', '20:00:00'),
+	('Friday', 14, '09:00:00', '20:00:00'),
+	('Saturday', 14, '09:00:00', '20:00:00'),
+	('Sunday', 14, '09:00:00', '20:00:00'),
+	('Monday', 15, '06:00:00', '17:00:00'),
+	('Tuesday', 15, '06:00:00', '17:00:00'),
+	('Wednesday', 15, '06:00:00', '17:00:00'),
+	('Thursday', 15, '06:00:00', '17:00:00'),
+	('Friday', 15, '06:00:00', '17:00:00'),
+	('Saturday', 15, '06:00:00', '17:00:00'),
+	('Monday', 16, '09:00:00', '21:00:00'),
+	('Tuesday', 16, '09:00:00', '21:00:00'),
+	('Wednesday', 16, '09:00:00', '21:00:00'),
+	('Thursday', 16, '09:00:00', '21:00:00'),
+	('Friday', 16, '09:00:00', '21:00:00'),
+	('Saturday', 16, '12:00:00', '21:00:00'),
+	('Sunday', 16, '10:00:00', '22:00:00'),
+	('Monday', 17, '09:00:00', '21:00:00'),
+	('Tuesday', 17, '09:00:00', '21:00:00'),
+	('Wednesday', 17, '09:00:00', '21:00:00'),
+	('Thursday', 17, '09:00:00', '21:00:00'),
+	('Friday', 17, '09:00:00', '21:00:00'),
+	('Saturday', 17, '12:00:00', '21:00:00'),
+	('Sunday', 17, '12:00:00', '21:00:00'),
+	('Monday', 18, '10:00:00', '20:00:00'),
+	('Tuesday', 18, '10:00:00', '20:00:00'),
+	('Wednesday', 18, '10:00:00', '20:00:00'),
+	('Thursday', 18, '10:00:00', '20:00:00'),
+	('Friday', 18, '10:00:00', '20:00:00'),
+	('Saturday', 18, '10:00:00', '22:00:00'),
+	('Sunday', 18, '10:00:00', '16:00:00'),
+	('Monday', 19, '10:00:00', '22:00:00'),
+	('Tuesday', 19, '10:00:00', '22:00:00'),
+	('Wednesday', 19, '10:00:00', '22:00:00'),
+	('Thursday', 19, '10:00:00', '22:00:00'),
+	('Friday', 19, '10:00:00', '22:00:00'),
+	('Saturday', 19, '08:00:00', '22:00:00'),
+	('Sunday', 19, '08:00:00', '22:00:00'),
+	('Monday', 20, '10:00:00', '20:00:00'),
+	('Tuesday', 20, '10:00:00', '20:00:00'),
+	('Thursday', 20, '10:00:00', '20:00:00'),
+	('Friday', 20, '08:00:00', '20:00:00'),
+	('Saturday', 20, '08:00:00', '20:00:00'),
+	('Sunday', 20, '12:00:00', '20:00:00'),
+	('Monday', 21, '08:00:00', '21:00:00'),
+	('Tuesday', 21, '08:00:00', '21:00:00'),
+	('Wednesday', 21, '08:00:00', '21:00:00'),
+	('Thursday', 21, '08:00:00', '21:00:00'),
+	('Friday', 21, '08:00:00', '21:00:00'),
+	('Saturday', 21, '08:00:00', '21:00:00'),
+	('Monday', 22, '08:00:00', '21:00:00'),
+	('Tuesday', 22, '08:00:00', '21:00:00'),
+	('Wednesday', 22, '08:00:00', '21:00:00'),
+	('Thursday', 22, '08:00:00', '21:00:00'),
+	('Friday', 22, '08:00:00', '21:00:00'),
+	('Saturday', 22, '08:00:00', '21:00:00'),
+	('Monday', 23, '09:00:00', '21:00:00'),
+	('Tuesday', 23, '09:00:00', '21:00:00'),
+	('Wednesday', 23, '09:00:00', '21:00:00'),
+	('Thursday', 23, '09:00:00', '21:00:00'),
+	('Friday', 23, '09:00:00', '21:00:00'),
+	('Saturday', 23, '12:00:00', '21:00:00'),
+	('Sunday', 23, '12:00:00', '21:00:00'),
+	('Tuesday', 24, '09:00:00', '21:00:00'),
+	('Wednesday', 24, '09:00:00', '21:00:00'),
+	('Thursday', 24, '09:00:00', '21:00:00'),
+	('Friday', 24, '09:00:00', '21:00:00'),
+	('Saturday', 24, '08:00:00', '21:00:00'),
+	('Sunday', 24, '08:00:00', '21:00:00'),
+	('Monday', 25, '08:00:00', '21:00:00'),
+	('Tuesday', 25, '08:00:00', '21:00:00'),
+	('Thursday', 25, '08:00:00', '21:00:00'),
+	('Friday', 25, '08:00:00', '21:00:00'),
+	('Saturday', 25, '08:00:00', '21:00:00'),
+	('Sunday', 25, '08:00:00', '21:00:00'),
+	('Monday', 26, '09:00:00', '21:00:00'),
+	('Tuesday', 26, '09:00:00', '21:00:00'),
+	('Wednesday', 26, '09:00:00', '21:00:00'),
+	('Thursday', 26, '09:00:00', '21:00:00'),
+	('Friday', 26, '09:00:00', '21:00:00'),
+	('Saturday', 26, '12:00:00', '21:00:00'),
+	('Sunday', 26, '12:00:00', '21:00:00'),
+	('Monday', 27, '08:00:00', '21:00:00'),
+	('Tuesday', 27, '08:00:00', '21:00:00'),
+	('Wednesday', 27, '08:00:00', '21:00:00'),
+	('Thursday', 27, '08:00:00', '21:00:00'),
+	('Friday', 27, '08:00:00', '21:00:00'),
+	('Saturday', 27, '10:00:00', '21:00:00'),
+	('Sunday', 27, '10:00:00', '21:00:00'),
+	('Monday', 28, '09:00:00', '20:00:00'),
+	('Wednesday', 28, '09:00:00', '20:00:00'),
+	('Thursday', 28, '09:00:00', '20:00:00'),
+	('Friday', 28, '09:00:00', '20:00:00'),
+	('Saturday', 28, '09:00:00', '20:00:00'),
+	('Sunday', 28, '09:00:00', '20:00:00'),
+	('Monday', 29, '06:00:00', '17:00:00'),
+	('Tuesday', 29, '06:00:00', '17:00:00'),
+	('Wednesday', 29, '06:00:00', '17:00:00'),
+	('Thursday', 29, '06:00:00', '17:00:00'),
+	('Friday', 29, '06:00:00', '17:00:00'),
+	('Saturday', 29, '06:00:00', '17:00:00'),
+	('Monday', 30, '09:00:00', '21:00:00'),
+	('Tuesday', 30, '09:00:00', '21:00:00'),
+	('Wednesday', 30, '09:00:00', '21:00:00'),
+	('Thursday', 30, '09:00:00', '21:00:00'),
+	('Friday', 30, '09:00:00', '21:00:00'),
+	('Saturday', 30, '12:00:00', '21:00:00'),
+	('Sunday', 30, '10:00:00', '22:00:00'),
+	('Monday', 31, '09:00:00', '21:00:00'),
+	('Tuesday', 31, '09:00:00', '21:00:00'),
+	('Wednesday', 31, '09:00:00', '21:00:00'),
+	('Thursday', 31, '09:00:00', '21:00:00'),
+	('Friday', 31, '09:00:00', '21:00:00'),
+	('Saturday', 31, '12:00:00', '21:00:00'),
+	('Sunday', 31, '12:00:00', '21:00:00'),
+	('Monday', 32, '09:00:00', '20:00:00'),
+	('Wednesday', 32, '09:00:00', '20:00:00'),
+	('Thursday', 32, '09:00:00', '20:00:00'),
+	('Friday', 32, '09:00:00', '20:00:00'),
+	('Saturday', 32, '09:00:00', '20:00:00'),
+	('Sunday', 32, '09:00:00', '20:00:00'),
+	('Monday', 33, '06:00:00', '17:00:00'),
+	('Tuesday', 33, '06:00:00', '17:00:00'),
+	('Wednesday', 33, '06:00:00', '17:00:00'),
+	('Thursday', 33, '06:00:00', '17:00:00'),
+	('Friday', 33, '06:00:00', '17:00:00'),
+	('Saturday', 33, '06:00:00', '17:00:00'),
+	('Monday', 34, '09:00:00', '21:00:00'),
+	('Tuesday', 34, '09:00:00', '21:00:00'),
+	('Wednesday', 34, '09:00:00', '21:00:00'),
+	('Thursday', 34, '09:00:00', '21:00:00'),
+	('Friday', 34, '09:00:00', '21:00:00'),
+	('Saturday', 34, '12:00:00', '21:00:00'),
+	('Sunday', 34, '10:00:00', '22:00:00'),
+	('Monday', 35, '10:00:00', '22:00:00'),
+	('Tuesday', 35, '10:00:00', '22:00:00'),
+	('Wednesday', 35, '10:00:00', '22:00:00'),
+	('Thursday', 35, '10:00:00', '22:00:00'),
+	('Friday', 35, '10:00:00', '22:00:00'),
+	('Saturday', 35, '08:00:00', '22:00:00'),
+	('Sunday', 35, '08:00:00', '22:00:00');
