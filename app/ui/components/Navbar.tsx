@@ -21,7 +21,7 @@ export default async function Navbar() {
     }
 
     return (
-        <header className='bg-slate-800 py-4 px-4 sm:px-8 top-0 left-0 w-full z-50 mb-8'>
+        <header className='bg-slate-800 py-4 px-4 sm:px-8 top-0 left-0 w-full z-50'>
             <div className='flex items-center justify-between h-20 mx-auto'>
                 {/* Logo */}
                 <div className='flex items-center flex-grow'>
