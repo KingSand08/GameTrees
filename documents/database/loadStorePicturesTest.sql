@@ -26,3 +26,6 @@ INSERT INTO StorePhotos (spid, image, sid) VALUES
 
 -- DELETE FROM Photos
 -- WHERE pid < 12;
+
+-- DELETE FROM StorePhotos
+-- WHERE spid < 12;

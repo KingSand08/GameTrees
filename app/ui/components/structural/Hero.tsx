@@ -16,7 +16,7 @@ export default function HighlightStores() {
             id={`item${index + 1}`}
             className="carousel-item w-full"
           >
-            <div className="hero bg-base-200 py-16 flex flex-col items-center justify-center">
+            <div className="hero bg-base-200 py-16 flex flex-col items-center justify-center h-[500px]">
               
               <div className="hero-content text-base-content flex-col lg:flex-row gap-8">
                 <Image
