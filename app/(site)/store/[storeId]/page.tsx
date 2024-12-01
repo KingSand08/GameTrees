@@ -1,12 +1,11 @@
 import { StoreRepository } from "@/database/queries/store/StoreRepository";
-import { StoreDetailRep } from "@/database/queries/store/StoreDetails";
+import { StoreDetailRep } from "@/database/queries/store/StoreDetailRep";
 import { StoreHoursRep } from "@/database/queries/store/StoreHoursRep";
 import Image from "next/image";
 
 interface StorePageProps {
     params: { storeId: string };
 }
-
 
 export default async function StorePage({ params }: StorePageProps) {
     const storeId = params.storeId;
