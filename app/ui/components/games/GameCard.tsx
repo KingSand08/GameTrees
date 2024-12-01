@@ -28,7 +28,7 @@ const GameCard: React.FC<GameCardProps> = ({
 
     const formattedPrice =
         lowestPrice !== null && lowestPrice !== undefined
-        ? `$${lowestPrice.toFixed(2)}`
+        ? `$${lowestPrice}`
         : "Price unavailable";
 
     return (

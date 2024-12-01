@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { AllStoresRep } from "@/database/queries/store/AllStores";
+import { AllStoresRep } from "@/database/queries/store/AllStoresRep";
 
 const allStoresRep = new AllStoresRep();
 

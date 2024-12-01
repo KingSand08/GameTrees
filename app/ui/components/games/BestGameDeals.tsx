@@ -40,10 +40,10 @@ const BestGameDeals = async () => {
                                     </span>
                                 </Link>
                             </td>
-                            <td className="text-neutral-content">${deal.price.toFixed(2)}</td>
-                            <td className="text-neutral-content">{(deal.discount * 100).toFixed(0)}%</td>
+                            <td className="text-neutral-content">${deal.price}</td>
+                            <td className="text-neutral-content">{(deal.discount * 100)}%</td>
                             <td className="text-green-500">
-                                ${(deal.price * (1 - deal.discount)).toFixed(2)}
+                                ${(deal.price * (1 - deal.discount))}
                             </td>
                             <td>{deal.storeName}</td>
                         </tr>

@@ -1,3 +1,5 @@
+"use server";
+// import Image from "next/image";
 
 import React, { useEffect, useState } from "react";
 import HighlightGameCards from "./ui/components/structural/Hero";
@@ -23,6 +25,7 @@ export default async function Home() {
   // const discountedGames = await fetchDiscountedGames(5); // Fetch top 5 discounted games
   // console.log(discountedGames); // Verify data structure
 
+export default async function Home() {
   return (
     
     <div className="min-h-screen bg-base-100 text-gray-100 space-y-12">
