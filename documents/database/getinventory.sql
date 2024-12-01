@@ -1,4 +1,4 @@
-SELECT G.Title AS title, 
+SELECT G.gid, G.Title AS title, 
     ROUND(G.Price * (1 - I.Discount), 2) AS price, GP.image,
 GROUP_CONCAT(L.Platform SEPARATOR ', ') AS platforms
 FROM Inventories I 
@@ -14,5 +14,8 @@ SELECT  S.store_name AS name, S.modality,
 FROM Stores S
 WHERE sid = 1;
 
-SELECT * FROM StoreHours
+SELECT day,
+        DATE_FORMAT(start_time, '%h:%i %p') AS start_time_formatted,
+        DATE_FORMAT(end_time, '%h:%i %p') AS end_time_formatted
+FROM StoreHours
 WHERE sid = 1;

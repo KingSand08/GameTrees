@@ -1,3 +1,10 @@
+-- To have this work, make sure your mysql main dir has proper my.cnf, if not create the file:
+    -- [mysqld]
+    -- secure_file_priv=""
+    -- max_allowed_packet=16M
+-- Have the a dir called mysql-files with all of your photos
+-- Then run the code below
+
 INSERT INTO Photos (pid, add_date)
 VALUES 
     (1803989619, NOW());
@@ -80,7 +87,7 @@ INSERT INTO Photos (pid, add_date)
 VALUES 
     (13861510757, NOW());
 INSERT INTO AccPhotos (apid, image, uid)
-VALUES(3861510757, LOAD_FILE('/usr/local/mysql-8.0.39-macos14-arm64/mysql-files/chief.jpg'), 15);
+VALUES(13861510757, LOAD_FILE('/usr/local/mysql-8.0.39-macos14-arm64/mysql-files/chief.jpg'), 15);
 
 INSERT INTO Photos (pid, add_date)
 VALUES 
