@@ -8,7 +8,8 @@ USE gtsdb;
 CREATE TABLE Users (
     uid INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(25) NOT NULL UNIQUE,
-    name VARCHAR(40) NOT NULL,
+    firstname VARCHAR(40) NOT NULL,
+    lastname VARCHAR(40),
     password VARCHAR(100) NOT NULL,
     dob DATE,
     phone VARCHAR(15),
@@ -35,8 +36,12 @@ CREATE TABLE Customers(
 
 CREATE TABLE StoreMgrs(
     uid INT PRIMARY KEY,
+    bid INT,
     FOREIGN KEY (uid) REFERENCES Users(uid) 
         ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (bid) REFERENCES Business(bid)
+        ON DELETE SET NULL
         ON UPDATE CASCADE
 );
 
