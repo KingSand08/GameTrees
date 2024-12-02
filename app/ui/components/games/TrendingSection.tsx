@@ -8,6 +8,8 @@ export type TrendingGame = {
   title: string;
   genre: string;
   lowestPrice: number;
+  wishlistCount: number;
+  image?: string | null;
 };
 
 type TrendingGamesProps = {
@@ -38,8 +40,8 @@ const TrendingGames: React.FC<TrendingGamesProps> = ({ games }) => {
                     title={game.title}
                     genre={game.genre}
                     lowestPrice={game.lowestPrice}
-                    // Replace with actual image URLs if available, or keep placeholder
-                    imageUrl={`https://fakeimg.pl/500x500?text=${encodeURIComponent(game.title)}`}
+                    wishlistCount={game.wishlistCount}
+                    image={game.image}
                 />
             ))}
           </div>

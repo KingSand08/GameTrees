@@ -17,7 +17,7 @@ const BestGameDeals = async () => {
             <h2 className="text-2xl font-bold text-center mb-4">Best Game Deals</h2>
             <table className="table w-full bg-neutral">
                 {/* Table Header */}
-                <thead>
+                <thead className="bg-neutral text-white">
                     <tr>
                         <th>Game</th>
                         <th>Original Price</th>
@@ -43,7 +43,7 @@ const BestGameDeals = async () => {
                             <td className="text-neutral-content">${deal.price}</td>
                             <td className="text-neutral-content">{(deal.discount * 100)}%</td>
                             <td className="text-green-500">
-                                ${(deal.price * (1 - deal.discount))}
+                                ${(deal.price * (1 - deal.discount)).toFixed(2)}
                             </td>
                             <td>{deal.storeName}</td>
                         </tr>

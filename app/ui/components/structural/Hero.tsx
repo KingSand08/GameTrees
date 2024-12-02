@@ -22,10 +22,15 @@ export default function HighlightStores() {
                 <Image
                   src={store.image as string}
                   alt={store.name}
-                  width={700}
+                  width={700} 
                   height={500}
-                  quality={100}
-                  className="rounded-lg shadow-2xl max-w-full h-auto"
+                  quality={100} 
+                  style={{
+                    objectFit: 'cover', // Ensures the image is cropped to fill the container
+                    width: '700px',
+                    height: '500px',
+                  }}
+                  className="rounded-lg shadow-2xl"
                 />
                 <div>
                   <h1 className="text-4xl font-bold">{store.name}</h1>
