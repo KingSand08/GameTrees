@@ -4,10 +4,11 @@ import Game from "@/types/models/Game";
 import { usePathname } from 'next/navigation';
 import { Star } from 'lucide-react';
 import WishlistRow from "@/types/models/WishlistRow";
+import GameDetails from "@/types/models/GameDetails";
 
 interface Props {
     uid: number | string | null;
-    game: Game | GameRow | WishlistRow;
+    game: Game | GameRow | WishlistRow | GameDetails;
     userRole: string;
     myWishlist: WishlistRow[];
 }

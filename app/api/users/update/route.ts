@@ -16,26 +16,28 @@ export const PATCH = async (req: Request) => {
     try {
         // Parse the request for JSON or form-data
         const contentType = req.headers.get("content-type") || "";
-        let username, email, name, password, image;
+        let username, email, firstname, lastname, password, image;
 
         if (contentType.includes("application/json")) {
             // Parse JSON body
             const body = await req.json();
             username = body.username;
             email = body.email;
-            name = body.name;
+            firstname = body.firstname;
+            lastname = body.lastname;
             password = body.password;
         } else if (contentType.includes("multipart/form-data")) {
             // Parse form data
             const formData = await req.formData();
             username = formData.get("username");
             email = formData.get("email");
-            name = formData.get("name");
+            firstname = formData.get("fname");
+            lastname = formData.get("lname");
             password = formData.get("password");
             image = formData.get("file") as File | null;
         }
         // Ensure only non-empty fields
-        if (!username && !email && !name && !password && !image) {
+        if (!username && !email && !firstname && !lastname && !password && !image) {
             return NextResponse.json({ message: "No fields to update" }, { status: 400 });
         }
 
@@ -69,7 +71,8 @@ export const PATCH = async (req: Request) => {
         const updateData: Record<string, unknown> = {};
         if (username) updateData.username = username;
         if (email) updateData.email = email;
-        if (name) updateData.name = name;
+        if (firstname) updateData.firstname = firstname;
+        if (lastname) updateData.lastname = lastname;
         if (password) updateData.password = password;
 
         // Update user details if any fields were provided
@@ -135,7 +138,8 @@ export const PATCH = async (req: Request) => {
             user: {
                 username: username || session.user.username,
                 email: email || session.user.email,
-                name: name || session.user.name,
+                firstname: firstname || session.user.name,
+                lastname: lastname || session.user.lastname,
             },
         }, { status: 200 });
     } catch (error) {

@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "i": "^0.3.7",
     "lucide": "^0.462.0",
+    "lucide-react": "^0.462.0",
     "mysql2": "^3.11.4",
     "next": "14.2.14",
     "next-auth": "^4.24.10",

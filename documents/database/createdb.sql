@@ -1,7 +1,7 @@
 -- Reset DB
-DROP DATABASE gtsdb;
-CREATE DATABASE gtsdb;
-USE gtsdb;
+-- DROP DATABASE gtsdb;
+-- CREATE DATABASE gtsdb;
+-- USE gtsdb;
 
 -- Define Tables
 -- To be updated (Name -> firstname, lastname)
@@ -36,17 +36,15 @@ CREATE TABLE Customers(
 
 CREATE TABLE StoreMgrs(
     uid INT PRIMARY KEY,
-    bid INT,
+    salary INT CHECK (salary > 0),
     FOREIGN KEY (uid) REFERENCES Users(uid) 
         ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    FOREIGN KEY (bid) REFERENCES Business(bid)
-        ON DELETE SET NULL
         ON UPDATE CASCADE
 );
 
 CREATE TABLE Admins(
     uid INT PRIMARY KEY,
+    can_ban_admin ENUM ('Y', 'N') NOT NULL,
     FOREIGN KEY (uid) REFERENCES Users(uid) 
         ON DELETE CASCADE
         ON UPDATE CASCADE
@@ -397,7 +395,7 @@ DELIMITER ;
 -- POPULATE DATA SECTION
 
 -- Populate Users (Admins and Managers)
-INSERT INTO Users(username, name, password, email) VALUES	
+INSERT INTO Users(username, firstname, password, email) VALUES	
 	('pikalot','Pikalot', 'Admin@123', 'pikalot@hotmail.com'),
 	('sandking','Connor', 'Admin@124', 'clinvil2@gmail.com'),
 	('aman','Aman', 'Admin@125', 'aman.imran@sjsu.edu'),
@@ -408,16 +406,12 @@ INSERT INTO Users(username, name, password, email) VALUES
 
 
 -- Populate Admins
-INSERT INTO Admins(uid) 
-    SELECT uid FROM Users WHERE username='pikalot'
-    UNION ALL
-    SELECT uid FROM Users WHERE username='sandking'
-    UNION ALL
-    SELECT uid FROM Users WHERE username='aman'
-    UNION ALL
-    SELECT uid FROM Users WHERE username='genie'
-    UNION ALL
-    SELECT uid FROM Users WHERE username='splendid';
+INSERT INTO Admins(uid, can_ban_admin) VALUES
+    ((SELECT uid FROM Users WHERE username='pikalot'), 'Y'),
+    ((SELECT uid FROM Users WHERE username='sandking'), 'Y'),
+    ((SELECT uid FROM Users WHERE username='aman'), 'N'),
+    ((SELECT uid FROM Users WHERE username='genie'), 'Y'),
+    ((SELECT uid FROM Users WHERE username='splendid'), 'Y');
 
 -- Populate Store Managers
 INSERT INTO StoreMgrs(uid)
@@ -427,7 +421,7 @@ INSERT INTO StoreMgrs(uid)
 
 
 -- Populate Users (Customers)
-INSERT INTO Users (Username, Name, DOB, Phone, Password, Email) VALUES
+INSERT INTO Users (Username, firstname, DOB, Phone, Password, Email) VALUES
     ('marioB', 'Mario Bros', '1981-07-09', '(408)555-1001', 'hashed_password_1', 'mario@nintendoland.com'),
     ('linkH', 'Link Hylian', '1986-02-21', '(408)555-1002', 'hashed_password_2', 'link@hyrule.com'),
     ('samusA', 'Samus Aran', '1986-08-06', '(408)555-1003', 'hashed_password_3', 'samus@metroid.com'),

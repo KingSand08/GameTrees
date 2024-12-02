@@ -26,24 +26,26 @@ const TrendingGames: React.FC<TrendingGamesProps> = ({ games }) => {
     };
 
     const handleShowLess = () => {
-        setVisibleCount((prevCount) => DEFAULT_VISIBLE_COUNT); // Reset to default
+        setVisibleCount(DEFAULT_VISIBLE_COUNT); // Reset to default
     };
+
   return (
     <div className="test-base-content justify-center">
       <h2 className="text-2xl font-bold text-center mb-6">Trending Games</h2>
       <div className="flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {games.slice(0, visibleCount).map((game) => (
-                <GameCard
-                    key={game.gid}
-                    gameId={game.gid}
-                    title={game.title}
-                    genre={game.genre}
-                    lowestPrice={game.lowestPrice}
-                    wishlistCount={game.wishlistCount}
-                    image={game.image}
-                />
-            ))}
+              {games.slice(0, visibleCount).map((game) => (
+                  <GameCard
+                      key={game.gid}
+                      gameId={game.gid}
+                      title={game.title}
+                      genre={game.genre}
+                      lowestPrice={game.lowestPrice}
+                      wishlistCount={game.wishlistCount}
+                      image={game.image}
+                  />
+                  
+              ))}
           </div>
       </div>
       <div className="flex justify-center mt-4">

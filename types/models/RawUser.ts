@@ -3,6 +3,7 @@ export type RawUser = {
     username: string;
     email: string;
     name: string;
+    lastname: string;
     dob?: string;
     password?: string;
     image?: Buffer | null;

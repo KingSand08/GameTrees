@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { DiscountedGamesRep, GameDeal } from "@/database/queries/game/DiscountedGames";
+import { DiscountedGamesRep } from "@/database/queries/game/DiscountedGames";
 
 async function fetchBestGameDeals() {
     return await DiscountedGamesRep.getBestGameDeals(50);
