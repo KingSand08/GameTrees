@@ -1,11 +1,10 @@
 "use client";
-
-import React, { useState } from "react";
 import Image from "next/image";
 import GameRow from "@/types/models/GameRow";
 import StoreDetails from "@/types/models/StoreDetail";
 import StoreHours from "@/types/models/StoreHours";
-import { useRouter } from "next/navigation";
+import WishListButton from "@/app/ui/components/buttons/WishListButton";
+import WishlistRow from "@/types/models/WishlistRow";
 
 interface StoreDisplayProps {
     uid: number | null;
@@ -13,51 +12,16 @@ interface StoreDisplayProps {
     games: GameRow[];
     storeHours: StoreHours[];
     userRole: string;
+    wishlist: WishlistRow[];
 }
 
-const StoreDisplay = ({ uid, storeDetails, games, storeHours }: StoreDisplayProps) => {
-    const router = useRouter();
+const StoreDisplay = ({ uid, storeDetails, games, storeHours, userRole, wishlist}: StoreDisplayProps) => {
 
-    // State for success message
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
-    const handleAddToWishlist = async (gid: number) => {
-        if (!uid) {
-        // Redirect to login page if the user is not logged in
-        router.push("/login");
-        return;
-        }
-
-    try {
-        const response = await fetch("/api/wishlist/addTo", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ uid, gid }),
-        });
-
-        if (response.ok) {
-            setSuccessMessage(`Added to wishlist successfully!`);
-            router.refresh();
-            setTimeout(() => setSuccessMessage(null), 3000);
-        } else {
-            const data = await response.json();
-            console.error("Failed to add game:", data.message);
-        }
-    } catch (error) {
-        console.error("Error adding to wishlist:", error);
-    }
-};
+    
 
 return (
     <div>
         <h1>Store Page</h1>
-
-        {/* Success Message */}
-        {successMessage && (
-            <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg">
-            {successMessage}
-            </div>
-        )}
 
         {/* Store Information */}
         {storeDetails && (
@@ -129,12 +93,14 @@ return (
 
                     {/* Add to Wishlist Button */}
                     <div className="ml-auto">
-                        <button 
-                        className="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-lg"
-                        onClick={() => handleAddToWishlist(game.gid)}
-                        >
-                            Add to Wishlist
-                        </button>
+                        {
+                            <WishListButton
+                             uid ={uid}
+                             game ={game}
+                             userRole ={userRole}
+                             myWishlist={wishlist}>
+                             </WishListButton>
+                        }
                     </div>
                 </div>
             ))}
