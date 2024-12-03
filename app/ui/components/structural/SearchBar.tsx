@@ -13,7 +13,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ actionUrl, placeholder = "Search.
                     type="text"
                     name="query"
                     placeholder={placeholder}
-                    className="h-full w-full text-sm p-4 rounded-l-md border border-slate-700 focus:ring-blue-900 focus:border-blue-900 dark:bg-gray-700 dark:text-white dark:border-slate-900 dark:placeholder-gray-400"
+                    className="text-base-content h-full w-full text-sm p-4 rounded-l-md border border-slate-700 focus:ring-blue-900 focus:border-blue-900 dark:bg-gray-700 dark:text-white dark:border-slate-900 dark:placeholder-gray-400"
                     required
                 />
             </div>
