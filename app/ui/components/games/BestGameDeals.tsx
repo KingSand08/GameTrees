@@ -13,11 +13,11 @@ const BestGameDeals = async () => {
     const uniqueDeals = Array.from(new Map(bestDeals.map((deal) => [deal.gid, deal])).values());
 
     return (
-        <div className="overflow-x-auto">
-            <h2 className="text-2xl font-bold text-center mb-4">Best Game Deals</h2>
+        <div className="text-base-content overflow-x-auto">
+            <h2 className="text-4xl font-bold text-center mb-4">Best Game Deals</h2>
             <table className="table w-full bg-neutral">
                 {/* Table Header */}
-                <thead className="bg-neutral text-white">
+                <thead className="bg-neutral text-neutral-content">
                     <tr>
                         <th>Game</th>
                         <th>Original Price</th>
@@ -31,11 +31,11 @@ const BestGameDeals = async () => {
                     {uniqueDeals.map((deal) => (
                         <tr
                             key={deal.gid}
-                            className="hover"
+                            className="hover:bg-neutral-600"
                         >
                             <td>
                                 <Link href={`/game/${deal.gid}`}>
-                                    <span className="underline text-primary">
+                                    <span className="font-semibold text-info hover:underline">
                                         {deal.title}
                                     </span>
                                 </Link>
@@ -45,7 +45,7 @@ const BestGameDeals = async () => {
                             <td className="text-green-500">
                                 ${(deal.price * (1 - deal.discount)).toFixed(2)}
                             </td>
-                            <td>{deal.storeName}</td>
+                            <td className="text-neutral-content">{deal.storeName}</td>
                         </tr>
                     ))}
                 </tbody>

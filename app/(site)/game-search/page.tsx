@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Game from "@/types/models/Game";
 import Image from "next/image";
+import Link from "next/link";
 // import WishListButton from "@/app/ui/components/buttons/WishListButton";
 
 export default function Page({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
@@ -40,9 +41,8 @@ export default function Page({ searchParams }: { searchParams: { [key: string]: 
 
     return (
         <>
-            <h1 className="text-xl font-bold mb-6">Search Results</h1>
             <div className="space-y-4">
-                {query ? <p>Search Query: {query}</p> : <p>No search query provided.</p>}
+                {query ? <p className="text-base-content">Search Query: {query}</p> : <p>No search query provided.</p>}
 
                 {loading ? (
                     <p>Loading games...</p>
@@ -78,7 +78,13 @@ export default function Page({ searchParams }: { searchParams: { [key: string]: 
 
                                 {/* Game Details */}
                                 <div className="ml-4 flex-grow">
-                                    <h2 className="max-[1200px]:pt-8 text-xl font-bold">{game.title}</h2>
+                                    <Link 
+                                        href={`/game/${game.gid}`}
+                                        className="hover:text-secondary transition-colors duration-300"
+                                    >
+                                        {game.title}
+
+                                    </Link>
                                     <p className="max-[1200px]:pt-2 text-gray-400">Developer: {game.developer}</p>
                                     <div className="max-[1200px]:pt-2 mt-2 text-sm">
                                         <span>${game.price}</span>

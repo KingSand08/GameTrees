@@ -34,14 +34,14 @@ export default function HighlightStores() {
                 />
                 <div>
                   <h1 className="text-4xl font-bold">{store.name}</h1>
-                  <p className="text-lg text-gray-400"><strong>Address: </strong>{store.address}</p>
-                  <p className="text-lg text-gray-400"><strong>Modality: </strong>{store.modality}</p>
+                  <p className="text-lg text-base-content"><strong>Address: </strong>{store.address}</p>
+                  <p className="text-lg text-base-content"><strong>Modality: </strong>{store.modality}</p>
                   <h6 className="text-lg py-5">
                     <strong>Operating Hours:</strong>
                     {store.hours.length === 0 ? (
                         <p className="text-center">No operating hours available.</p>
                     ) : (
-                        <table className="table table-sm bg-base-100 text-base-content max-w-96">
+                        <table className="table table-sm bg-base-100 text-base-content max-w-96 rounded-md">
                         <thead>
                             <tr>
                             <th className="text-left">Weekday</th>

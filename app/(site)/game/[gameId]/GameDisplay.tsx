@@ -20,11 +20,11 @@ const GameDisplay = ({details, stores, uid, userRole, wishlist }: GameDisplayPro
     <div>
       {/* Game Information */}
       {details && (
-        <div className="hero bg-base-300 flex justify-center items-center">
+        <div className="hero bg-base-200 text-base-content flex justify-center items-center">
           <div className="hero-content flex-col lg:flex-row justify-evenly w-full max-w-7xl">
             {/* Game Image */}
             <div
-              className="flex-shrink-0 w-60 h-56 overflow-hidden rounded-lg bg-gray-700"
+              className="flex-shrink-0 w-60 h-56 overflow-hidden rounded-lg bg-base-100"
               style={{ flexBasis: "22rem" }}
             >
               <Link href={`/game/${details.gid}`}>
@@ -46,7 +46,7 @@ const GameDisplay = ({details, stores, uid, userRole, wishlist }: GameDisplayPro
             </div>
 
             {/* Game Details */}
-            <div className="text-white p-4 w-full lg:w-1/2">
+            <div className="text-base-content p-4 w-full lg:w-1/2">
               <h1 className="text-3xl font-bold mb-4">{details.title}</h1>
               <p className="mb-2">
                 <strong>Developer:</strong> {details.developer}
@@ -75,8 +75,8 @@ const GameDisplay = ({details, stores, uid, userRole, wishlist }: GameDisplayPro
 
       {/* Stores Section */}
   
-      <div className="space-y-4 p-6">
-        <h2 className="text-xl font-bold text-center">Available in Stores</h2>
+      <div className="text-base-content space-y-4 p-6">
+        <h2 className="text-xl font-bold text-center">Available in These Stores</h2>
           {stores.map((store, index) => (
           <div
             key={index}
