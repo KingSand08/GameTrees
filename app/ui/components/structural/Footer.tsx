@@ -1,13 +1,29 @@
+import { authOptions } from "@/nextauth/NextAuthOptions";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 
-const Footer = () => {
+const Footer = async () => {
+    const session = await getServerSession(authOptions);
+
     return (
         <footer className="footer footer-center bg-slate-800 text-white rounded p-10">
             <nav className="grid grid-flow-col gap-4">
-                <a className="link link-hover">About us</a>
-                <a className="link link-hover">Contact</a>
-                <a className="link link-hover">Jobs</a>
-                <a className="link link-hover">Press kit</a>
+                <Link href="/" className="link link-hover">
+                    Home
+                </Link>
+                <Link href="/temp/all-games" className="link link-hover">
+                    Games
+                </Link>
+                {session?.user.role === "customer" && (
+                    <Link href={`/users/${session?.user?.username}/wishlist`} className="link link-hover">
+                        Your Wishlist
+                    </Link>
+                )}
+                {session?.user.role === "admin" && (
+                    <Link href="/admin/user-view" className="link link-hover">
+                        Admin User View
+                    </Link>
+                )}
             </nav>
             <nav>
                 <div className="grid grid-flow-col gap-4 items-center">
