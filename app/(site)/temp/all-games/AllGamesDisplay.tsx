@@ -5,7 +5,9 @@ import Image from "next/image";
 import Game from "@/types/models/Game";
 import WishlistRow from "@/types/models/WishlistRow";
 import WishListButton from "@/app/ui/components/buttons/WishListButton";
+import Link from "next/link";
 // import generatePhotoPid from "@/utils/generatePhotoId";
+
 
 interface AllGamesDisplayProps {
     games: Game[];
@@ -20,66 +22,64 @@ export default function AllGamesDisplay({
     uid,
     wishlist,
 }: AllGamesDisplayProps) {
-
     return (
-        <div className="space-y-4">
-            {games.length > 0 ? (
-                games.map((game) => {
-                    // const photoPid = generatePhotoPid(
-                    //     `${game.gid}-${game.title}-${game.publish_date}`
-                    // );
-
-                    return (
+        <div className="flex justify-center items-center p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {games.length > 0 ? (
+                    games.map((game) => (
+                        // const photoPid = generatePhotoPid(
+                        //  `${game.gid}-${game.title}-${game.publish_date}`
+                        // );
                         <div
                             key={game.gid}
-                            className="flex flex-col md:flex-row items-center bg-gray-800 rounded-lg p-4 shadow-lg"
+                            className="card bg-base-100 shadow-xl rounded-box w-72 mx-auto"
                         >
                             {/* Game Image */}
-                            <div
-                                className="flex-shrink-0 w-60 h-56 overflow-hidden rounded-lg bg-gray-700"
-                                style={{ flexBasis: "22rem" }}
-                            >
+                            <figure className="relative h-80 overflow-hidden rounded-t-box bg-neutral">
                                 {game.image ? (
                                     <Image
                                         src={game.image}
                                         alt={`${game.title} cover`}
-                                        className="w-full h-full object-contain"
+                                        className="w-full h-full object-cover"
                                         width={1000}
                                         height={1000}
                                         quality={100}
                                     />
                                 ) : (
-                                    <div className="w-full h-full flex items-center justify-center">
+                                    <div className="flex items-center justify-center w-full h-full bg-gray-700">
                                         <span className="text-gray-400">No Image</span>
                                     </div>
                                 )}
-                            </div>
-
-                            {/* Game Details */}
-                            <div className="ml-4 flex-grow">
-                                <h2 className="text-xl font-bold">{game.title}</h2>
-                                <p className="text-gray-400">Developer: {game.developer}</p>
-                                <div className="mt-2 text-sm">
-                                    <span>${game.price}</span>
-                                </div>
-                                {/* <div className="mt-1 text-xs text-gray-500">
+                            {/* <div className="mt-1 text-xs text-gray-500">
                                     Photo ID: {photoPid}
                                 </div> */}
-                            </div>
+                            </figure>
 
-                            {/* Action Buttons */}
-                            <WishListButton 
-                                uid={uid}
-                                game={game}
-                                userRole={userRole}
-                                myWishlist={wishlist}
-                            ></WishListButton>
+                            {/* Game Content */}
+                            <div className="card-body bg-neutral text-neutral-content p-4">
+                                <Link
+                                    href={`/game/${game.gid}`}
+                                    className="card-title hover:text-secondary transition-colors duration-300"
+                                >
+                                    {game.title}
+                                </Link>
+                                <p className="text-sm">Developer: {game.developer}</p>
+                                <div className="text-lg font-semibold">${game.price}</div>
+                                <div className="card-actions justify-end mt-4">
+                                    <WishListButton
+                                        uid={uid}
+                                        game={game}
+                                        userRole={userRole}
+                                        myWishlist={wishlist}
+                                    />
+                                </div>
+                            </div>
                         </div>
-                    );
-                })
-            ) : (
-                <p className="text-center">No games found!</p>
-            )}
+                    ))
+                ) : (
+                    <p className="text-center col-span-full">No games found!</p>
+                )}
+            </div>
         </div>
     );
 }
