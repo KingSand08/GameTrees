@@ -21,11 +21,11 @@ const StoreDisplay = ({ uid, storeDetails, games, storeHours, userRole, wishlist
 return (
     <div>
         {/* Store Information */}
-        <div className="hero bg-base-300 flex justify-center items-center">
-            <div className="hero-content flex-col lg:flex-row w-full max-w-7xl">
+        <div className="hero bg-base-200 flex justify-center items-center">
+            <div className="hero-content text-base-content flex-col lg:flex-row w-full max-w-7xl">
                 {/* Store Information */}
                 {storeDetails && (
-                <div className="text-white p-4 rounded-lg w-full lg:w-1/2">
+                <div className=" p-4 rounded-lg w-full lg:w-1/2">
                     <div>
                     <h1 className="text-5xl font-bold whitespace-nowrap">
                         {storeDetails.name}
@@ -43,14 +43,14 @@ return (
                 )}
 
                 {/* Operating Hours */}
-                <div className="text-white p-4 rounded-lg shadow-md w-full lg:w-1/2 lg:ml-4 lg:order-last">
+                <div className="p-4 rounded-lg w-full lg:w-1/2 lg:ml-4 lg:order-last">
 
                     <h2 className="text-lg font-bold mb-2 ">Operating Hours</h2>
 
                     {storeHours.length === 0 ? (
                         <p className="text-center">No operating hours available.</p>
                     ) : (
-                        <table className="table table-sm bg-neutral text-neutral-content max-w-96">
+                        <table className="table table-sm bg-base-100 text-base-content max-w-96">
                         <thead>
                             <tr>
                             <th className="text-left">Weekday</th>
@@ -125,11 +125,11 @@ return (
                     <div className="ml-auto">
                         {
                             <WishListButton
-                             uid ={uid}
-                             game ={game}
-                             userRole ={userRole}
-                             myWishlist={wishlist}>
-                             </WishListButton>
+                                uid ={uid}
+                                game ={game}
+                                userRole ={userRole}
+                                myWishlist={wishlist}>
+                            </WishListButton>
                         }
                     </div>
                 </div>

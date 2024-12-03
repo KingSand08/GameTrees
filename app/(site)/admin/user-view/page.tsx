@@ -13,7 +13,7 @@ const Page = async () => {
   const users = await getAllUsersWithRolesAndPhotos();
 
   return (
-    <div className="pt-8">
+    <div className="pt-8 text-base-content">
       <h2 className={`${monoton.className} text-5xl text-center`}>Users of GameTrees</h2>
       <div className="flex flex-col space-y-[8em] pt-[5em]">
         <DisplayUserData currentUsername={currentUsername} users={users} />
