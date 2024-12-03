@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Game from "@/types/models/Game";
 import Image from "next/image";
 import Link from "next/link";
-import Link from "next/link";
 // import WishListButton from "@/app/ui/components/buttons/WishListButton";
 
 export default function Page({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
