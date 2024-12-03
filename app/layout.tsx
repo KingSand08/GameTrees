@@ -3,6 +3,7 @@ import { inter } from '@/app/ui/fonts/fonts';
 import "@/app/ui/styles/globals.css";
 import React from "react";
 import Navbar from "@/app/ui/components/Navbar";
+import Footer from "@/app/ui/components/structural/Footer";
 import NextAuthSessionProvider from "@/nextauth/NextAuthSessionProvider"
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function RootLayout({
           <div className="bg-base-100 py-8 px-8">
             {children}
           </div>
+          <Footer />
         </NextAuthSessionProvider>
       </body>
     </html>
