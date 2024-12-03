@@ -63,7 +63,7 @@ export default async function Navbar() {
                             )}
                             {session?.user.role === "admin" && (
                                 <>
-                                    <NavButton page="Admin User View" route="/admin/user-view" className='flex-shrink-0 hidden min-[0px]:block' />
+                                    <NavButton page="Admin User View" route="/admin/user-view" className='flex-shrink-0 hidden min-[780px]:block' />
                                 </>
                             )}
 
