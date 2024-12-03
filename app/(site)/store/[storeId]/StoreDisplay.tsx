@@ -20,43 +20,64 @@ const StoreDisplay = ({ uid, storeDetails, games, storeHours, userRole, wishlist
 
 return (
     <div>
-        <h1>Store Page</h1>
-
         {/* Store Information */}
-        {storeDetails && (
-            <div className="flex justify-between items-start bg-gray-900 text-white p-4 rounded-lg shadow-md">
-                <div>
-                    <h2 className="text-lg font-bold mb-2">Store Information</h2>
-                    <p><strong>Store name:</strong> {storeDetails.name}</p>
-                    <p><strong>Modality:</strong> {storeDetails.modality}</p>
-                    <p><strong>Address:</strong> {storeDetails.address}</p>
+        <div className="hero bg-base-300 flex justify-center items-center">
+            <div className="hero-content flex-col lg:flex-row w-full max-w-7xl">
+                {/* Store Information */}
+                {storeDetails && (
+                <div className="text-white p-4 rounded-lg w-full lg:w-1/2">
+                    <div>
+                    <h1 className="text-5xl font-bold whitespace-nowrap">
+                        {storeDetails.name}
+                    </h1>
+                    <p>
+                        <strong className="mr-1">Address:</strong>
+                        {storeDetails.address}
+                    </p>
+                    <p>
+                        <strong className="mr-1">Modality:</strong>
+                        {storeDetails.modality}
+                    </p>
+                    </div>
                 </div>
+                )}
 
                 {/* Operating Hours */}
-                <div>
-                    <h2 className="text-lg font-bold mb-2">Operating Hours</h2>
+                <div className="text-white p-4 rounded-lg shadow-md w-full lg:w-1/2 lg:ml-4 lg:order-last">
+
+                    <h2 className="text-lg font-bold mb-2 ">Operating Hours</h2>
+
                     {storeHours.length === 0 ? (
-                        <p>No operating hours available.</p>
+                        <p className="text-center">No operating hours available.</p>
                     ) : (
-                        <table className="text-sm">
-                            <tbody>
-                                {storeHours.map((hour, index) => (
-                                    <tr key={index}>
-                                        <td className="pr-4 font-semibold">{hour.day}:</td>
-                                        <td className="pr-4">Open: {hour.start_time}</td>
-                                        <td>Close: {hour.end_time}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
+                        <table className="table table-sm bg-neutral text-neutral-content max-w-96">
+                        <thead>
+                            <tr>
+                            <th className="text-left">Weekday</th>
+                            <th className="text-left">Open</th>
+                            <th className="text-left">Close</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {storeHours.map((hour, index) => (
+                            <tr key={index}>
+                                <td className="font-bold">{hour.day}:</td>
+                                <td>{hour.start_time}</td>
+                                <td>{hour.end_time}</td>
+                            </tr>
+                            ))}
+                        </tbody>
                         </table>
                     )}
                 </div>
             </div>
-        )}
+        </div>
+
+
 
         {/* Games Section */}
-        <h2 className="text-xl font-bold mt-8">Games Available</h2>
-        <div className="space-y-4">
+        <div className="space-y-4 p-6">
+        <h2 className="text-xl font-bold">Games Available</h2>
             {games.map((game) => (
                 <div
                     key={game.gid}
@@ -87,8 +108,14 @@ return (
 
                     {/* Game Details */}
                     <div className="ml-4 flex-grow">
-                        <h2 className="text-xl font-bold">
-                            <Link href={`/game/${game.gid}`}>{game.title}</Link>
+                        <h2 className="text-xl font-bold text-content">
+                            <Link 
+                                href={`/game/${game.gid}`}
+                                className="hover:text-secondary transition-colors duration-300"
+                            >
+                                {game.title}
+                            </Link>
+                            
                         </h2>
                         <p className="text-gray-400">Price: ${game.price}</p>
                         <p className="text-gray-400">Platforms: {game.platforms || "No platforms available"}</p>

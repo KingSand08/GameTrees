@@ -7,7 +7,7 @@ export default async function Home() {
   const trendingGames = await getTrendingGames();
 
   return (
-    <div className="min-h-screen bg-base-100 text-gray-100 space-y-12">
+    <div className="min-h-screen text-gray-100 space-y-12">
       <HighlightStores />
 
       <div>
