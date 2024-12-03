@@ -21,12 +21,12 @@ export default async function Navbar() {
     }
 
     return (
-        <header className="bg-slate-800 text-white h-fit">
-            <div className="container w-full">
+        <header className="bg-slate-800 text-white h-fit min-[1200px]:max-h-32 max-h-48">
+            <div className="container w-full min-h-20">
                 {/* Top Header Section */}
-                <div className="w-screen flex items-center justify-between py-5">
+                <div className="w-screen flex items-center justify-between py-5 min-h-20">
                     {/* Logo */}
-                    <div className='flex items-center px-5'>
+                    <div className='flex items-center px-5 min-h-20'>
                         <Link href='/'>
                             <div
                                 className="avatar flex items-center justify-center"
@@ -53,7 +53,7 @@ export default async function Navbar() {
                         <SearchBar actionUrl={""} />
                     </div>
 
-                    <div className="flex items-center justify-end py-5">
+                    <div className="flex items-center justify-end py-4 max-h-[80px]">
                         {/* Desktop Navigation */}
                         <div className="flex items-center gap-8 ml-4">
                             <NavButton page="Home" route="/" className='flex-shrink-0 hidden min-[430px]:block' />
@@ -72,7 +72,7 @@ export default async function Navbar() {
                                 <>
                                     <Link href={"/account-settings"} className='cursor-pointer'>
                                         <ProfileButton
-                                            className="hidden min-[330px]:flex"
+                                            className="hidden min-[330px]:flex h-[80px]"
                                             username={session.user.username}
                                             firstname={session.user.name}
                                             lastname={session.user.lastname}
@@ -96,7 +96,7 @@ export default async function Navbar() {
                 </div>
 
                 {/* Search Bar (Visible Only on Mobile) */}
-                <div className="block min-[1200px]:hidden w-full px-4 pb-4">
+                <div className="block min-[1200px]:hidden w-full px-4 pt-1 pb-8">
                     <SearchBar actionUrl={""} />
                 </div>
             </div>
