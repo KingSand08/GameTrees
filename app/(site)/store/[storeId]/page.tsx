@@ -1,5 +1,5 @@
 import { StoreRepository } from "@/database/queries/store/StoreRepository";
-import { StoreDetailRep } from "@/database/queries/store/StoreDetailRep";
+import { StoreDetailRep } from "@/database/queries/store/StoreDetails";
 import { StoreHoursRep } from "@/database/queries/store/StoreHoursRep";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/nextauth/NextAuthOptions";
