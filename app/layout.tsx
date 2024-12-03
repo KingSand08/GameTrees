@@ -25,7 +25,7 @@ export default function RootLayout({
       >
         <NextAuthSessionProvider>
           <Navbar />
-          <div className="bg-base-100">
+          <div className="bg-base-100 py-8 px-8">
             {children}
           </div>
         </NextAuthSessionProvider>

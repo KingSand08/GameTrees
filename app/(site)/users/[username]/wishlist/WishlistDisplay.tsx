@@ -21,7 +21,7 @@ export default function WishlistDisplay({ uid, wishlist, myWishlist, userRole }:
                 wishlist.map((game, index) => (
                     <div
                         key={index}
-                        className="flex flex-col min-[1110px]:flex-row items-center bg-gray-800 rounded-lg p-4 shadow-lg"
+                        className="flex flex-col min-[1110px]:flex-row items-center rounded-lg shadow-lg"
                     >
                         {/* Game Image */}
                         <div
@@ -55,10 +55,10 @@ export default function WishlistDisplay({ uid, wishlist, myWishlist, userRole }:
 
                         {/* Action Buttons */}
                         <WishListButton
-                        uid={uid}
-                        game={game}
-                        userRole = {userRole}
-                        myWishlist={myWishlist}
+                            uid={uid}
+                            game={game}
+                            userRole={userRole}
+                            myWishlist={myWishlist}
                         >
 
                         </WishListButton>
