@@ -41,9 +41,8 @@ export default function Page({ searchParams }: { searchParams: { [key: string]: 
 
     return (
         <>
-            <h1 className="text-xl font-bold mb-6">Search Results</h1>
             <div className="space-y-4">
-                {query ? <p>Search Query: {query}</p> : <p>No search query provided.</p>}
+                {query ? <p className="text-base-content">Search Query: {query}</p> : <p>No search query provided.</p>}
 
                 {loading ? (
                     <p>Loading games...</p>
@@ -81,7 +80,7 @@ export default function Page({ searchParams }: { searchParams: { [key: string]: 
                                 
                                 <div className="ml-4 flex-grow">
                                     <h2 className="max-[1200px]:pt-8 text-xl font-bold">
-                                        <Link href={`/game/${game.gid}`} className="text-blue-500 hover:underline">
+                                        <Link href={`/game/${game.gid}`} className="hover:text-secondary hover:underline transition-colors duration-300">
                                             {game.title}
                                         </Link>
                                     </h2>
