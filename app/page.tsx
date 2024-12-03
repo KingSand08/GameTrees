@@ -1,29 +1,24 @@
-"use server";
-// import Image from "next/image";
-
-// import Link from "next/link";
-import GameTable from "./ui/components/structural/GameTable";
-import HighlightGameCards from "./ui/components/structural/Hero";
-import ScrollSection from "./ui/components/structural/ScrollSection";
-
-
-// const trending = [
-//   { id: 1, title: "Red Dead Redemption 2", price: "$19.79", discount: "-67%" },
-//   { id: 2, title: "Baldur's Gate 3", price: "$59.99" },
-//   { id: 3, title: "Call of Duty: Black Ops 6", price: "$69.99" },
-//   { id: 4, title: "Elden Ring", price: "$43.99", discount: "-27%" },
-//   { id: 5, title: "Cyberpunk 2077", price: "$29.99", discount: "-50%" },
-//   { id: 6, title: "Dragon Age: The Veilguard", price: "$59.99" },
-//   { id: 7, title: "Monster Hunter Wilds", price: "$57.39", discount: "-18%" },
-//   { id: 8, title: "Resident Evil 4 (2023)", price: "$14.44", discount: "-64%" },
-// ];
+import TrendingGames from "./ui/components/games/TrendingSection";
+import HighlightStores from "./ui/components/structural/Hero";
+import BestGameDeals from "./ui/components/games/BestGameDeals";
+import { getTrendingGames } from "@/database/queries/game/getTrendingGames";
 
 export default async function Home() {
+  const trendingGames = await getTrendingGames();
+
   return (
     <div className="min-h-screen bg-base-100 text-gray-100 space-y-12">
-      <HighlightGameCards />
-      <ScrollSection />
-      <GameTable />
+      <HighlightStores />
+
+      <div>
+          {/* Trending Section  */}
+          <TrendingGames games={trendingGames} />
+      </div>
+
+      <div>
+        {/* <BiggestDiscounts games={biggestDiscounts} /> */}
+        <BestGameDeals />
+      </div>
     </div>
   );
 }

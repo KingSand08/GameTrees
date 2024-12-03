@@ -99,7 +99,7 @@ const SignUp = (props: Props) => {
                             htmlFor="fname"
                             className="text-white text-md font-medium"
                         >
-                            *Full Name:
+                            *First Name:
                         </label>
                         <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
                             <svg
@@ -118,9 +118,43 @@ const SignUp = (props: Props) => {
                             </svg>
                             <input
                                 type="text"
-                                id="name"
-                                name="name"
-                                placeholder="John Marston"
+                                id="fname"
+                                name="fname"
+                                placeholder="Jon"
+                                required
+                                className="bg-transparent placeholder-gray-400 p-2 w-full focus:outline-none"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Last Name Input */}
+                    <div className="flex flex-col space-y-2">
+                        <label
+                            htmlFor="lname"
+                            className="text-white text-md font-medium"
+                        >
+                            Last Name:
+                        </label>
+                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 opacity-70"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                            </svg>
+                            <input
+                                type="text"
+                                id="lname"
+                                name="lname"
+                                placeholder="Snow"
                                 required
                                 className="bg-transparent placeholder-gray-400 p-2 w-full focus:outline-none"
                             />

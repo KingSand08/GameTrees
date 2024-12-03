@@ -3,8 +3,8 @@
 import React from "react";
 import Image from "next/image";
 import Game from "@/types/models/Game";
-import { useRouter } from "next/navigation";
 import WishlistRow from "@/types/models/WishlistRow";
+import WishListButton from "@/app/ui/components/buttons/WishListButton";
 // import generatePhotoPid from "@/utils/generatePhotoId";
 
 interface AllGamesDisplayProps {
@@ -20,41 +20,6 @@ export default function AllGamesDisplay({
     uid,
     wishlist,
 }: AllGamesDisplayProps) {
-    const router = useRouter();
-
-    // Add game to wishlist
-    const handleAddToWishlist = async (gid: number) => {
-        try {
-            await fetch("/api/wishlist/addTo", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ uid, gid }),
-            });
-
-            router.refresh();
-        } catch (error) {
-            console.error("Error adding to wishlist:", error);
-        }
-    };
-
-    // Remove game from wishlist
-    const handleRemoveFromWishlist = async (gid: number) => {
-        try {
-            await fetch("/api/wishlist/removeFrom", {
-                method: "DELETE",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ uid, gid }),
-            });
-
-            router.refresh();
-        } catch (error) {
-            console.error("Error removing from wishlist:", error);
-        }
-    };
-
-    const isGameInWishlist = (gid: number): boolean => {
-        return wishlist.some((game) => game.gid === gid);
-    };
 
     return (
         <div className="space-y-4">
@@ -103,27 +68,12 @@ export default function AllGamesDisplay({
                             </div>
 
                             {/* Action Buttons */}
-                            <div className="flex flex-col md:flex-row items-center mt-4 md:mt-0 md:ml-auto space-y-2 md:space-y-0 md:space-x-2">
-                                {/* Add to Wishlist Button */}
-                                {userRole === "customer" && !isGameInWishlist(game.gid) && (
-                                    <button
-                                        className="btn bg-blue-500 hover:bg-blue-700 text-white"
-                                        onClick={() => handleAddToWishlist(game.gid)}
-                                    >
-                                        Add to Wishlist
-                                    </button>
-                                )}
-
-                                {/* Remove from Wishlist Button */}
-                                {isGameInWishlist(game.gid) && (
-                                    <button
-                                        className="btn bg-red-700 hover:bg-red-800 text-white"
-                                        onClick={() => handleRemoveFromWishlist(game.gid)}
-                                    >
-                                        Remove From Wishlist
-                                    </button>
-                                )}
-                            </div>
+                            <WishListButton 
+                                uid={uid}
+                                game={game}
+                                userRole={userRole}
+                                myWishlist={wishlist}
+                            ></WishListButton>
                         </div>
                     );
                 })

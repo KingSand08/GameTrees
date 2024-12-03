@@ -33,7 +33,6 @@ const WishlistPage = async ({ params }: WishlistPageProps) => {
         await getUserWishlist(session?.user.username || ""),
         await getUserAccountImage(userUID),
     ]);
-    console.log(wishlist)
 
     return (
         <div className="pb-8">

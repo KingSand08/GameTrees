@@ -7,7 +7,8 @@ export default function ClientAccountSettings() {
     const { data: session, update: updateSession } = useSession();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
-    const [name, setName] = useState("");
+    const [firstname, setName] = useState("");
+    const [lastname, setLastname] = useState("");
     const [password, setPassword] = useState("");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [errorMsg, setErrorMsg] = useState("");
@@ -17,6 +18,7 @@ export default function ClientAccountSettings() {
     const [isEditingUsername, setIsEditingUsername] = useState(false);
     const [isEditingEmail, setIsEditingEmail] = useState(false);
     const [isEditingName, setIsEditingName] = useState(false);
+    const [isEditingLastname, setIsEditingLastname] = useState(false);
     const [isEditingPassword, setIsEditingPassword] = useState(false);
     const [isEditingPhoto, setIsEditingPhoto] = useState(false);
 
@@ -25,7 +27,8 @@ export default function ClientAccountSettings() {
     const hasChanges =
         username !== "" ||
         email !== "" ||
-        name !== "" ||
+        firstname !== "" ||
+        lastname !== "" ||
         password !== "" ||
         selectedFile !== null;
 
@@ -43,9 +46,11 @@ export default function ClientAccountSettings() {
         const formData = new FormData();
         if (username) formData.append("username", username);
         if (email) formData.append("email", email);
-        if (name) formData.append("name", name);
+        if (firstname) formData.append("fname", firstname);
+        if (lastname) formData.append("lname", lastname);
         if (password) formData.append("password", password);
         if (selectedFile) formData.append("file", selectedFile);
+
 
         try {
             const response = await fetch("/api/users/update", {
@@ -65,7 +70,8 @@ export default function ClientAccountSettings() {
                             id: session?.user.id,
                             username: username || session?.user.username,
                             email: email || session?.user.email,
-                            name: name || session?.user.name,
+                            firstname: firstname || session?.user.name,
+                            lastname: lastname || session?.user.lastname,
                         },
                     });
                     await new Promise((resolve) => setTimeout(resolve, 1200));
@@ -140,7 +146,7 @@ export default function ClientAccountSettings() {
 
                         {/* Name Input */}
                         <div className="block">
-                            <label className="text-sm font-medium text-gray-400">Name</label>
+                            <label className="text-sm font-medium text-gray-400">Fist Name</label>
                             <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
                                 <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
                                     <svg
@@ -159,7 +165,7 @@ export default function ClientAccountSettings() {
                                     </svg>
                                     <input
                                         type="text"
-                                        value={name}
+                                        value={firstname}
                                         onChange={(e) => setName(e.target.value)}
                                         disabled={!isEditingName}
                                         placeholder={session?.user.name}
@@ -174,6 +180,48 @@ export default function ClientAccountSettings() {
                                 >
                                     <p>
                                         {isEditingName ? "Lock" : "Edit"}
+                                    </p>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Lastname Input */}
+                        <div className="block">
+                            <label className="text-sm font-medium text-gray-400">Last Name</label>
+                            <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
+                                <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-5 w-5 opacity-70"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        />
+                                    </svg>
+                                    <input
+                                        type="text"
+                                        value={lastname}
+                                        onChange={(e) => setLastname(e.target.value)}
+                                        disabled={!isEditingLastname}
+                                        placeholder={session?.user.lastname}
+                                        className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                        autoComplete="off"
+                                    />
+                                </div>
+                                
+                                <button
+                                    type="button"
+                                    onClick={() => setIsEditingLastname(!isEditingLastname)}
+                                    className="mt-3 md:mt-0 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 md:w-[5em]"
+                                >
+                                    <p>
+                                        {isEditingLastname ? "Lock" : "Edit"}
                                     </p>
                                 </button>
                             </div>

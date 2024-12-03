@@ -1,6 +1,7 @@
 type Props = {
     msg: string;
     name?: string;
+    // lastname?:string;
     id?: string;
     value?: string;
 };

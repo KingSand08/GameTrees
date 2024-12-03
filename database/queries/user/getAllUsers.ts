@@ -20,16 +20,17 @@ export const getAllUsers = async (): Promise<(User)[]> => {
 export const getAllUsersWithPhotos = async (): Promise<(User & { image: Buffer | null })[]> => {
     const query = `
         SELECT 
-            u.uid,
-            u.username,
-            u.password,
-            u.name,
-            u.dob,
-            u.phone,
-            u.email,
-            ap.image
-        FROM Users u
-        LEFT JOIN AccPhotos ap ON u.uid = ap.uid
+            U.uid,
+            U.username,
+            U.password,
+            U.firstname AS name,
+            U.lastname,
+            U.dob,
+            U.phone,
+            U.email,
+            AP.image
+        FROM Users U
+        LEFT JOIN AccPhotos AP ON U.uid = AP.uid
     `;
 
     const result = (await executeQuery(query, [])) as (User & { image: Buffer | null })[];
@@ -44,16 +45,17 @@ export const getAllUsersWithPhotos = async (): Promise<(User & { image: Buffer |
 export const getAllUsersWithRolesAndPhotos = async (): Promise<User[]> => {
     const query = `
         SELECT 
-            u.uid,
-            u.username,
-            u.password,
-            u.name,
-            u.dob,
-            u.phone,
-            u.email,
-            ap.image
-        FROM Users u
-        LEFT JOIN AccPhotos ap ON u.uid = ap.uid
+            U.uid,
+            U.username,
+            U.password,
+            U.firstname AS name,
+            U.lastname,
+            U.dob,
+            U.phone,
+            U.email,
+            AP.image
+        FROM Users U
+        LEFT JOIN AccPhotos AP ON U.uid = AP.uid
   `;
 
     // Fetch users and photos
