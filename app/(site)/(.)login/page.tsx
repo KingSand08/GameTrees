@@ -9,9 +9,11 @@ type Props = {
 
 const SignInModal = ({ searchParams }: Props) => {
     return (
-        <Modal callbackUrl={searchParams?.callbackUrl}>
-            <Signin error={searchParams?.error} callbackUrl={searchParams?.callbackUrl} />
-        </Modal>
+        <div className="min-h-screen">
+            <Modal callbackUrl={searchParams?.callbackUrl}>
+                <Signin error={searchParams?.error} callbackUrl={searchParams?.callbackUrl} />
+            </Modal>
+        </div>
     );
 };
 
