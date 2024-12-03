@@ -6,6 +6,7 @@ import { authOptions } from "@/nextauth/NextAuthOptions";
 import { getUserIdByUsername } from "@/database/queries/user/getUIDFromUsername";
 import { getUserRoleByUID } from "@/database/queries/user/getUserRoleByUID";
 import StoreDisplay from "./StoreDisplay";
+import getUserWishlist from "@/database/queries/wishlist/getWishlist";
 
 interface StorePageProps {
   params: { storeId: string };
@@ -35,10 +36,11 @@ export default async function StorePage({ params }: StorePageProps) {
     const storeHoursRep = new StoreHoursRep();
   
     try {
-        const [games, storeDetails, storeHours] = await Promise.all([
+        const [games, storeDetails, storeHours, wishlist] = await Promise.all([
             storeRepository.getGamesByStoreId(storeId),
             storeDetailRep.getStoreDetails(storeId),
             storeHoursRep.getStoreHours(storeId),
+            getUserWishlist(username),
         ]);
     
         // Pass data and user info to the client
@@ -49,6 +51,7 @@ export default async function StorePage({ params }: StorePageProps) {
             storeHours={storeHours}
             uid={userUID} // Null if not logged in
             userRole={role || "guest"} // Default to "guest" for unauthenticated users
+            wishlist={wishlist}
             />
         );
     } catch (error) {

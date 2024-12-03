@@ -68,7 +68,8 @@ export default async function Navbar() {
                                 <ProfileButton
                                     // className='w-full xl:flex lg:flex md:flex sm:flex min-[380px]:hidden'
                                     username={session.user.username}
-                                    name={session.user.name}
+                                    firstname={session.user.name}
+                                    lastname={session.user.lastname}
                                     image={profileImage ?? undefined}
                                 />
                             </Link>

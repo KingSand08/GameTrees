@@ -8,7 +8,8 @@ import { checkFieldAlreadyExists } from "../user/checkFieldAlreadyExists";
 
 const CustomerRegistration = async (formData: { get: (arg0: string) => unknown; }) => {
     const username = formData.get("username");
-    const fname = formData.get("name");
+    const fname = formData.get("fname");
+    const lname = formData.get("lname");
     const email = formData.get("email");
     const dob = formData.get("date");
     const phone = formData.get("tel");
@@ -41,10 +42,11 @@ const CustomerRegistration = async (formData: { get: (arg0: string) => unknown; 
     if (username != "" && fname != "" && email != "" && dob != "" && password != "") {
 
         const result = await executeQuery(
-            "INSERT INTO Users(username, name, email, dob, phone, password) VALUE (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO Users(username, firstname, lastname, email, dob, phone, password) VALUE (?, ?, ?, ?, ?, ?, ?)",
             [
                 username,
                 fname,
+                lname,
                 email,
                 dob,
                 phone,

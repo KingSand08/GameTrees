@@ -9,7 +9,8 @@ export async function getUser(uid: string | number): Promise<User | null> {
         SELECT
             U.uid,
             U.username,
-            U.name,
+            U.firstname AS name,
+            U.lastname,
             U.email,
             U.phone,
             U.dob,

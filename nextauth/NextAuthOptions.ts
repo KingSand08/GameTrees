@@ -56,7 +56,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null;
         const { email, password } = credentials;
-        const user = await findUserByEmailAndPassword(email, password) as { uid: string, username: string, email: string, name: string }[];
+        const user = await findUserByEmailAndPassword(email, password) as { uid: string, username: string, email: string, firstname: string, lastname: string }[];
 
         if (user && user.length > 0) {
           const role = await getUserRoleByUID(user[0].uid);
@@ -65,7 +65,8 @@ export const authOptions: AuthOptions = {
             id: user[0].uid,
             username: user[0].username,
             email: user[0].email,
-            name: user[0].name,
+            name: user[0].firstname,
+            lastname: user[0].lastname,
             role,
           };
         } else {
@@ -81,6 +82,7 @@ export const authOptions: AuthOptions = {
         token.username = session.user.username;
         token.email = session.user.email;
         token.name = session.user.name;
+        token.lastname = session.user.lastname;
       }
 
       if (user) {
@@ -88,7 +90,8 @@ export const authOptions: AuthOptions = {
         token.id = user.id;
         token.username = user.username;
         token.email = user.email;
-        token.name = user.name;
+        token.firstname = user.name;
+        token.lastname = user.lastname;
         token.role = user.role;
       }
       return token;
@@ -99,6 +102,7 @@ export const authOptions: AuthOptions = {
         username: token.username as string,
         email: token.email as string,
         name: token.name as string,
+        lastname: token.lastname as string,
         role: token.role as string,
       };
       return session;
@@ -116,6 +120,7 @@ export const authOptions: AuthOptions = {
           user.username = existingUser[0].username;
           user.email = existingUser[0].email;
           user.name = existingUser[0].name;
+          user.lastname = existingUser[0].lastname;
           user.role = role;
           return true;
         } else {

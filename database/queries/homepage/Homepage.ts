@@ -1,4 +1,7 @@
 import executeQuery from "@/database/mysqldb";
+import RawTrendGame from "@/types/models/RawTrendGame";
+import TrendGame from "@/types/models/TrendGame";
+import blobToBase64 from "@/utils/blobToBase64";
 
 export type StoreHours = {
     day: string;
@@ -27,7 +30,10 @@ export type GameDeal = {
 export type TrendingGame = {
     gid: number;
     title: string;
+    genre: string;
+    lowestPrice: number;
     wishlistCount: number;
+    image?: string | null;
 };
 
 export class HomepageQueries {
@@ -81,30 +87,33 @@ export class HomepageQueries {
 
     public static async getTrendingGames() {
         const query = `
-            SELECT 
+            SELECT
                 G.gid,
                 G.title,
-            GROUP_CONCAT(DISTINCT GL.type) AS genre,
-            MIN(G.price * (1 - I.discount)) AS lowestPrice,
-            COUNT(W.uid) AS wishlistCount
+                GROUP_CONCAT(DISTINCT GL.type) AS genre,
+                MIN(CAST(G.price * (1 - I.discount) AS DECIMAL(5,2))) AS lowestPrice,
+                COUNT(DISTINCT W.uid) AS wishlistCount,
+                MAX(P.image)
             FROM Games G
             LEFT JOIN Wishlists W ON G.gid = W.gid
             LEFT JOIN Genres GE ON G.gid = GE.gid
             LEFT JOIN GenreList GL ON GE.genre_id = GL.genre_id
             LEFT JOIN Inventories I ON G.gid = I.gid
+            LEFT JOIN GamePhotos P ON P.gid = G.gid
             GROUP BY G.gid, G.title
             ORDER BY wishlistCount DESC
             LIMIT 10;
         `;
 
-        const result = (await executeQuery(query, [])) as {
-            gid: number;
-            title: string;
-            genre: string;
-            lowestPrice: number;
-        }[];
+        const results = (await executeQuery(query, [])) as RawTrendGame[];
+        console.log("actual result: ", results.length)
 
-        return result;
+        const processedResults: TrendingGame[] = results.map((result) => ({
+            ...result,
+            image: result.image ? blobToBase64(result.image) : null,
+        }));
+
+        return processedResults;
     }
 
     public static async getBestGameDeals(): Promise<GameDeal[]> {

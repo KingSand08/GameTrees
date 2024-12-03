@@ -2,7 +2,6 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 import Avatar from "@/app/ui/components/auth/Avatar";
 import AccountSettingsPageWrapper from "./AccountSettingsWrapper";
-
 import SignOutButton from "@/app/ui/components/auth/SignOutButton";
 import { getUser } from "@/database/queries/user/getUser";
 
@@ -42,7 +41,7 @@ export default async function AccountSettingsPage() {
 
                         {/* User Info */}
                         <div className="flex-grow w-full">
-                            <p className="w-full text-xl font-semibold mb-2">{thisUser?.name || "Anonymous"}</p>
+                            <p className="w-full text-xl font-semibold mb-2">{thisUser?.name || "Anonymous"} {thisUser?.lastname} </p>
                             <p className="text-sm text-gray-300">
                                 <span className="font-semibold text-base">Username:</span> {thisUser?.username}
                             </p>

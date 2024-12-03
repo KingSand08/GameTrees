@@ -14,7 +14,8 @@ interface UserData {
 
 const MysqlSignUpAction = async (prevState: unknown, formData: { get: (arg0: string) => unknown; }) => {
   const username = formData.get("username");
-  const name = formData.get("name");
+  const name = formData.get("firstname");
+  const lastname = formData.get("lastname");
   const email = formData.get("email");
   const password = formData.get("password");
   const subBtn = formData.get("submit");
@@ -58,10 +59,11 @@ const MysqlSignUpAction = async (prevState: unknown, formData: { get: (arg0: str
     if (username != "" && name != "" && email != "" && password != "") {
       // console.log(`Username: ${username}, Name: ${name}, Email: ${email}, Password: ${password}`);
       const result = await executeQuery(
-        "INSERT INTO Test (username, name, email, password) VALUE (?, ?, ?, ?)",
+        "INSERT INTO Test (username, firstname, lastname, email, password) VALUE (?, ?, ?, ?)",
         [
           username,
           name,
+          lastname,
           email,
           password,
         ]);
