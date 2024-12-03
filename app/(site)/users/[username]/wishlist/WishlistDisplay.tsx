@@ -21,11 +21,11 @@ export default function WishlistDisplay({ uid, wishlist, myWishlist, userRole }:
                 wishlist.map((game, index) => (
                     <div
                         key={index}
-                        className="flex flex-col min-[1110px]:flex-row items-center rounded-lg shadow-lg"
+                        className="flex flex-col min-[1110px]:flex-row items-center rounded-lg shadow-lg bg-gray-900" //! change bg later but just use for now until theme issues are resolved
                     >
                         {/* Game Image */}
                         <div
-                            className="flex-shrink-0 w-60 h-56 overflow-hidden rounded-lg bg-gray-700"
+                            className="flex-shrink-0 w-60 h-56 overflow-hidden rounded-lg bg-gray-800" //! change bg later but just use for now until theme issues are resolved
                             style={{ flexBasis: "22rem" }}
                         >
                             {game.image ? (
