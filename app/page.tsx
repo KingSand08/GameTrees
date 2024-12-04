@@ -8,12 +8,19 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen text-gray-100 space-y-12">
-      <HighlightStores />
+      <div>
+        {/* Highlight Stores Section  */}
+        <HighlightStores />
+      </div>
+
+      <hr className="border-2 borader-white opacity-15 rounded-xl w-full" />
 
       <div>
-          {/* Trending Section  */}
-          <TrendingGames games={trendingGames} />
+        {/* Trending Section  */}
+        <TrendingGames games={trendingGames} />
       </div>
+
+      <hr className="border-2 borader-white opacity-15 rounded-xl w-full" />
 
       <div>
         {/* <BiggestDiscounts games={biggestDiscounts} /> */}
