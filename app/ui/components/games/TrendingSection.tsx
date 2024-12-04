@@ -30,8 +30,8 @@ const TrendingGames: React.FC<TrendingGamesProps> = ({ games }) => {
     };
 
   return (
-    <div className="test-base-content justify-center">
-      <h2 className="text-2xl font-bold text-center mb-6">Trending Games</h2>
+    <div className="text-base-content justify-center">
+      <h2 className="text-4xl font-bold text-center mb-6">Trending Games</h2>
       <div className="flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {games.slice(0, visibleCount).map((game) => (

@@ -21,71 +21,85 @@ export default async function Navbar() {
     }
 
     return (
-        <header className='bg-slate-800 py-4 px-4 sm:px-8 top-0 left-0 w-full z-50'>
-            <div className='flex items-center justify-between h-20 mx-auto'>
-                {/* Logo */}
-                <div className='flex items-center flex-grow'>
-                    <Link href='/'>
-                        <div
-                            className="avatar flex items-center justify-center"
-                            style={{
-                                width: `${"4em"}`,
-                                aspectRatio: '1 / 1',
-                            }}
-                        >
-                            <Image
-                                src={LogoIcon}
-                                alt="Game Trees Logo"
-                                width={500}
-                                height={500}
-                                quality={100}
-                                className="rounded-full object-cover"
-                                priority
-                            />
-                        </div>
-                    </Link>
-                    <div className="ml-4 flex-grow">
+        <header className="bg-slate-800 text-white h-fit min-[1200px]:max-h-32 max-h-48">
+            <div className="container w-full min-h-20">
+                {/* Top Header Section */}
+                <div className="w-screen flex items-center justify-between py-5 min-h-20">
+                    {/* Logo */}
+                    <div className='flex items-center px-5 min-h-20'>
+                        <Link href='/'>
+                            <div
+                                className="avatar flex items-center justify-center"
+                                style={{
+                                    width: `${"4em"}`,
+                                    aspectRatio: '1 / 1',
+                                }}
+                            >
+                                <Image
+                                    src={LogoIcon}
+                                    alt="Game Trees Logo"
+                                    width={500}
+                                    height={500}
+                                    quality={100}
+                                    className="rounded-full object-cover"
+                                    priority
+                                />
+                            </div>
+                        </Link>
+                    </div>
+
+                    {/* Search Bar */}
+                    <div className="hidden min-[1200px]:flex flex-1 mx-4 max-w-full">
                         <SearchBar actionUrl={""} />
                     </div>
+
+                    <div className="flex items-center justify-end py-4 max-h-[80px]">
+                        {/* Desktop Navigation */}
+                        <div className="flex items-center gap-8 ml-4">
+                            <NavButton page="Home" route="/" className='flex-shrink-0 hidden min-[430px]:block' />
+                            <NavButton page="Games" route="/temp/all-games" className='flex-shrink-0 hidden min-[530px]:block' />
+                            {session?.user.role === "customer" && (
+                                <NavButton page="Wishlist" route={`/users/${session?.user?.username}/wishlist`} className='flex-shrink-0 hidden min-[830px]:block' />
+                            )}
+                            {session?.user.role === "admin" && (
+                                <>
+                                    <NavButton page="Admin User View" route="/admin/user-view" className='flex-shrink-0 hidden min-[780px]:block' />
+                                </>
+                            )}
+
+                            {/* Conditional Rendering based on session */}
+                            {session?.user ? (
+                                <>
+                                    <Link href={"/account-settings"} className='cursor-pointer'>
+                                        <ProfileButton
+                                            className="hidden min-[330px]:flex h-[80px]"
+                                            username={session.user.username}
+                                            firstname={session.user.name}
+                                            lastname={session.user.lastname}
+                                            image={profileImage ?? undefined}
+                                        />
+                                    </Link>
+                                    <SignOutButton className='flex-shrink-0 hidden min-[1200px]:block px-3 py-2' />
+                                </>
+                            ) : (
+                                <>
+                                    <LoginButton className='flex-shrink-0' />
+                                    <SignUpButton className='flex-shrink-0 hidden min-[750px]:block' />
+                                </>
+                            )}
+                        </div>
+
+                        {/* Hamburger Menu Button (Client-Side Dropdown) */}
+                        <HamburgerMenu />
+                    </div>
+
                 </div>
 
-                {/* Regular Navbar Links (Visible on larger screens) */}
-                <div className='flex ml-4 items-center space-x-8 text-[1em] font-semibold font-inter'>
-                    <NavButton page="Home" route="/" className='flex-shrink-0 hidden min-[900px]:block' />
-                    <NavButton page="Games" route="/temp/all-games" className='flex-shrink-0 hidden min-[1000px]:block' />
-                    {session?.user.role === "customer" && (
-                        <NavButton page="Wishlist" route={`/users/${session?.user?.username}/wishlist`} className='flex-shrink-0 hidden min-[1300px]:block' />
-                    )}
-                    {session?.user.role === "admin" && (
-                        <>
-                            <NavButton page="Admin User View" route="/admin/user-view" className='flex-shrink-0 hidden min-[1600px]:block' />
-                        </>
-                    )}
-                    {/* Conditional Rendering based on session */}
-                    {session?.user ? (
-                        <>
-                            <Link href={"/account-settings"} className='cursor-pointer'>
-                                <ProfileButton
-                                    // className='w-full xl:flex lg:flex md:flex sm:flex min-[380px]:hidden'
-                                    username={session.user.username}
-                                    firstname={session.user.name}
-                                    lastname={session.user.lastname}
-                                    image={profileImage ?? undefined}
-                                />
-                            </Link>
-                            <SignOutButton className='flex-shrink-0 hidden min-[750px]:block px-3 py-2' />
-                        </>
-                    ) : (
-                        <>
-                            <LoginButton className='flex-shrink-0' />
-                            <SignUpButton className='flex-shrink-0 hidden min-[750px]:block' />
-                        </>
-                    )}
+                {/* Search Bar (Visible Only on Mobile) */}
+                <div className="block min-[1200px]:hidden w-full px-4 pt-1 pb-8">
+                    <SearchBar actionUrl={""} />
                 </div>
-
-                {/* Hamburger Menu Button (Client-Side Dropdown) */}
-                <HamburgerMenu />
             </div>
-        </header>
+        </header >
     );
 }

@@ -35,28 +35,26 @@ const WishlistPage = async ({ params }: WishlistPageProps) => {
     ]);
 
     return (
-        <div className="pb-8">
-            <div className="h-full min-h-[50em] bg-gray-900 text-white py-10 px-8 rounded-lg">
-                <div className="mb-6">
-                    <h1 className="text-3xl font-bold">Wishlist for {username}</h1>
-                    <div className="flex items-center max-[1200px]:justify-center space-x-6 my-8 w-full">
-                        <Avatar
-                            image={userProfileImage || undefined}
-                            username={username}
-                            className={`ring-4 ring-offset-base-100 ring-offset-4 ${session?.user.username === username ?
-                                "ring-primary" : "ring-secondary"}`}
-                            size="10em"
-                            textSize="text-5xl"
-                        />
-                    </div>
+        <div className="h-full min-h-[50em] text-white rounded-lg">
+            <div className="mb-6">
+                <h1 className="text-3xl font-bold">Wishlist for {username}</h1>
+                <div className="flex items-center max-[1200px]:justify-center space-x-6 my-8 w-full">
+                    <Avatar
+                        image={userProfileImage || undefined}
+                        username={username}
+                        className={`ring-4 ring-offset-base-100 ring-offset-4 ${session?.user.username === username ?
+                            "ring-primary" : "ring-secondary"}`}
+                        size="10em"
+                        textSize="text-5xl"
+                    />
                 </div>
-                <WishlistDisplay
-                    wishlist={wishlist}
-                    myWishlist={MyWishlist}
-                    uid={session?.user.id as unknown as string}
-                    userRole={role}
-                />
             </div>
+            <WishlistDisplay
+                wishlist={wishlist}
+                myWishlist={MyWishlist}
+                uid={session?.user.id as unknown as string}
+                userRole={role}
+            />
         </div>
     );
 }

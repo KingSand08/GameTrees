@@ -7,13 +7,20 @@ export default async function Home() {
   const trendingGames = await getTrendingGames();
 
   return (
-    <div className="min-h-screen bg-base-100 text-gray-100 space-y-12">
-      <HighlightStores />
+    <div className="min-h-screen text-gray-100 space-y-12">
+      <div>
+        {/* Highlight Stores Section  */}
+        <HighlightStores />
+      </div>
+
+      <hr className="border-2 borader-white opacity-15 rounded-xl w-full" />
 
       <div>
-          {/* Trending Section  */}
-          <TrendingGames games={trendingGames} />
+        {/* Trending Section  */}
+        <TrendingGames games={trendingGames} />
       </div>
+
+      <hr className="border-2 borader-white opacity-15 rounded-xl w-full" />
 
       <div>
         {/* <BiggestDiscounts games={biggestDiscounts} /> */}

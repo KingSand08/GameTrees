@@ -61,6 +61,17 @@ const Signin = (props: Props) => {
             <h1 className="text-center text-2xl font-semibold bg-gradient-to-b rounded-md">
                 Sign In
             </h1>
+
+            {/* Success Message */}
+            {successMsg ? (
+                <div className="text-white py-2 mt-4">
+                    <div className="opacity-75 flex justify-center text-center bg-green-600 rounded-lg w-full py-2 px-4 space-x-4">
+                        <p className="text-white">{successMsg}</p>
+                        <span className="loading loading-spinner loading-md"></span>
+                    </div>
+                </div>
+            ) : null}
+
             <form onSubmit={onSubmit} className="p-2 flex flex-col gap-4">
 
                 {/* Email Input */}
@@ -142,16 +153,6 @@ const Signin = (props: Props) => {
                 <OAuthButton callbackUrl={props.callbackUrl} provider={"discord"} onSignInStart={handleOAuthSignInStart} />
                 <OAuthButton callbackUrl={props.callbackUrl} provider={"github"} onSignInStart={handleOAuthSignInStart} />
             </div>
-
-            {/* Success Message */}
-            {successMsg ? (
-                <div className="text-white py-2 mt-4">
-                    <div className="opacity-75 flex justify-center text-center bg-green-600 rounded-lg w-full py-2 px-4 space-x-4">
-                        <p className="text-white">{successMsg}</p>
-                        <span className="loading loading-spinner loading-md"></span>
-                    </div>
-                </div>
-            ) : null}
 
             {/* Error Message */}
             {(errorMsg || props.error) && (

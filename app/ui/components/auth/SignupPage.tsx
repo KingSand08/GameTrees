@@ -58,6 +58,17 @@ const SignUp = (props: Props) => {
                 <h1 className="g-gradient-to-b from-slate-50 to-slate-200 p-2 text-center text-2xl font-semibold">
                     Sign Up
                 </h1>
+
+                {/* Success Message */}
+                {successMsg ? (
+                    <div className="text-white py-2 mt-4">
+                        <div className="opacity-75 flex justify-center text-center bg-green-600 rounded-lg w-full py-2 px-4 space-x-4">
+                            <p className="text-white">{successMsg}</p>
+                            <span className="loading loading-spinner loading-md"></span>
+                        </div>
+                    </div>
+                ) : null}
+
                 <form
                     className="p-2 flex flex-col gap-3"
                     onSubmit={handleSubmit}
@@ -315,16 +326,6 @@ const SignUp = (props: Props) => {
                         <div className="text-white py-2 mt-4">
                             <div className="opacity-75 flex justify-center text-center bg-red-600 rounded-lg w-full py-2 px-4">
                                 <p className="text-white">{errorMsg}</p>
-                            </div>
-                        </div>
-                    ) : null}
-
-                    {/* Success Message */}
-                    {successMsg ? (
-                        <div className="text-white py-2 mt-4">
-                            <div className="opacity-75 flex justify-center text-center bg-green-600 rounded-lg w-full py-2 px-4 space-x-4">
-                                <p className="text-white">{successMsg}</p>
-                                <span className="loading loading-spinner loading-md"></span>
                             </div>
                         </div>
                     ) : null}

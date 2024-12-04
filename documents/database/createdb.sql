@@ -1,7 +1,9 @@
 -- Reset DB
--- DROP DATABASE gtsdb;
--- CREATE DATABASE gtsdb;
--- USE gtsdb;
+DROP DATABASE gtsdb;
+CREATE DATABASE gtsdb;
+USE gtsdb;
+
+SET SESSION sort_buffer_size = 4194304;
 
 -- Define Tables
 -- To be updated (Name -> firstname, lastname)

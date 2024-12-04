@@ -11,9 +11,11 @@ type Props = {
 const SignInModal = (props: Props) => {
 
     return (
-        <Modal>
-            <SignUp error={props.searchParams?.error} callbackUrl={props.searchParams?.callbackUrl} />
-        </Modal>
+        <div className="min-h-screen">
+            <Modal>
+                <SignUp error={props.searchParams?.error} callbackUrl={props.searchParams?.callbackUrl} />
+            </Modal>
+        </div>
     )
 }
 
