@@ -25,7 +25,7 @@ export default function WishlistDisplay({ uid, wishlist, myWishlist, userRole }:
                     >
                         {/* Game Image */}
                         <div
-                            className="flex-shrink-0 w-60 h-56 overflow-hidden rounded-lg bg-gray-800" //! change bg later but just use for now until theme issues are resolved
+                            className="flex-shrink-0 w-60 h-56 m-0 min-[1110px]:m-4 overflow-hidden rounded-lg bg-gray-800" //! change bg later but just use for now until theme issues are resolved
                             style={{ flexBasis: "22rem" }}
                         >
                             {game.image ? (
@@ -52,16 +52,15 @@ export default function WishlistDisplay({ uid, wishlist, myWishlist, userRole }:
                                 <span>${game.price}</span>
                             </div>
                         </div>
-
-                        {/* Action Buttons */}
-                        <WishListButton
-                            uid={uid}
-                            game={game}
-                            userRole={userRole}
-                            myWishlist={myWishlist}
-                        >
-
-                        </WishListButton>
+                        <div className="mr-8">
+                            {/* Action Buttons */}
+                            <WishListButton
+                                uid={uid}
+                                game={game}
+                                userRole={userRole}
+                                myWishlist={myWishlist}
+                            />
+                        </div>
                     </div>
                 ))
             ) : (
