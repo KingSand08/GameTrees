@@ -14,7 +14,7 @@ interface Props {
 }
 
 
-const WishListButton = ({uid, game, userRole, myWishlist}: Props) => { //maybe make myWishList optionl?
+const WishListButton = ({uid, game, userRole, myWishlist}: Props) => {
     const router = useRouter();
     const pathname = usePathname();
 
