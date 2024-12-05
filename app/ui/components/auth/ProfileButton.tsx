@@ -20,7 +20,7 @@ const ProfileButton = (props: Profile & ClassChange & LinkChange) => {
         >
             <Avatar image={props.image} username={uname} className='ring-primary ring-offset-base-100 ring ring-offset-2 min' size='3.5em' />
             <div className="flex-shrink-0 hidden sm:block">
-                <p className="text-base-content">{uname || pname || lname}</p>
+                <p className="text-neutral-content">{uname || pname || lname}</p>
             </div>
         </div>
     );

@@ -55,10 +55,6 @@ export default function HamburgerMenu() {
                     </>
                 )}
                 <li>
-                    <NavButton page="Home" route="/" className="btn btn-ghost w-full text-center" />
-                </li>
-                <hr className="opacity-25 my-2 border-base-content" />
-                <li>
                     <NavButton page="Games" route="/temp/all-games" className="btn btn-ghost w-full text-center" />
                 </li>
                 <hr className="opacity-25 my-2 border-base-content" />
