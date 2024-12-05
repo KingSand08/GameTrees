@@ -33,35 +33,35 @@ export default function HamburgerMenu() {
             </div>
             <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 text-base-content rounded-box z-[1] mt-3 w-48 p-3 shadow"
+                className="menu menu-sm dropdown-content bg-slate-300 dark:bg-[#192035] text-base-content rounded-box z-[1] mt-3 w-64 p-3 shadow"
             >
                 {session && session.user ? (
                     <>
                         <li>
-                            <SignOutButton className="btn btn-ghost w-full text-center" />
+                            <SignOutButton className="btn btn-ghost w-full text-center text-[1em]" />
                         </li>
                         <hr className="opacity-25 my-2 border-base-content" />
                     </>
                 ) : (
                     <>
                         <li>
-                            <LoginButton className="btn btn-ghost w-full text-center" />
+                            <LoginButton className="btn btn-ghost w-full text-center text-[1em]" />
                         </li>
                         <hr className="opacity-25 my-2 border-base-content" />
                         <li>
-                            <SignUpButton className="btn btn-ghost w-full text-center" />
+                            <SignUpButton className="btn btn-ghost w-full text-center text-[1em]" />
                         </li>
                         <hr className="opacity-25 my-2 border-base-content" />
                     </>
                 )}
                 <li>
-                    <NavButton page="Games" route="/temp/all-games" className="btn btn-ghost w-full text-center" />
+                    <NavButton page="Games" route="/temp/all-games" className="btn btn-ghost w-full text-center text-[1em]" />
                 </li>
                 <hr className="opacity-25 my-2 border-base-content" />
                 {session && (
                     <>
                         <li>
-                            <NavButton page="Account Settings" route="/account-settings" className="btn btn-ghost w-full text-center" />
+                            <NavButton page="Account Settings" route="/account-settings" className="btn btn-ghost w-full text-center text-[1em]" />
                         </li>
                         <hr className="opacity-25 my-2 border-base-content" />
                     </>
@@ -69,7 +69,7 @@ export default function HamburgerMenu() {
                 {session?.user.role === "customer" && (
                     <>
                         <li>
-                            <NavButton page="WishList" route={`/users/${session?.user.username}/wishlist`} className="btn btn-ghost w-full text-center" />
+                            <NavButton page="WishList" route={`/users/${session?.user.username}/wishlist`} className="btn btn-ghost w-full text-center text-[1em]" />
                         </li>
                         <hr className="opacity-25 my-2 border-base-content" />
                     </>
@@ -77,12 +77,13 @@ export default function HamburgerMenu() {
                 {session?.user.role === "admin" && (
                     <>
                         <li>
-                            <NavButton page="Admin User View" route="/admin/user-view" className="btn btn-ghost w-full text-center" />
+                            <NavButton page="Admin User View" route="/admin/user-view" className="btn btn-ghost w-full text-center text-[1em]" />
                         </li>
                         <hr className="opacity-25 my-2 border-base-content" />
                         <li>
-                            <NavButton page="Add New Custom Game" route="/admin/add-game" className="btn btn-ghost w-full text-center" />
+                            <NavButton page="Admin: Add New Game" route="/admin/add-game" className="btn btn-ghost w-full text-center text-[1em]" />
                         </li>
+                        <hr className="opacity-25 my-2 border-base-content" />
                     </>
                 )}
             </ul>

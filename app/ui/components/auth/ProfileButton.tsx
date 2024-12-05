@@ -4,8 +4,11 @@ import { ClassChange } from "@/types/ui/classChange";
 import { Profile } from "@/types/models/Profile";
 import { LinkChange } from "@/types/ui/linkChange";
 import Avatar from "./Avatar";
+export interface AvatarClassChange {
+    avatarClassName?: string;
+}
 
-const ProfileButton = (props: Profile & ClassChange & LinkChange) => {
+const ProfileButton = (props: Profile & ClassChange & LinkChange & AvatarClassChange) => {
     let uname = props.username;
     let pname = props.firstname;
     let lname = props.lastname;
@@ -18,7 +21,7 @@ const ProfileButton = (props: Profile & ClassChange & LinkChange) => {
         <div
             className={`${props.className} flex items-center gap-5 bg-black sm:bg-opacity-15 bg-opacity-0 rounded-lg pl-4 pr-5 py-[0.8em]`}
         >
-            <Avatar image={props.image} username={uname} className='ring-primary ring-offset-base-100 ring ring-offset-2 min' size='3.5em' />
+            <Avatar image={props.image} username={uname} className={`${props.avatarClassName || "ring-offset-base-100 ring-offset-2"} ring ring-primary min`} size='3.5em' />
             <div className="flex-shrink-0 hidden sm:block">
                 <p className="text-neutral-content">{uname || pname || lname}</p>
             </div>
