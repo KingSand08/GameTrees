@@ -103,7 +103,7 @@ export default function ClientAccountSettings() {
                     className={`w-full rounded-lg p-8 transition-opacity duration-200 ${isUpdating ? "opacity-50" : "opacity-100"
                         }`}
                 >
-                    <h2 className="w-full text-lg md:text-2xl font-semibold mb-6 text-white">
+                    <h2 className="w-full text-lg md:text-2xl font-semibold mb-6 text-gray-900 dark:text-white">
                         Update Account Information
                     </h2>
                     <form
@@ -113,14 +113,13 @@ export default function ClientAccountSettings() {
                     >
                         {/* Username Input */}
                         <div className="block">
-                            <label className="text-sm font-medium text-gray-400">Username</label>
+                            <label className="text-sm font-medium text-gray-900 dark:text-white">Username</label>
                             <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
                                 <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 16 16"
-                                        fill="currentColor"
-                                        className="h-4 w-4 opacity-70"
+                                        className="h-4 w-4 opacity-70 fill-black dark:fill-current"
                                     >
                                         <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                                     </svg>
@@ -130,7 +129,7 @@ export default function ClientAccountSettings() {
                                         onChange={(e) => setUsername(e.target.value)}
                                         disabled={!isEditingUsername}
                                         placeholder={session?.user.username}
-                                        className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                        className="bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
                                         autoComplete="off"
                                     />
                                 </div>
@@ -146,14 +145,13 @@ export default function ClientAccountSettings() {
 
                         {/* Name Input */}
                         <div className="block">
-                            <label className="text-sm font-medium text-gray-400">Fist Name</label>
+                            <label className="text-sm font-medium text-gray-900 dark:text-white">Fist Name</label>
                             <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
                                 <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        className="h-5 w-5 opacity-70"
+                                        className="h-5 w-5 opacity-70 stroke-black dark:stroke-current"
                                         fill="none"
-                                        stroke="currentColor"
                                         viewBox="0 0 24 24"
                                     >
                                         <path
@@ -169,7 +167,7 @@ export default function ClientAccountSettings() {
                                         onChange={(e) => setName(e.target.value)}
                                         disabled={!isEditingName}
                                         placeholder={session?.user.name}
-                                        className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                        className="bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
                                         autoComplete="off"
                                     />
                                 </div>
@@ -187,14 +185,13 @@ export default function ClientAccountSettings() {
 
                         {/* Lastname Input */}
                         <div className="block">
-                            <label className="text-sm font-medium text-gray-400">Last Name</label>
+                            <label className="text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
                             <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
                                 <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        className="h-5 w-5 opacity-70"
+                                        className="h-5 w-5 opacity-70 stroke-black dark:stroke-current"
                                         fill="none"
-                                        stroke="currentColor"
                                         viewBox="0 0 24 24"
                                     >
                                         <path
@@ -210,11 +207,11 @@ export default function ClientAccountSettings() {
                                         onChange={(e) => setLastname(e.target.value)}
                                         disabled={!isEditingLastname}
                                         placeholder={session?.user.lastname}
-                                        className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                        className="bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
                                         autoComplete="off"
                                     />
                                 </div>
-                                
+
                                 <button
                                     type="button"
                                     onClick={() => setIsEditingLastname(!isEditingLastname)}
@@ -229,14 +226,13 @@ export default function ClientAccountSettings() {
 
                         {/* Email Input */}
                         <div className="block">
-                            <label className="text-sm font-medium text-gray-400">Email</label>
+                            <label className="text-sm font-medium text-gray-900 dark:text-white">Email</label>
                             <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
                                 <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
+                                        className="h-4 w-4 opacity-70 fill-black dark:fill-current"
                                         viewBox="0 0 16 16"
-                                        fill="currentColor"
-                                        className="h-4 w-4 opacity-70"
                                     >
                                         <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
                                         <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
@@ -247,7 +243,7 @@ export default function ClientAccountSettings() {
                                         onChange={(e) => setEmail(e.target.value)}
                                         disabled={!isEditingEmail}
                                         placeholder={session?.user.email}
-                                        className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                        className="bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
                                         autoComplete="off"
                                     />
                                 </div>
@@ -265,14 +261,13 @@ export default function ClientAccountSettings() {
 
                         {/* Password Input */}
                         <div className="block">
-                            <label className="text-sm font-medium text-gray-400">Password</label>
+                            <label className="text-sm font-medium text-gray-900 dark:text-white">Password</label>
                             <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
                                 <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 16 16"
-                                        fill="currentColor"
-                                        className="h-4 w-4 opacity-70"
+                                        className="h-4 w-4 opacity-70 fill-black dark:fill-current"
                                     >
                                         <path
                                             fillRule="evenodd"
@@ -286,7 +281,7 @@ export default function ClientAccountSettings() {
                                         onChange={(e) => setPassword(e.target.value)}
                                         disabled={!isEditingPassword}
                                         placeholder={"Enter new password"}
-                                        className="bg-slate-700 placeholder-gray-400 p-2 rounded-lg w-full focus:outline-none"
+                                        className="bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
                                         autoComplete="off"
                                     />
                                 </div>
@@ -316,7 +311,7 @@ export default function ClientAccountSettings() {
 
                         {/* File Upload */}
                         <div className="block">
-                            <label className="text-sm font-medium text-gray-400">Upload Profile Image</label>
+                            <label className="text-sm font-medium text-gray-900 dark:text-white">Upload Profile Image</label>
                             <div className="flex items-center gap-3 mt-2">
                                 <div className="flex flex-grow flex-col">
                                     <div className="flex items-center">

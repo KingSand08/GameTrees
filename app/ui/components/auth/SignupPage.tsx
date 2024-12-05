@@ -78,16 +78,15 @@ const SignUp = (props: Props) => {
                     <div className="flex flex-col space-y-2">
                         <label
                             htmlFor="username"
-                            className="text-white text-md font-medium"
+                            className="dark:text-white text-md font-medium"
                         >
                             *Username:
                         </label>
-                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
+                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-300 dark:bg-slate-700 rounded-lg">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 16 16"
-                                fill="currentColor"
-                                className="h-4 w-4 opacity-70"
+                                className="h-4 w-4 opacity-70 fill-black dark:fill-current"
                             >
                                 <path
                                     d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z"
@@ -99,7 +98,7 @@ const SignUp = (props: Props) => {
                                 name="username"
                                 placeholder="Master Chief"
                                 required
-                                className="bg-transparent placeholder-gray-400 p-2 w-full focus:outline-none"
+                                className="bg-transparent text-black dark:text-white placeholder-gray-700 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
                             />
                         </div>
                     </div>
@@ -112,12 +111,11 @@ const SignUp = (props: Props) => {
                         >
                             *First Name:
                         </label>
-                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
+                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-300 dark:bg-slate-700 rounded-lg">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5 opacity-70"
+                                className="h-5 w-5 opacity-70 stroke-black dark:stroke-current"
                                 fill="none"
-                                stroke="currentColor"
                                 viewBox="0 0 24 24"
                             >
                                 <path
@@ -133,7 +131,7 @@ const SignUp = (props: Props) => {
                                 name="fname"
                                 placeholder="Jon"
                                 required
-                                className="bg-transparent placeholder-gray-400 p-2 w-full focus:outline-none"
+                                className="bg-transparent text-black dark:text-white placeholder-gray-700 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
                             />
                         </div>
                     </div>
@@ -146,12 +144,11 @@ const SignUp = (props: Props) => {
                         >
                             Last Name:
                         </label>
-                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
+                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-300 dark:bg-slate-700 rounded-lg">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5 opacity-70"
+                                className="h-5 w-5 opacity-70 stroke-black dark:stroke-current"
                                 fill="none"
-                                stroke="currentColor"
                                 viewBox="0 0 24 24"
                             >
                                 <path
@@ -167,7 +164,7 @@ const SignUp = (props: Props) => {
                                 name="lname"
                                 placeholder="Snow"
                                 required
-                                className="bg-transparent placeholder-gray-400 p-2 w-full focus:outline-none"
+                                className="bg-transparent text-black dark:text-white placeholder-gray-700 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
                             />
                         </div>
                     </div>
@@ -180,12 +177,11 @@ const SignUp = (props: Props) => {
                         >
                             *Email:
                         </label>
-                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
+                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-300 dark:bg-slate-700 rounded-lg">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
+                                className="h-4 w-4 opacity-70 fill-black dark:fill-current"
                                 viewBox="0 0 16 16"
-                                fill="currentColor"
-                                className="h-4 w-4 opacity-70"
                             >
                                 <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
                                 <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
@@ -196,7 +192,7 @@ const SignUp = (props: Props) => {
                                 name="email"
                                 placeholder="games@g.com"
                                 required
-                                className="bg-transparent placeholder-gray-400 p-2 w-full focus:outline-none"
+                                className="bg-transparent text-black dark:text-white placeholder-gray-700 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
                             />
                         </div>
                     </div>
@@ -209,16 +205,15 @@ const SignUp = (props: Props) => {
                         >
                             *Date of Birth:
                         </label>
-                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
+                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-300 dark:bg-slate-700 rounded-lg">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
+                                className="h-4 w-4 opacity-70 stroke-black dark:stroke-current"
                                 fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
+                                strokeWidth="2.5"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                className="h-4 w-4 opacity-70"
                             >
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                                 <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -231,7 +226,7 @@ const SignUp = (props: Props) => {
                                 name="date"
                                 placeholder="date of birth"
                                 required
-                                className="bg-transparent placeholder-gray-400 p-2 w-full focus:outline-none"
+                                className="bg-transparent text-gray-700 dark:text-gray-400 p-2 w-full focus:outline-none"
                             />
                         </div>
                     </div>
@@ -244,16 +239,15 @@ const SignUp = (props: Props) => {
                         >
                             Mobile Phone:
                         </label>
-                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
+                        <div className="input input-bordered flex items-center gap-2 w-full bg-slate-300 dark:bg-slate-700 rounded-lg">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
-                                fill="currentColor"
+                                className="h-4 w-4 opacity-70 fill-black dark:fill-current"
                                 stroke="none"
                                 strokeWidth="2"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                className="h-4 w-4 opacity-70"
                             >
                                 <path d="M22 16.92v3a2 2 0 01-2.18 2 19.86 19.86 0 01-8.63-3.15 19.37 19.37 0 01-6-6A19.86 19.86 0 013.1 4.18 2 2 0 015.12 2h3a2 2 0 012 1.72 12.07 12.07 0 00.57 2.54 2 2 0 01-.45 2L8.09 9.91a16 16 0 006 6l1.65-1.65a2 2 0 012-.45 12.07 12.07 0 002.54.57A2 2 0 0122 16.92z" />
                             </svg>
@@ -262,7 +256,7 @@ const SignUp = (props: Props) => {
                                 id="tel"
                                 name="tel"
                                 placeholder="(408)000-0000"
-                                className="bg-transparent placeholder-gray-400 p-2 w-full focus:outline-none"
+                                className="bg-transparent text-black dark:text-white placeholder-gray-700 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
                             />
                         </div>
                     </div>
@@ -276,12 +270,11 @@ const SignUp = (props: Props) => {
                             >
                                 *Password:
                             </label>
-                            <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
+                            <div className="input input-bordered flex items-center gap-2 w-full bg-slate-300 dark:bg-slate-700 rounded-lg">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 16 16"
-                                    fill="currentColor"
-                                    className="h-4 w-4 opacity-70"
+                                    className="h-4 w-4 opacity-70 fill-black dark:fill-current"
                                 >
                                     <path
                                         fillRule="evenodd"
@@ -293,9 +286,9 @@ const SignUp = (props: Props) => {
                                     type={showPassword ? "text" : "password"}
                                     id="password"
                                     name="password"
-                                    placeholder="new type password"
+                                    placeholder="Password"
                                     required
-                                    className="bg-transparent placeholder-gray-400 p-2 w-full focus:outline-none"
+                                    className="bg-transparent text-black dark:text-white placeholder-gray-600 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
                                     autoComplete="new-password"
                                 />
                             </div>
@@ -305,7 +298,7 @@ const SignUp = (props: Props) => {
                         <div className='w-full flex items-center py-2'>
                             <button
                                 type="button"
-                                className="w-full dark:text-slate-200 text-md bg-black bg-opacity-45 mx-auto px-7 py-3 rounded-xl hover:hover:bg-opacity-55"
+                                className="w-full dark:text-slate-200 text-md mx-auto px-7 py-3 rounded-xl bg-black bg-opacity-35 hover:bg-opacity-45 dark:bg-opacity-55 dark:hover:bg-opacity-65"
                                 onClick={() => {
                                     setShowPassword((prev) => !prev);
                                 }}

@@ -21,7 +21,7 @@ export default async function Navbar() {
     }
 
     return (
-        <header className="bg-slate-800 text-white h-fit min-[1200px]:max-h-32 max-h-48">
+        <header className="bg-slate-700 dark:bg-slate-800 text-white h-fit min-[1200px]:max-h-32 max-h-48">
             <div className="container w-full min-h-20">
                 {/* Top Header Section */}
                 <div className="w-screen flex items-center justify-between py-5 min-h-20">
@@ -56,13 +56,14 @@ export default async function Navbar() {
                     <div className="flex items-center justify-end py-4 max-h-[80px]">
                         {/* Desktop Navigation */}
                         <div className="flex items-center gap-8 ml-4">
-                            <NavButton page="Games" route="/temp/all-games" className='self-center hidden min-[530px]:block' />
+                            <NavButton page="Home" route="/" className='self-center hidden min-[430px]:block text-[1em]' />
+                            <NavButton page="Games" route="/temp/all-games" className='self-center hidden min-[530px]:block text-[1em]' />
                             {session?.user.role === "customer" && (
-                                <NavButton page="Wishlist" route={`/users/${session?.user?.username}/wishlist`} className='flex-shrink-0 hidden min-[830px]:block' />
+                                <NavButton page="Wishlist" route={`/users/${session?.user?.username}/wishlist`} className='flex-shrink-0 hidden min-[830px]:block text-[1em]' />
                             )}
                             {session?.user.role === "admin" && (
                                 <>
-                                    <NavButton page="Admin User View" route="/admin/user-view" className='flex-shrink-0 hidden min-[780px]:block' />
+                                    <NavButton page="Admin User View" route="/admin/user-view" className='flex-shrink-0 hidden min-[780px]:block text-[1em]' />
                                 </>
                             )}
 
@@ -71,6 +72,7 @@ export default async function Navbar() {
                                 <>
                                     <Link href={"/account-settings"} className='cursor-pointer'>
                                         <ProfileButton
+                                            avatarClassName="ring-offset-2 ring-offset-slate-500 dark:ring-offset-slate-800"
                                             className="hidden min-[330px]:flex h-[80px]"
                                             username={session.user.username}
                                             firstname={session.user.name}
@@ -78,12 +80,12 @@ export default async function Navbar() {
                                             image={profileImage ?? undefined}
                                         />
                                     </Link>
-                                    <SignOutButton className='flex-shrink-0 hidden min-[1200px]:block px-3 py-2' />
+                                    <SignOutButton className='flex-shrink-0 hidden min-[1200px]:block px-3 py-2 text-[1em]' />
                                 </>
                             ) : (
                                 <>
-                                    <LoginButton className='flex-shrink-0' />
-                                    <SignUpButton className='flex-shrink-0 hidden min-[750px]:block' />
+                                    <LoginButton className='flex-shrink-0 text-[1em]' />
+                                    <SignUpButton className='flex-shrink-0 hidden min-[750px]:block text-[1em]' />
                                 </>
                             )}
                         </div>
@@ -95,7 +97,7 @@ export default async function Navbar() {
                 </div>
 
                 {/* Search Bar (Visible Only on Mobile) */}
-                <div className="block min-[1200px]:hidden w-full px-4 pt-1 pb-8">
+                <div className="block min-[1200px]:hidden w-full px-4 pt-1 pb-8 text-[1em]">
                     <SearchBar actionUrl={""} />
                 </div>
             </div>
