@@ -13,14 +13,14 @@ export default async function Home() {
         <HighlightStores />
       </div>
 
-      <hr className="border-2 borader-white opacity-15 rounded-xl w-full" />
+      <hr className="border-2 border-neutral opacity-30 rounded-xl w-full" />
 
       <div>
         {/* Trending Section  */}
         <TrendingGames games={trendingGames} />
       </div>
 
-      <hr className="border-2 borader-white opacity-15 rounded-xl w-full" />
+      <hr className="border-2 border-neutral opacity-30 rounded-xl w-full" />
 
       <div>
         {/* <BiggestDiscounts games={biggestDiscounts} /> */}

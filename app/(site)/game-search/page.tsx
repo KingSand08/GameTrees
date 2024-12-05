@@ -42,7 +42,7 @@ export default function Page({ searchParams }: { searchParams: { [key: string]: 
     return (
         <>
             <div className="space-y-4">
-                {query ? <p className="text-base-content">Search Query: {query}</p> : <p>No search query provided.</p>}
+                {query ? <p className="text-xl font-bold text-base-content">Searching for: {query}</p> : <p>No search query provided.</p>}
 
                 {loading ? (
                     <p>Loading games...</p>
