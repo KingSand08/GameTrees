@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import GameRow from "@/types/models/GameRow";
 import Game from "@/types/models/Game";
 import GameDetails from "@/types/models/GameDetails";

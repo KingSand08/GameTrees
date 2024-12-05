@@ -1,4 +1,4 @@
-import executeQuery from "@/database/mysqldb";
+/*import executeQuery from "@/database/mysqldb";
 import InventoryRow from "@/types/models/InventoryRow";
 
 
@@ -40,4 +40,5 @@ export async function getStoreInventory(sid: string): Promise<InventoryRow[]> {
     return processedResults;
 }
 
-export default getUserWishlist;
+export default getStoreInventory;
+*/

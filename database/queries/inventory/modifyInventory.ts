@@ -1,4 +1,4 @@
-import executeQuery from "@/database/mysqldb";
+/*import executeQuery from "@/database/mysqldb";
 
 export async function addToStoreInv(sid: number, gid: number, discount:number) {
     const query = `
@@ -27,3 +27,4 @@ export async function removeFromStoreInv(sid: number, gid: number) {
         console.error("Error removing from store inventory:", error);
     }
 }
+*/
