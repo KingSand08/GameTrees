@@ -1,9 +1,9 @@
 import React from "react";
 
 interface GameFilterProps {
-    onSortChange: (sortType: string) => void; // Callback for sorting changes
-    onDeveloperChange: (developer: string | null) => void; // Callback for developer changes
-    developers: string[]; // List of available developers
+    onSortChange: (sortType: string) => void; 
+    onDeveloperChange: (developer: string | null) => void; 
+    developers: string[]; 
 }
 
 const AllGamesFilter: React.FC<GameFilterProps> = ({
@@ -12,11 +12,11 @@ const AllGamesFilter: React.FC<GameFilterProps> = ({
     developers,
 }) => {
     const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        onSortChange(e.target.value); // Notify parent of selected sort option
+        onSortChange(e.target.value); 
     };
 
     const handleDeveloperChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        onDeveloperChange(e.target.value || null); // Notify parent of selected developer
+        onDeveloperChange(e.target.value || null);
     };
 
     return (

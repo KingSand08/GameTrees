@@ -21,15 +21,12 @@ export default function AllGamesClient({
 }: AllGamesClientProps) {
     const [filteredGames, setFilteredGames] = useState<Game[]>(games);
 
-    // Get a list of unique developers from the games array
     const developers = Array.from(
         new Set(games.map((game) => game.developer).filter((dev): dev is string => !!dev))
     );
 
-    // Handle sort changes
     const handleSortChange = (sortType: string) => {
-        const sortedGames = [...filteredGames]; // Clone the current filtered games
-
+        const sortedGames = [...filteredGames];
         switch (sortType) {
             case "alphabetical":
                 sortedGames.sort((a, b) => a.title.localeCompare(b.title));
@@ -47,7 +44,6 @@ export default function AllGamesClient({
         setFilteredGames(sortedGames);
     };
 
-    // Handle developer filter changes
     const handleDeveloperChange = (developer: string | null) => {
         const filtered = games.filter((game) => !developer || game.developer === developer);
         setFilteredGames(filtered);

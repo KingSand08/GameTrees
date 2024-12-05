@@ -1,23 +1,20 @@
 import React from "react";
+import AllGamesClient from "./AllGamesClient";
 import { getAllGames } from "@/database/queries/game/getAllGames";
 import { getUserWishlist } from "@/database/queries/wishlist/getWishlist";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 import { getUserRoleByUID } from "@/database/queries/user/getUserRoleByUID";
-import AllGamesClient from "./AllGamesClient";
 
 export default async function AllGamesPage() {
     const session = await getServerSession(authOptions);
 
-    if (!session?.user) {
-        return <div>Please log in to view games.</div>;
-    }
-
     try {
+
         const [games, wishlist, userRole] = await Promise.all([
             getAllGames(),
-            getUserWishlist(session.user.username),
-            getUserRoleByUID(session.user.id),
+            getUserWishlist(session?.user.username || ""), 
+            getUserRoleByUID(session?.user.id || "guest"), 
         ]);
 
         return (
@@ -25,11 +22,11 @@ export default async function AllGamesPage() {
                 games={games}
                 wishlist={wishlist}
                 userRole={userRole}
-                uid={session.user.id}
+                uid={session?.user.id || ""} 
             />
         );
     } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data for AllGamesPage:", error);
         return <div>Error loading games. Please try again later.</div>;
     }
 }
