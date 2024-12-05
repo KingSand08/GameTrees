@@ -23,7 +23,7 @@ export default function AllGamesDisplay({
     wishlist,
 }: AllGamesDisplayProps) {
     return (
-        <div className="flex justify-center items-center p-6">
+        <div className="flex justify-start items-start p-6">
             <div className="flex flex-wrap gap-6 justify-start">
                 {games.length > 0 ? (
                     games.map((game) => (
@@ -50,7 +50,7 @@ export default function AllGamesDisplay({
                                         <span className="text-gray-400">No Image</span>
                                     </div>
                                 )}
-                            {/* <div className="mt-1 text-xs text-gray-500">
+                                {/* <div className="mt-1 text-xs text-gray-500">
                                     Photo ID: {photoPid}
                                 </div> */}
                             </figure>

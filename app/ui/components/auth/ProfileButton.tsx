@@ -16,12 +16,11 @@ const ProfileButton = (props: Profile & ClassChange & LinkChange) => {
 
     return (
         <div
-            className={`${props.className} flex items-center gap-4 bg-black sm:bg-opacity-35 bg-opacity-0 rounded-lg px-3 py-[0.6em]`}
-            style={{ minWidth: "12rem" }}
+            className={`${props.className} flex items-center gap-5 bg-black sm:bg-opacity-15 bg-opacity-0 rounded-lg pl-4 pr-5 py-[0.8em]`}
         >
             <Avatar image={props.image} username={uname} className='ring-primary ring-offset-base-100 ring ring-offset-2 min' size='3.5em' />
             <div className="flex-shrink-0 hidden sm:block">
-                <p className="text-white">{uname || pname || lname}</p>
+                <p className="text-base-content">{uname || pname || lname}</p>
             </div>
         </div>
     );

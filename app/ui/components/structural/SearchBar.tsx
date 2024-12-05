@@ -7,7 +7,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ actionUrl, placeholder = "Search..." }) => {
     return (
-        <form action={`/game-search/${actionUrl}`} method="GET" className="flex items-center w-full max-w-3xl h-9">
+        <form action={`/game-search/${actionUrl}`} method="GET" className="flex items-center w-full h-9">
             <div className="flex w-full h-full items-center justify-center">
                 <input
                     type="text"

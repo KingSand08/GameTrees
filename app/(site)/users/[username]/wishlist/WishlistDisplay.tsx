@@ -21,11 +21,11 @@ export default function WishlistDisplay({ uid, wishlist, myWishlist, userRole }:
                 wishlist.map((game, index) => (
                     <div
                         key={index}
-                        className="flex flex-col min-[1110px]:flex-row items-center bg-gray-800 rounded-lg p-4 shadow-lg"
+                        className="flex flex-col min-[1110px]:flex-row items-center rounded-lg shadow-lg bg-gray-900" //! change bg later but just use for now until theme issues are resolved
                     >
                         {/* Game Image */}
                         <div
-                            className="flex-shrink-0 w-60 h-56 overflow-hidden rounded-lg bg-gray-700"
+                            className="flex-shrink-0 w-60 h-56 m-0 min-[1110px]:m-4 overflow-hidden rounded-lg bg-gray-800" //! change bg later but just use for now until theme issues are resolved
                             style={{ flexBasis: "22rem" }}
                         >
                             {game.image ? (
@@ -52,16 +52,15 @@ export default function WishlistDisplay({ uid, wishlist, myWishlist, userRole }:
                                 <span>${game.price}</span>
                             </div>
                         </div>
-
-                        {/* Action Buttons */}
-                        <WishListButton
-                        uid={uid}
-                        game={game}
-                        userRole = {userRole}
-                        myWishlist={myWishlist}
-                        >
-
-                        </WishListButton>
+                        <div className="mr-8">
+                            {/* Action Buttons */}
+                            <WishListButton
+                                uid={uid}
+                                game={game}
+                                userRole={userRole}
+                                myWishlist={myWishlist}
+                            />
+                        </div>
                     </div>
                 ))
             ) : (
