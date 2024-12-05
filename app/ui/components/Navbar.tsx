@@ -56,8 +56,7 @@ export default async function Navbar() {
                     <div className="flex items-center justify-end py-4 max-h-[80px]">
                         {/* Desktop Navigation */}
                         <div className="flex items-center gap-8 ml-4">
-                            <NavButton page="Home" route="/" className='flex-shrink-0 hidden min-[430px]:block' />
-                            <NavButton page="Games" route="/temp/all-games" className='flex-shrink-0 hidden min-[530px]:block' />
+                            <NavButton page="Games" route="/temp/all-games" className='self-center hidden min-[530px]:block' />
                             {session?.user.role === "customer" && (
                                 <NavButton page="Wishlist" route={`/users/${session?.user?.username}/wishlist`} className='flex-shrink-0 hidden min-[830px]:block' />
                             )}
