@@ -61,10 +61,7 @@ export default function ClientAccountSettings() {
             const data = await response.json();
 
             if (response.ok) {
-                console.log("is ok!")
-                console.log(response)
                 if (data.refresh) {
-                    console.log("passed somehow...")
                     await updateSession({
                         user: {
                             id: session?.user.id,

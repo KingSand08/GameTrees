@@ -9,7 +9,7 @@ const getAllBusinesses = async (): Promise<Business[]> => {
 
         const businesses = await executeQuery(getBusinessesQuery, []) as Business[];
 
-        console.log(businesses)
+        // console.log(businesses)
 
         return businesses;
     } catch (error) {

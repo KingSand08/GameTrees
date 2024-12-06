@@ -1,6 +1,6 @@
 import executeQuery from "@/database/mysqldb";
 import RawTrendGame from "@/types/models/RawTrendGame";
-import TrendGame from "@/types/models/TrendGame";
+// import TrendGame from "@/types/models/TrendGame";
 import blobToBase64 from "@/utils/blobToBase64";
 
 export type StoreHours = {
@@ -58,6 +58,7 @@ export class HomepageQueries {
             WHERE S.city IN (${bayAreaCities.map(() => '?').join(', ')})
             ORDER BY S.sid, FIELD(SH.day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
         `;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const result = await executeQuery(query, bayAreaCities) as any[];
 
         return result.reduce((stores: Store[], row) => {
@@ -106,7 +107,7 @@ export class HomepageQueries {
         `;
 
         const results = (await executeQuery(query, [])) as RawTrendGame[];
-        console.log("actual result: ", results.length)
+        // console.log("actual result: ", results.length)
 
         const processedResults: TrendingGame[] = results.map((result) => ({
             ...result,
