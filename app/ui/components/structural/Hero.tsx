@@ -19,7 +19,7 @@ export default function HighlightStores() {
             <div className="hero flex flex-col items-center justify-center">
 
               <div className="hero-content text-base-content flex-col lg:flex-row gap-8">
-                <Image
+                {/*<Image
                   src={store.image as string}
                   alt={store.name}
                   width={700}
@@ -31,7 +31,7 @@ export default function HighlightStores() {
                     height: '500px',
                   }}
                   className="rounded-lg shadow-2xl"
-                />
+                /> */}
                 <div>
                   <h1 className="text-4xl font-bold">{store.name}</h1>
                   <p className="text-lg text-base-content"><strong>Address: </strong>{store.address}</p>
