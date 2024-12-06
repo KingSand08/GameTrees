@@ -48,12 +48,12 @@ const GameEditModal: React.FC<GameEditModalProps> = ({ details, onSave }) => {
         return;
       }
 
-      setToastMessage("Game updated successfully!");
+      const modal = document.getElementById("game_edit_modal") as HTMLDialogElement;
+      if (modal) modal.close();
+      setToastMessage("Game updated successfully! REFRESH to see the results!");
       onSave(formData);
       (document.getElementById("game_edit_modal") as HTMLDialogElement).close();
 
-      // Hide toast after a delay
-      setTimeout(() => setToastMessage(null), 3000);
     } catch (error) {
       console.error("Unexpected error while updating game:", error);
       setToastMessage("Failed to update game. Please check the console for details.");
@@ -131,7 +131,7 @@ const GameEditModal: React.FC<GameEditModalProps> = ({ details, onSave }) => {
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="toast">
+        <div className="toast toast-top toast-start">
           <div className="alert alert-info">
             <span>{toastMessage}</span>
           </div>
