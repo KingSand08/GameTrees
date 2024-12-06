@@ -42,6 +42,7 @@ export async function POST(req: Request) {
         }
 
         if (compressedImage.length > MAX_FILE_SIZE) {
+            revalidatePath("/admin/add-game");
             return NextResponse.json(
                 { message: `Unable to compress image to ${MAX_FILE_SIZE / 1024}KB. Try uploading a smaller file.` },
                 { status: 400 }
@@ -59,11 +60,14 @@ export async function POST(req: Request) {
         });
 
         if (result.status === "success") {
+            revalidatePath("/admin/add-game");
             return NextResponse.json({ message: result.message }, { status: 201 });
         } else {
+            revalidatePath("/admin/add-game");
             return NextResponse.json({ error: result.message }, { status: 500 });
         }
     } catch (error) {
+        revalidatePath("/admin/add-game");
         console.error("Error adding game:", error);
         return NextResponse.json({ error: "Failed to add game." }, { status: 500 });
     }
