@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
+  <!-- First Row -->
+  <circle cx="10" cy="14" r="8" fill="currentColor">
+    <animate attributeName="cy" values="10;12;10" dur="1.5s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="30" cy="16" r="2" fill="currentColor">
+    <animate attributeName="cy" values="12;14;12" dur="1.5s" begin="0.9s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="50" cy="4" r="4" fill="currentColor">
+    <animate attributeName="cy" values="8;10;8" dur="1.5s" begin="0.9s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="70" cy="16" r="2" fill="currentColor">
+    <animate attributeName="cy" values="12;14;12" dur="1.5s" begin="0.9s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="90" cy="14" r="8" fill="currentColor">
+    <animate attributeName="cy" values="10;12;10" dur="1.5s" begin="0.9s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Second Row -->
+  <circle cx="10" cy="30" r="2" fill="currentColor">
+    <animate attributeName="cy" values="30;32;30" dur="1.5s" begin="0.8s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="30" cy="32" r="8" fill="currentColor">
+    <animate attributeName="cy" values="32;34;32" dur="1.5s" begin="0.8s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="50" cy="28" r="2" fill="currentColor">
+    <animate attributeName="cy" values="28;30;28" dur="1.5s" begin="0.8s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="70" cy="32" r="8" fill="currentColor">
+    <animate attributeName="cy" values="32;34;32" dur="1.5s" begin="0.8s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="90" cy="30" r="2" fill="currentColor">
+    <animate attributeName="cy" values="30;32;30" dur="1.5s" begin="0.8s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Third Row -->
+  <circle cx="10" cy="50" r="4" fill="currentColor">
+    <animate attributeName="cy" values="50;52;50" dur="1.5s" begin="7s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="30" cy="52" r="2" fill="currentColor">
+    <animate attributeName="cy" values="52;54;52" dur="1.5s" begin="7s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="50" cy="48" r="8" fill="currentColor">
+    <animate attributeName="cy" values="48;50;48" dur="1.5s" begin="7s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="70" cy="52" r="2" fill="currentColor">
+    <animate attributeName="cy" values="52;54;52" dur="1.5s" begin="7s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="90" cy="50" r="4" fill="currentColor">
+    <animate attributeName="cy" values="50;52;50" dur="1.5s" begin="7s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Fourth Row -->
+  <circle cx="10" cy="70" r="2" fill="currentColor">
+    <animate attributeName="cy" values="70;72;70" dur="1.5s" begin="6s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="30" cy="72" r="8" fill="currentColor">
+    <animate attributeName="cy" values="72;74;72" dur="1.5s" begin="6s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="50" cy="68" r="2" fill="currentColor">
+    <animate attributeName="cy" values="68;70;68" dur="1.5s" begin="6s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="70" cy="72" r="8" fill="currentColor">
+    <animate attributeName="cy" values="72;74;72" dur="1.5s" begin="6s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="90" cy="70" r="2" fill="currentColor">
+    <animate attributeName="cy" values="70;72;70" dur="1.5s" begin="6s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Fifth Row -->
+  <circle cx="10" cy="90" r="8" fill="currentColor">
+    <animate attributeName="cy" values="90;92;90" dur="1.5s" begin="5s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="30" cy="92" r="2" fill="currentColor">
+    <animate attributeName="cy" values="92;94;92" dur="1.5s" begin="5s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="50" cy="88" r="4" fill="currentColor">
+    <animate attributeName="cy" values="88;90;88" dur="1.5s" begin="5s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="70" cy="92" r="2" fill="currentColor">
+    <animate attributeName="cy" values="92;94;92" dur="1.5s" begin="5s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="90" cy="90" r="8" fill="currentColor">
+    <animate attributeName="cy" values="90;92;90" dur="1.5s" begin="5s" repeatCount="indefinite" />
+  </circle>
+</svg>

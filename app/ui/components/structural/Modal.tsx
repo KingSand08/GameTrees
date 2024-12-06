@@ -8,9 +8,10 @@ type ModalProps = {
     onClose?: () => void;
     callbackUrl?: string;
     show?: boolean;
+    className?: string;
 };
 
-const Modal: React.FC<ModalProps> = ({ children, onClose, callbackUrl = "/", show = true }) => {
+const Modal: React.FC<ModalProps> = ({ children, onClose, callbackUrl = "/", show = true, className }) => {
     const router = useRouter();
 
     const handleClose = useCallback(() => {
@@ -50,21 +51,25 @@ const Modal: React.FC<ModalProps> = ({ children, onClose, callbackUrl = "/", sho
     }, [handleClose]);
 
     return (
-        <div autoFocus={false}>
-            <dialog id="custom_modal" className="modal">
-                <div className="modal-box relative bg-neutral">
-                    {/* Close button */}
-                    <button
-                        className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                        onClick={handleClose}
-                    >
-                        ✕
-                    </button>
-                    {/* Render children content inside the modal */}
-                    {children}
-                </div>
-            </dialog>
-        </div>
+        <>
+            <div autoFocus={false}>
+                <dialog id="custom_modal" className="modal">
+                    <div className={`${className} modal-box relative max-w-5xl`}>
+                        {/* Close button */}
+                        <button
+                            className="bg-black hover:bg-gray-800 btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                            onClick={handleClose}
+                        >
+                            ✕
+                        </button>
+                        <div className="mt-8">
+                            {/* Render children content inside the modal */}
+                            {children}
+                        </div>
+                    </div>
+                </dialog>
+            </div>
+        </>
     );
 };
 

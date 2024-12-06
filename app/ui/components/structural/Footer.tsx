@@ -6,7 +6,7 @@ const Footer = async () => {
     const session = await getServerSession(authOptions);
 
     return (
-        <footer className="footer footer-center bg-slate-800 text-white rounded p-10">
+        <footer className="footer footer-center bg-slate-700 dark:bg-slate-800 text-white rounded p-10">
             <nav className="grid grid-flow-col gap-4">
                 <Link href="/" className="link link-hover">
                     Home
