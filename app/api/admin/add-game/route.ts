@@ -1,39 +1,20 @@
 import { NextResponse } from "next/server";
 import sharp from "sharp";
-import { authOptions } from "@/nextauth/NextAuthOptions";
-import { getServerSession } from "next-auth";
-import insertGame from "@/database/queries/game/insertGame";
-import { revalidatePath } from "next/cache";
+import addGame from "@/database/queries/game/addGame";
 
 export async function POST(req: Request) {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
     try {
         const formData = await req.formData();
         const title = formData.get("title")?.toString();
         const description = formData.get("description")?.toString() || "";
-        const price = parseFloat(formData.get("price")?.toString() || "");
-        const did = parseInt(formData.get("devId")?.toString() || "", 10);
+        const price = parseFloat(formData.get("price")?.toString() || "0");
         const publishDate = formData.get("publishDate")?.toString() || "";
+        const devId = parseInt(formData.get("devId")?.toString() || "0", 10);
         const image = formData.get("image") as File;
 
-        if (!title || isNaN(price) || !did || !publishDate || !image) {
-            revalidatePath("/admin/add-game");
-            return NextResponse.json({ error: "Invalid input data" }, { status: 400 });
-        }
-
-        // Validate file type
-        const allowedMimeTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
-        if (!allowedMimeTypes.includes(image.type)) {
-            revalidatePath("/admin/add-game");
-            return NextResponse.json(
-                { message: "Invalid file type. Only PNG, JPG, JPEG, and WEBP files are allowed." },
-                { status: 400 }
-            );
+        // Validate input
+        if (!title || !description || isNaN(price) || isNaN(devId) || !publishDate || !image) {
+            return NextResponse.json({ error: "Invalid input data." }, { status: 400 });
         }
 
         // Process the image
@@ -59,31 +40,29 @@ export async function POST(req: Request) {
         }
 
         if (compressedImage.length > MAX_FILE_SIZE) {
-            revalidatePath("/admin/add-game");
             return NextResponse.json(
                 { message: `Unable to compress image to ${MAX_FILE_SIZE / 1024}KB. Try uploading a smaller file.` },
                 { status: 400 }
             );
         }
 
-        // Insert game data into the database
-        const result = await insertGame({
+        // Insert game into the database
+        const result = await addGame({
             title,
             description,
-            did,
             price,
             publishDate,
-            photo: compressedImage,
+            did: devId,
+            photo: resizedImage,
         });
 
         if (result.status === "success") {
             return NextResponse.json({ message: result.message }, { status: 201 });
         } else {
-            throw new Error(result.message);
+            return NextResponse.json({ error: result.message }, { status: 500 });
         }
     } catch (error) {
-        revalidatePath("/admin/add-game");
         console.error("Error adding game:", error);
-        return NextResponse.json({ error: "Failed to add game" }, { status: 500 });
+        return NextResponse.json({ error: "Failed to add game." }, { status: 500 });
     }
 }
