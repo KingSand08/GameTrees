@@ -41,7 +41,7 @@ export default function CreateGamePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setMessage("");
     if (!title || !description || price === "" || !devId || !publishDate || !image) {
       setMessage("Please fill in all fields.");
       return;

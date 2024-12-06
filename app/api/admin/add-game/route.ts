@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import sharp from "sharp";
 import addGame from "@/database/queries/game/addGame";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req: Request) {
     try {
@@ -14,6 +15,7 @@ export async function POST(req: Request) {
 
         // Validate input
         if (!title || !description || isNaN(price) || isNaN(devId) || !publishDate || !image) {
+            revalidatePath("/admin/add-game");
             return NextResponse.json({ error: "Invalid input data." }, { status: 400 });
         }
 
