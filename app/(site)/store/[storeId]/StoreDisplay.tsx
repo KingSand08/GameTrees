@@ -14,9 +14,10 @@ interface StoreDisplayProps {
     storeHours: StoreHours[];
     userRole: string;
     wishlist: WishlistRow[];
+    inventory_id: number | null;
 }
 
-const StoreDisplay = ({ uid, storeDetails, games, storeHours, userRole, wishlist}: StoreDisplayProps) => {
+const StoreDisplay = ({ uid, storeDetails, games, storeHours, userRole, wishlist, inventory_id}: StoreDisplayProps) => {
 
 return (
     <div>

@@ -7,6 +7,7 @@ import { getUserIdByUsername } from "@/database/queries/user/getUIDFromUsername"
 import { getUserRoleByUID } from "@/database/queries/user/getUserRoleByUID";
 import StoreDisplay from "./StoreDisplay";
 import getUserWishlist from "@/database/queries/wishlist/getWishlist";
+import getStoreIdFromUserId from "@/database/queries/store/getStoreIDFromUserID"
 
 interface StorePageProps {
   params: { storeId: string };
@@ -36,11 +37,12 @@ export default async function StorePage({ params }: StorePageProps) {
     const storeHoursRep = new StoreHoursRep();
   
     try {
-        const [games, storeDetails, storeHours, wishlist] = await Promise.all([
+        const [games, storeDetails, storeHours, wishlist, inventory_id] = await Promise.all([
             storeRepository.getGamesByStoreId(storeId),
             storeDetailRep.getStoreDetails(storeId),
             storeHoursRep.getStoreHours(storeId),
             getUserWishlist(username),
+            getStoreIdFromUserId(userUID),
         ]);
     
         // Pass data and user info to the client
@@ -52,6 +54,7 @@ export default async function StorePage({ params }: StorePageProps) {
             uid={userUID} // Null if not logged in
             userRole={role || "guest"} // Default to "guest" for unauthenticated users
             wishlist={wishlist}
+            inventory_id = {inventory_id}
             />
         );
     } catch (error) {
