@@ -1,22 +1,34 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Getting Started
 
-Prerequisite:
+# Please refer to https://gametrees.vercel.app/ for production build.
 
-# Install npm (comes with Node.js)
+## Prerequisite:
+
+1. Have node and npm available to run code.
+2. MySQL is running with the database setup already.
+
+   - (_OPTIONAL_) _To allow uploading images from MySQL commands (not our project), please follow the correct directions available for your device on the MySQL documentation. This is due to how MySQL has handles privacy and security._
+
+3. Use npm run dev via the terminal in the cloned directory of this project. (Ensure that you are on localhost port 3000, if not there will be conflicts with what is in the `.env` file)
+4. Go to the `localhost:3000`
+
+## Install Dependencies (options that are known to work with Node.js)
+
+### Install npm (comes with Node.js)
 
 node -v # Check Node.js is installed
 
-# Install yarn
+### Install yarn
 
 npm install -g yarn
 
-# Install pnpm
+### Install pnpm
 
 npm install -g pnpm
 
-# Install bun
+### Install bun
 
 curl -fsSL https://bun.sh/install | bash
 
@@ -69,7 +81,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-# `.env.local` Setup
+## `.env.local` Setup
 
 Copy the template below into a new `.env.local` file in the root directory of the project and replace the placeholder values with your own local database credentials.
 
@@ -97,9 +109,7 @@ GITHUB_SECRET= CHECK YOUR EMAIL TA/PROFESSOR
 
 # Create schema and populate local data
 
-# Images cannot be shown due to MySQL settings in my.ini and my.cnf
-
-# Please refer to https://gametrees.vercel.app/ to test photo editing features via cloud database.
+Images cannot be shown due to MySQL settings in my.ini and my.cnf
 
 ```bash
 cd documents\database
@@ -124,6 +134,8 @@ source loadAccPicturesTestWINDOWS.sql;
 
 source loadStorePicturesTest.sql;
 ```
+
+## Please refer to https://gametrees.vercel.app/ to test photo editing features via cloud database.
 
 # Division of Work
 
