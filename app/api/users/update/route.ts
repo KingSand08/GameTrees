@@ -115,8 +115,10 @@ export const PATCH = async (req: Request) => {
                     );
                 }
 
-                const result = await updateUserAccountImage(session.user.id as unknown as number, compressedImage);
-                console.log(result)
+                // const result = 
+                await updateUserAccountImage(session.user.id as unknown as number, compressedImage);
+
+                // console.log(result)
 
             } catch (error) {
                 console.error("Error occurred while uploading file:", error);
@@ -127,7 +129,7 @@ export const PATCH = async (req: Request) => {
 
         // Update the session manually
         const updatedSession = await getServerSession(authOptions);
-        console.log(updatedSession)
+        // console.log(updatedSession)
         if (updatedSession) {
             return NextResponse.json({
                 message: "User details updated successfully",
