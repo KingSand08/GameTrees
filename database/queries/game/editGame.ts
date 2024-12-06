@@ -1,38 +1,45 @@
 import executeQuery from "@/database/mysqldb";
-import RawGameDetails from "@/types/models/RawGameDetails";
 
-export async function editGame(gid: string, description?: string, price?: string | number, image?: string | Buffer,) {
-    // If description
-    const descQquery = `
-    INSERT INTO Games (gid, description)
-            VALUES (?, ?);
-    `;
-
-    // If price
-    const priceQquery = `
-    INSERT INTO Games (gid, did, price)
-            VALUES (?, ?);
-    `;
-
-    // If image
-    const imageQquery = `
-    INSERT INTO GamesPhotos (gpid, )
-            VALUES (?, ?);
-    `;
-
+export async function editGame(
+    gid: string,
+    description?: string,
+    price?: string | number,
+    image?: string | Buffer
+): Promise<{ status: string; message: string }> {
     try {
-        const rawResult = await executeQuery(query, [gid]) as RawGameDetails[];
+        // If description
+        if (description) {
+            const descQquery = `
+            INSERT INTO Games (gid, description)
+                    VALUES (?, ?);
+                    ON DUPLICATE KEY UPDATE description = VALUES(description);
+        `;
+            await executeQuery(descQquery, [gid, description]);
+        }
 
-        const refinedResult = rawResult.map((game) => ({
-            ...game,
-            image: game.image
-                ? `data:image/jpeg;base64,${game.image.toString("base64")}` // Add prefix for base64
-                : undefined, // Handle missing images
-        }));
+        // If price
+        if (price) {
+            const priceQquery = `
+            INSERT INTO Games (gid, price)
+                    VALUES (?, ?);
+                    ON DUPLICATE KEY UPDATE price = VALUES(price);
+        `;
+            await executeQuery(priceQquery, [gid, price]);
+        }
 
-        return refinedResult[0];
+        // If image
+        if (image) {
+            const imageQquery = `
+            INSERT INTO GamePhotos (gid, image)
+                    VALUES (?, ?);
+                    ON DUPLICATE KEY UPDATE image = VALUES(image);
+        `;
+            await executeQuery(imageQquery, [gid, image]);
+        }
+
+        return { status: "success", message: "Game updated successfully." };
     } catch (error) {
         console.error("Error fetching Games:", error);
-        return undefined;
+        return { status: "error", message: "Failed to edit the game." };
     }
 }
