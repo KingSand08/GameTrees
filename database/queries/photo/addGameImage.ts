@@ -1,39 +1,30 @@
 import executeQuery from "@/database/mysqldb";
 import generatePhotoPid from "@/utils/generatePhotoId";
+import Game from "@/types/models/Game";
 
-type InsertResult = {
-    pid: number;
-    affectedRows: number;
-};
 
-type GameImageData = {
-    photo: Buffer;
-    gid: number;
-    title: string;
-    publish_date: string;
-};
+export const addGameCoverImage = async (game: Game, photo: Buffer): Promise<{ status: string; message: string }> => {
+    const { gid } = game;
 
-export const addGameCoverImage = async (imageData: GameImageData): Promise<{ status: string; message: string }> => {
-    const { photo, gid, title, publish_date } = imageData;
-
-    const pid = generatePhotoPid(`${gid}-${title}-${publish_date}`);
+    const pid = generatePhotoPid(`${gid}-${game.title}-${game.publish_date}`);
 
     try {
         const photoInsertQuery = `
             INSERT INTO Photos (pid, add_date)
-            VALUES (pid, NOW())
+            VALUES (?, NOW())
             ON DUPLICATE KEY UPDATE add_date = NOW();
         `;
         await executeQuery(photoInsertQuery, [pid]);
 
         const gamePhotoInsertQuery = `
-            INSERT INTO GamePhotos (gpid, gid, image, type)
-            VALUES (?, ?, ?, 'cover')
-            ON DUPLICATE KEY UPDATE image = VALUES(image), type = VALUES(type);
+            INSERT INTO GamePhotos (gpid, image, gid, type)
+            VALUES (?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+                image = VALUES(image),
+                type = VALUES(type);
         `;
-        const gamePhotoData = [pid, gid, photo];
 
-        await executeQuery(gamePhotoInsertQuery, gamePhotoData);
+        await executeQuery(gamePhotoInsertQuery, [pid, photo, gid, "cover"]);
 
         return { status: "success", message: "Photo linked to the game successfully!" };
     } catch (error) {
@@ -42,37 +33,25 @@ export const addGameCoverImage = async (imageData: GameImageData): Promise<{ sta
     }
 };
 
-export const addGameContentImage = async (imageData: GameImageData): Promise<{ status: string; message: string }> => {
-    const { photo, gid } = imageData;
+export const addGameContentImage = async (game: Game, photo: Buffer): Promise<{ status: string; message: string }> => {
+    const { gid } = game;
+
+    const pid = generatePhotoPid(`${gid}-${game.title}-${game.publish_date}`);
 
     try {
-        // Step 1: Insert into the photos table
         const photoInsertQuery = `
-            INSERT INTO Photos (add_date) 
-            VALUES (NOW())
+            INSERT INTO Photos (pid, add_date)
+            VALUES (?, NOW())
+            ON DUPLICATE KEY UPDATE add_date = NOW();
         `;
-        const photoResult = (await executeQuery(photoInsertQuery, [])) as InsertResult;
+        await executeQuery(photoInsertQuery, [pid]);
 
-        // Check if the photo record was successfully inserted
-        if (!photoResult.pid || photoResult.affectedRows === 0) {
-            return { status: "error", message: "Failed to insert photo record." };
-        }
-
-        const photoId = photoResult.pid;
-
-        // Step 2: Insert into the gamephotos table
         const gamePhotoInsertQuery = `
-            INSERT INTO GamePhotos (gpid, gid, img, type)
-            VALUES (?, ?, ?, 'content')
+            INSERT INTO GamePhotos (gpid, image, gid, type)
+            VALUES (?, ?, ?, ?)
         `;
-        const gamePhotoData = [photoId, gid, photo];
 
-        const gamePhotoResult = (await executeQuery(gamePhotoInsertQuery, gamePhotoData)) as InsertResult;
-
-        // Check if the photo was successfully linked
-        if (gamePhotoResult.affectedRows === 0) {
-            return { status: "error", message: "Failed to link the photo to the game." };
-        }
+        await executeQuery(gamePhotoInsertQuery, [pid, photo, gid, "content"]);
 
         return { status: "success", message: "Photo linked to the game successfully!" };
     } catch (error) {
