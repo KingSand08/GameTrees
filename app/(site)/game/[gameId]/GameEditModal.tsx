@@ -48,7 +48,6 @@ const GameEditModal: React.FC<GameEditModalProps> = ({ details, onSave }) => {
         return;
       }
 
-      const result = await response.json();
       setToastMessage("Game updated successfully!");
       onSave(formData);
       (document.getElementById("game_edit_modal") as HTMLDialogElement).close();

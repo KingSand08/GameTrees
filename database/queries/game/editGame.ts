@@ -1,6 +1,7 @@
 import executeQuery from "@/database/mysqldb";
 import { getPrimaryGameInfo } from "./getPrimaryGameInfo";
 import { addGameCoverImage } from "../photo/addGameImage";
+import Game from "@/types/models/Game";
 
 export async function editGame(
     gid: string | number,
@@ -42,12 +43,14 @@ export async function editGame(
         // If image
         if (image) {
             // Use the addGameCoverImage query to handle image insertion/update
-            const coverImageResult = await addGameCoverImage({
-                gid: Number(gid),
-                photo: Buffer.from(image),
-                title: title,
-                publish_date: publish_date,
-            });
+            const coverImageResult = await addGameCoverImage(
+                {
+                    gid: Number(gid),
+                    title: title,
+                    publish_date: publish_date,
+                } as Game,
+                Buffer.from(image)
+            );
 
             if (coverImageResult.status === "error") {
                 throw new Error(coverImageResult.message);

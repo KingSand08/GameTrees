@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import sharp from "sharp";
 import { authOptions } from "@/nextauth/NextAuthOptions";
@@ -82,6 +83,7 @@ export async function POST(req: Request, { params }: { params: { gid: string } }
         );
 
         if (result.status === "success") {
+            revalidatePath(`/game/${gid}`);
             return NextResponse.json({ message: result.message }, { status: 201 });
         } else {
             throw new Error(result.message);
