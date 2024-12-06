@@ -1,4 +1,6 @@
 import executeQuery from "@/database/mysqldb";
+import { getPrimaryGameInfo } from "./getPrimaryGameInfo";
+import { addGameCoverImage } from "../photo/addGameImage";
 
 export async function editGame(
     gid: string | number,
@@ -11,7 +13,7 @@ export async function editGame(
         if (description) {
             const descQquery = `
             INSERT INTO Games (gid, description)
-                    VALUES (?, ?);
+                    VALUES (?, ?)
                     ON DUPLICATE KEY UPDATE description = VALUES(description);
         `;
             await executeQuery(descQquery, [gid, description]);
@@ -21,7 +23,7 @@ export async function editGame(
         if (price) {
             const priceQquery = `
             INSERT INTO Games (gid, price)
-                    VALUES (?, ?);
+                    VALUES (?, ?)
                     ON DUPLICATE KEY UPDATE price = VALUES(price);
         `;
             await executeQuery(priceQquery, [gid, price]);
@@ -29,12 +31,26 @@ export async function editGame(
 
         // If image
         if (image) {
-            const imageQquery = `
-            INSERT INTO GamePhotos (gid, image)
-                    VALUES (?, ?);
-                    ON DUPLICATE KEY UPDATE image = VALUES(image);
-        `;
-            await executeQuery(imageQquery, [gid, image]);
+            // Fetch game info to get title and publish_date
+            const gameInfo = await getPrimaryGameInfo(gid as number);
+
+            if (!gameInfo) {
+                throw new Error("Game not found for the provided gid.");
+            }
+
+            const { title, publish_date } = gameInfo;
+
+            // Use the addGameCoverImage query to handle image insertion/update
+            const coverImageResult = await addGameCoverImage({
+                gid: Number(gid),
+                photo: Buffer.from(image),
+                title,
+                publish_date,
+            });
+
+            if (coverImageResult.status === "error") {
+                throw new Error(coverImageResult.message);
+            }
         }
 
         return { status: "success", message: "Game updated successfully." };

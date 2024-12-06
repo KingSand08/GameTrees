@@ -11,7 +11,7 @@ export async function POST(req: Request, { params }: { params: { gid: string } }
     if (!session) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-
+    console.log("GOT HERE!")
     try {
         // Extract gid from URL params
         const { gid } = params;
@@ -27,6 +27,7 @@ export async function POST(req: Request, { params }: { params: { gid: string } }
         const description = formData.get("description")?.toString() || "";
         const price = parseFloat(formData.get("price")?.toString() || "");
         const image = formData.get("image") as File;
+        console.log(image)
 
         if (!description && !isNaN(price) && !image) {
             return NextResponse.json({ error: "You must fill out at least one input before attempting to edit." }, { status: 400 });

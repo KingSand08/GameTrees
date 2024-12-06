@@ -22,12 +22,14 @@ export const addGameCoverImage = async (imageData: GameImageData): Promise<{ sta
         const photoInsertQuery = `
             INSERT INTO Photos (pid, add_date)
             VALUES (pid, NOW())
+            ON DUPLICATE KEY UPDATE add_date = NOW();
         `;
         await executeQuery(photoInsertQuery, [pid]);
 
         const gamePhotoInsertQuery = `
-            INSERT INTO GamePhotos (gpid, gid, img, type)
+            INSERT INTO GamePhotos (gpid, gid, image, type)
             VALUES (?, ?, ?, 'cover')
+            ON DUPLICATE KEY UPDATE image = VALUES(image), type = VALUES(type);
         `;
         const gamePhotoData = [pid, gid, photo];
 
