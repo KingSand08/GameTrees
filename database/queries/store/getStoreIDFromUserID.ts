@@ -1,7 +1,7 @@
 import executeQuery from "@/database/mysqldb"
 
 
-export async function getStoreIdFromUserId(user_id: number | null): Promise<number | null> {
+export async function getStoreIdFromUserId(user_id: number | null): Promise<number[] | null> {
   if (user_id === null) {
     console.error("Cannot accept null userID");
   }  
@@ -13,7 +13,7 @@ export async function getStoreIdFromUserId(user_id: number | null): Promise<numb
         `;
 
     // Execute the query
-    const results = (await executeQuery(query, [user_id])) as number | null;
+    const results = (await executeQuery(query, [user_id])) as number[] | null;
 
     return results;
 }
