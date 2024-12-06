@@ -7,7 +7,7 @@ export default function ClientAccountSettings() {
     const { data: session, update: updateSession } = useSession();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
-    const [firstname, setName] = useState("");
+    const [firstname, setFirstName] = useState("");
     const [lastname, setLastname] = useState("");
     const [password, setPassword] = useState("");
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -46,8 +46,8 @@ export default function ClientAccountSettings() {
         const formData = new FormData();
         if (username) formData.append("username", username);
         if (email) formData.append("email", email);
-        if (firstname) formData.append("fname", firstname);
-        if (lastname) formData.append("lname", lastname);
+        if (firstname) formData.append("firstname", firstname);
+        if (lastname) formData.append("lastname", lastname);
         if (password) formData.append("password", password);
         if (selectedFile) formData.append("file", selectedFile);
 
@@ -70,7 +70,7 @@ export default function ClientAccountSettings() {
                             id: session?.user.id,
                             username: username || session?.user.username,
                             email: email || session?.user.email,
-                            firstname: firstname || session?.user.name,
+                            firstname: firstname || session?.user.firstname,
                             lastname: lastname || session?.user.lastname,
                         },
                     });
@@ -143,9 +143,9 @@ export default function ClientAccountSettings() {
                             </div>
                         </div>
 
-                        {/* Name Input */}
+                        {/* Firstname Input */}
                         <div className="block">
-                            <label className="text-sm font-medium text-gray-900 dark:text-white">Fist Name</label>
+                            <label className="text-sm font-medium text-gray-900 dark:text-white">First Name</label>
                             <div className="flex flex-col md:flex-row md:space-x-3 items-stretch md:items-center">
                                 <div className="input input-bordered flex items-center gap-2 w-full bg-slate-700 rounded-lg">
                                     <svg
@@ -164,9 +164,9 @@ export default function ClientAccountSettings() {
                                     <input
                                         type="text"
                                         value={firstname}
-                                        onChange={(e) => setName(e.target.value)}
+                                        onChange={(e) => setFirstName(e.target.value)}
                                         disabled={!isEditingName}
-                                        placeholder={session?.user.name}
+                                        placeholder={session?.user.firstname}
                                         className="bg-transparent text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 p-2 w-full focus:outline-none"
                                         autoComplete="off"
                                     />

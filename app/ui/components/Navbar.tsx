@@ -75,7 +75,7 @@ export default async function Navbar() {
                                             avatarClassName="ring-offset-2 ring-offset-slate-500 dark:ring-offset-slate-800"
                                             className="hidden min-[330px]:flex h-[80px]"
                                             username={session.user.username}
-                                            firstname={session.user.name}
+                                            firstname={session.user.firstname}
                                             lastname={session.user.lastname}
                                             image={profileImage ?? undefined}
                                         />

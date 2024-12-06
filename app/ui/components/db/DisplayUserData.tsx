@@ -13,6 +13,7 @@ const DisplayUserData: React.FC<DisplayUserDataProps> = ({ currentUsername, user
     <div className="overflow-x-auto">
       <div className="flex flex-col space-y-8">
         <h3 className="text-center text-2xl">User Information</h3>
+        <span className="italic text-center text-xs text-error">(* Cannot go to wishlist of managers or admin, they have no page!)</span>
         <table className="table">
           <thead>
             <tr className="bg-blue-700 text-white text-center">
@@ -53,7 +54,7 @@ const DisplayUserData: React.FC<DisplayUserDataProps> = ({ currentUsername, user
                 <td className="px-6 py-3">{user.uid}</td>
                 <td className="px-6 py-3">{user.role}</td>
                 <td className="px-6 py-3">{user.username}</td>
-                <td className="px-6 py-3">{user.name}</td>
+                <td className="px-6 py-3">{user.firstname}</td>
                 <td className="px-6 py-3">{user.email}</td>
                 <td className="px-6 py-3">{user.password}</td>
               </tr>

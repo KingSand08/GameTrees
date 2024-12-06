@@ -17,6 +17,8 @@ export default async function GamePage({ params }: GamePageProps) {
   // Get server-side session (may be null if not logged in)
   const session = await getServerSession(authOptions);
   const username = session?.user?.username || "";
+  console.log(session)
+
 
   let userUID = null;
   let role = null;
@@ -29,15 +31,15 @@ export default async function GamePage({ params }: GamePageProps) {
     role = await getUserRoleByUID(userUID);
   }
 
-//   const gameDetail = await getGamesByID(gameId);
+  //   const gameDetail = await getGamesByID(gameId);
   const allStores = new AllStores();
   try {
     const [details, stores, wishlist] = await Promise.all([
-        getGamesByID(gameId),
-        allStores.getAllStoresByGid(gameId),
-        getUserWishlist(username),
+      getGamesByID(gameId),
+      allStores.getAllStoresByGid(gameId),
+      getUserWishlist(username),
     ]);
-    
+
     // Pass data and user info to the client
     return (
       <GameDisplay
@@ -46,7 +48,7 @@ export default async function GamePage({ params }: GamePageProps) {
         stores={stores}
         uid={userUID}
         userRole={role || "guest"}
-        wishlist={wishlist} // Check if this is being passed correctly
+        wishlist={wishlist}
       />
     );
   } catch (error) {
