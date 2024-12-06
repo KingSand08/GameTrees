@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import WishlistRow from "@/types/models/WishlistRow";
 import WishListButton from "@/app/ui/components/buttons/WishListButton";
-
+import Link from "next/link";
 
 interface WishlistDisplayProps {
     uid: string | "";
@@ -46,7 +46,9 @@ export default function WishlistDisplay({ uid, wishlist, myWishlist, userRole }:
 
                         {/* Game Details */}
                         <div className="ml-4 flex-grow">
-                            <h2 className="max-[1200px]:pt-8 text-xl font-bold">{game.title}</h2>
+                            <Link href={`/game/${game.gid}`}>
+                                <h2 className="max-[1200px]:pt-8 text-xl font-bold hover:underline">{game.title}</h2>
+                            </Link>
                             <p className="max-[1200px]:pt-2 text-gray-400">Developer: {game.developer}</p>
                             <div className="max-[1200px]:pt-2 mt-2 text-sm">
                                 <span>${game.price}</span>

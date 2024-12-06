@@ -35,9 +35,9 @@ const WishlistPage = async ({ params }: WishlistPageProps) => {
     ]);
 
     return (
-        <div className="h-full min-h-[50em] text-white rounded-lg">
+        <div className="h-full min-h-[50em] rounded-lg">
             <div className="mb-6">
-                <h1 className="text-3xl font-bold">Wishlist for {username}</h1>
+                <h1 className="text-3xl text-base-content font-bold">Wishlist for {username}</h1>
                 <div className="flex items-center max-[1200px]:justify-center space-x-6 my-8 w-full">
                     <Avatar
                         image={userProfileImage || undefined}

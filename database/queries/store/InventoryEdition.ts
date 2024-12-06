@@ -1,32 +1,31 @@
 import executeQuery from "@/database/mysqldb";
 import Game from "@/types/models/Game";
 
-export class InventoryEdition {
-    public async removeByGid(gid: number): Promise<void> {
-        const query = `
-            DELETE FROM Inventories I
-            WHERE I.gid = ? ;
-            `;
+export async function addToStoreInventory(sid: string, gid: string) {
+    const query = `
+        INSERT INTO Inventories(sid, gid)
+        VALUES (?, ?)
+        ON DUPLICATE KEY UPDATE gid = gid;  
+    `;
 
-        await executeQuery(query, [gid] );
+    try {
+        // Execute the query
+        await executeQuery(query, [sid, gid]);
+    } catch (error) {
+        console.error("Error adding to store inventory:", error);
     }
+}
 
-    public async addByGid(sid: number, gid: number): Promise<void> {
-        const insertQuery = `
-            INSERT INTO inventories(sid, gid) VALUES
-            (?, ?);
-        `;
-
-        await executeQuery(insertQuery, [sid, gid] );        
-    }
-
-    public async isInInventory(sid: number, gid: number): Promise<boolean> {
-        const query = `
-            SELECT 1
-            FROM Inventories
+export async function removeFromStoreInventory(sid: string, gid: string) {
+    const query = `
+            DELETE FROM Inventories W
             WHERE sid = ? AND gid = ?;
         `;
-        const result:any = await executeQuery(query, [sid, gid]);
-        return result.length > 0;
-    }    
+
+    try {
+        // Execute the query
+        await executeQuery(query, [sid, gid]);
+    } catch (error) {
+        console.error("Error removing from store inventory:", error);
+    }
 }

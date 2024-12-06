@@ -53,7 +53,7 @@ const GameCard: React.FC<GameCardProps> = ({
             <h2 className="card-title">{title}</h2>
             <p className="text-sm text-gray-400">{genre}</p>
             <p className="text-md font-semibold text-green-400">As low as: {lowestPrice}</p>   
-            <p className="text-md font-semibold text-green-400">Most favorited by: {wishlistCount}</p>
+            <p className="text-md font-semibold text-green-400">Wishlisted by: {wishlistCount} users</p>
             <div className="card-actions justify-end">
             <button className="btn btn-primary btn-sm" onClick={handleViewDetails}>
                 View Details
