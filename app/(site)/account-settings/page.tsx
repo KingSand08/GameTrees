@@ -43,9 +43,15 @@ export default async function AccountSettingsPage() {
 
                         {/* User Info */}
                         <div className="flex-grow w-full">
-                            <p className="w-full text-xl font-semibold mb-2 text-gray-900 dark:text-white">{thisUser?.name || "ERROR: NO NAME"} {thisUser?.lastname} </p>
+                            <p className="w-full text-xl font-semibold mb-2 text-gray-900 dark:text-white">{thisUser?.username}</p>
                             <p className="text-sm text-gray-800 dark:text-gray-300">
                                 <span className="font-semibold text-base">Username:</span> {thisUser?.username || "ERROR: NO USERNAME"}
+                            </p>
+                            <p className="text-sm text-gray-800 dark:text-gray-300">
+                                <span className="font-semibold text-base">First Name:</span> {thisUser?.firstname || "ERROR: NO FIRST"}
+                            </p>
+                            <p className="text-sm text-gray-800 dark:text-gray-300">
+                                <span className="font-semibold text-base">Last Name:</span> {thisUser?.lastname || "ERROR: NO LAST"}
                             </p>
                             <p className="w-full text-sm text-gray-800 dark:text-gray-300">
                                 <span className="font-semibold text-base">Email:</span> {thisUser?.email || "!!!CRITICAL ERROR: NO EMAIL"}
