@@ -54,7 +54,7 @@ const DisplayUserData: React.FC<DisplayUserDataProps> = ({ currentUsername, user
                 <td className="px-6 py-3">{user.uid}</td>
                 <td className="px-6 py-3">{user.role}</td>
                 <td className="px-6 py-3">{user.username}</td>
-                <td className="px-6 py-3">{user.name}</td>
+                <td className="px-6 py-3">{user.firstname}</td>
                 <td className="px-6 py-3">{user.email}</td>
                 <td className="px-6 py-3">{user.password}</td>
               </tr>
