@@ -1,7 +1,7 @@
 import executeQuery from "@/database/mysqldb";
 
 export async function editGame(
-    gid: string,
+    gid: string | number,
     description?: string,
     price?: string | number,
     image?: string | Buffer
