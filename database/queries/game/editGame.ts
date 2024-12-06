@@ -4,48 +4,49 @@ import { addGameCoverImage } from "../photo/addGameImage";
 
 export async function editGame(
     gid: string | number,
-    description?: string,
-    price?: string | number,
-    image?: string | Buffer
+    description?: string | null,
+    price?: string | number | null,
+    image?: string | Buffer | null,
 ): Promise<{ status: string; message: string }> {
     try {
+        // Fetch game info to get title and publish_date
+        const gameInfo = await getPrimaryGameInfo(gid as number);
+
+        if (!gameInfo) {
+            throw new Error("Game not found for the provided gid.");
+        }
+
+        const { title, publish_date } = gameInfo;
+
+
         // If description
         if (description) {
-            const descQquery = `
-            INSERT INTO Games (gid, description)
-                    VALUES (?, ?)
+            const descQuery = `
+            INSERT INTO Games (gid, title, description)
+                    VALUES (?, ?, ?)
                     ON DUPLICATE KEY UPDATE description = VALUES(description);
         `;
-            await executeQuery(descQquery, [gid, description]);
+            await executeQuery(descQuery, [gid, title, description]);
         }
 
         // If price
         if (price) {
-            const priceQquery = `
-            INSERT INTO Games (gid, price)
-                    VALUES (?, ?)
+            const priceQuery = `
+            INSERT INTO Games (gid, title, price)
+                    VALUES (?, ?, ?)
                     ON DUPLICATE KEY UPDATE price = VALUES(price);
         `;
-            await executeQuery(priceQquery, [gid, price]);
+            await executeQuery(priceQuery, [gid, title, price]);
         }
 
         // If image
         if (image) {
-            // Fetch game info to get title and publish_date
-            const gameInfo = await getPrimaryGameInfo(gid as number);
-
-            if (!gameInfo) {
-                throw new Error("Game not found for the provided gid.");
-            }
-
-            const { title, publish_date } = gameInfo;
-
             // Use the addGameCoverImage query to handle image insertion/update
             const coverImageResult = await addGameCoverImage({
                 gid: Number(gid),
                 photo: Buffer.from(image),
-                title,
-                publish_date,
+                title: title,
+                publish_date: publish_date,
             });
 
             if (coverImageResult.status === "error") {

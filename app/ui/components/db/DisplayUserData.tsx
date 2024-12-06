@@ -13,6 +13,7 @@ const DisplayUserData: React.FC<DisplayUserDataProps> = ({ currentUsername, user
     <div className="overflow-x-auto">
       <div className="flex flex-col space-y-8">
         <h3 className="text-center text-2xl">User Information</h3>
+        <span className="italic text-center text-xs text-error">(* Cannot go to wishlist of managers or admin, they have no page!)</span>
         <table className="table">
           <thead>
             <tr className="bg-blue-700 text-white text-center">

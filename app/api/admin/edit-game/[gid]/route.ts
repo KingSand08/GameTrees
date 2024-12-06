@@ -11,7 +11,7 @@ export async function POST(req: Request, { params }: { params: { gid: string } }
     if (!session) {
         return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-    console.log("GOT HERE!")
+
     try {
         // Extract gid from URL params
         const { gid } = params;
@@ -27,50 +27,52 @@ export async function POST(req: Request, { params }: { params: { gid: string } }
         const description = formData.get("description")?.toString() || "";
         const price = parseFloat(formData.get("price")?.toString() || "");
         const image = formData.get("image") as File;
-        console.log(image)
 
         if (!description && !isNaN(price) && !image) {
             return NextResponse.json({ error: "You must fill out at least one input before attempting to edit." }, { status: 400 });
         }
 
-        // Validate file type
-        const allowedMimeTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
-        if (!allowedMimeTypes.includes(image.type)) {
-            return NextResponse.json(
-                { message: "Invalid file type. Only PNG, JPG, JPEG, and WEBP files are allowed." },
-                { status: 400 }
-            );
-        }
+        let compressedImage = null;
 
-        // Process the image
-        const imageData = Buffer.from(await image.arrayBuffer());
-        const MAX_FILE_SIZE = 3000000; // 3MB
-        const MIN_QUALITY = 10;
-        const RESIZE_DIMENSIONS = 300;
+        if (image) {
+            // Validate file type
+            const allowedMimeTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+            if (!allowedMimeTypes.includes(image.type)) {
+                return NextResponse.json(
+                    { message: "Invalid file type. Only PNG, JPG, JPEG, and WEBP files are allowed." },
+                    { status: 400 }
+                );
+            }
 
-        // Resize image
-        const resizedImage = await sharp(imageData)
-            .resize({ width: RESIZE_DIMENSIONS, height: RESIZE_DIMENSIONS, fit: "inside" })
-            .toBuffer();
+            // Process the image
+            const imageData = Buffer.from(await image.arrayBuffer());
+            const MAX_FILE_SIZE = 3000000; // 3MB
+            const MIN_QUALITY = 10;
+            const RESIZE_DIMENSIONS = 300;
 
-        // Compress image
-        let quality = 25;
-        let compressedImage = resizedImage;
-
-        while (compressedImage.length > MAX_FILE_SIZE && quality > MIN_QUALITY) {
-            compressedImage = await sharp(resizedImage)
-                .jpeg({ quality })
+            // Resize image
+            const resizedImage = await sharp(imageData)
+                .resize({ width: RESIZE_DIMENSIONS, height: RESIZE_DIMENSIONS, fit: "inside" })
                 .toBuffer();
-            quality -= 10;
-        }
 
-        if (compressedImage.length > MAX_FILE_SIZE) {
-            return NextResponse.json(
-                { message: `Unable to compress image to ${MAX_FILE_SIZE / 1024}KB. Try uploading a smaller file.` },
-                { status: 400 }
-            );
-        }
+            // Compress image
+            let quality = 25;
+            compressedImage = resizedImage;
 
+            while (compressedImage.length > MAX_FILE_SIZE && quality > MIN_QUALITY) {
+                compressedImage = await sharp(resizedImage)
+                    .jpeg({ quality })
+                    .toBuffer();
+                quality -= 10;
+            }
+
+            if (compressedImage.length > MAX_FILE_SIZE) {
+                return NextResponse.json(
+                    { message: `Unable to compress image to ${MAX_FILE_SIZE / 1024}KB. Try uploading a smaller file.` },
+                    { status: 400 }
+                );
+            }
+        }
         // Insert game data into the database
         const result = await editGame(
             gid,
