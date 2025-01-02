@@ -2,7 +2,7 @@ export type User = {
     uid: string;
     username: string;
     password?: string;
-    name: string;
+    firstname: string;
     lastname: string;
     dob?: string;
     phone?: string;

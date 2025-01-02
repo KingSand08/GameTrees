@@ -11,8 +11,7 @@ type GameInsertData = {
     photo: Buffer;
 };
 
-
-const insertGame = async (gameData: GameInsertData): Promise<{ status: string; message: string }> => {
+const addGame = async (gameData: GameInsertData): Promise<{ status: string; message: string }> => {
     const { title, description, did, price, publishDate, photo } = gameData;
 
     try {
@@ -21,19 +20,25 @@ const insertGame = async (gameData: GameInsertData): Promise<{ status: string; m
             INSERT INTO Games (title, description, did, price, publish_date) 
             VALUES (?, ?, ?, ?, ?)
         `;
-
         await executeQuery(gameInsertQuery, [title, description, did, price, publishDate]);
 
+        // Step 2: Retrieve the inserted game
         const getGameQuery = `
             SELECT * FROM Games
-            WHERE title = ? AND did = ? AND publishDate = ?;
+            WHERE title = ? AND did = ? AND publish_date = ?;
         `;
+        const gameResults = await executeQuery(getGameQuery, [title, did, publishDate]) as Game[];
 
-        const game = await executeQuery(getGameQuery, [title, did, publishDate]) as Game;
+        // Check if the query returned results
+        if (!gameResults || gameResults.length === 0) {
+            throw new Error("Failed to retrieve the game after insertion.");
+        }
 
+        // Step 3: Use the first result as the game object
+        const game: Game = gameResults[0]; // TypeScript now knows this is a Game object
 
-        // Step 2: Add the game photo using addGameImage
-        await addGameCoverImage({ photo, gid: game.gid, title: title, publish_date: publishDate });
+        // Step 4: Add the game photo using addGameCoverImage
+        await addGameCoverImage(game, photo);
 
         return { status: "success", message: "Game and its cover photo inserted successfully!" };
     } catch (error) {
@@ -42,4 +47,4 @@ const insertGame = async (gameData: GameInsertData): Promise<{ status: string; m
     }
 };
 
-export default insertGame;
+export default addGame;

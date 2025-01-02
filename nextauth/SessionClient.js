@@ -1,10 +1,10 @@
 "use client";
-import { useSession, getSession } from "next-auth/react";
+// import { useSession, getSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 
 const SessionServer = () => {
   const [sessionValue, setSessionValue] = useState({});
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
   useEffect(() => {
     const getSessionInfo = async () => {
       const session = await getSession();

@@ -1,5 +1,4 @@
 import executeQuery from "@/database/mysqldb";
-import Game from "@/types/models/Game";
 import RawUser from "@/types/models/RawUser";
 import User from "@/types/models/User";
 import blobToBase64 from "@/utils/blobToBase64";
@@ -9,7 +8,7 @@ export async function getUser(uid: string | number): Promise<User | null> {
         SELECT
             U.uid,
             U.username,
-            U.firstname AS name,
+            U.firstname,
             U.lastname,
             U.email,
             U.phone,

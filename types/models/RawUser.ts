@@ -2,7 +2,7 @@ export type RawUser = {
     uid: string;
     username: string;
     email: string;
-    name: string;
+    firstname: string;
     lastname: string;
     dob?: string;
     password?: string;

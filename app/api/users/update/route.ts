@@ -19,7 +19,6 @@ export const PATCH = async (req: Request) => {
         let username, email, firstname, lastname, password, image;
 
         if (contentType.includes("application/json")) {
-            // Parse JSON body
             const body = await req.json();
             username = body.username;
             email = body.email;
@@ -27,47 +26,42 @@ export const PATCH = async (req: Request) => {
             lastname = body.lastname;
             password = body.password;
         } else if (contentType.includes("multipart/form-data")) {
-            // Parse form data
             const formData = await req.formData();
             username = formData.get("username");
             email = formData.get("email");
-            firstname = formData.get("fname");
-            lastname = formData.get("lname");
+            firstname = formData.get("firstname");
+            lastname = formData.get("lastname");
             password = formData.get("password");
             image = formData.get("file") as File | null;
         }
+
         // Ensure only non-empty fields
         if (!username && !email && !firstname && !lastname && !password && !image) {
             return NextResponse.json({ message: "No fields to update" }, { status: 400 });
         }
 
-        // Check if username already exists for a different user
+        // Validate and process user data
         if (username) {
-            const isUsernameTaken = await checkFieldAlreadyExists('Users', 'username', username as string);
+            const isUsernameTaken = await checkFieldAlreadyExists("Users", "username", username as string);
             if (isUsernameTaken) {
                 return NextResponse.json({ status: "error", message: "Username is already in use by another account" }, { status: 400 });
             }
-
             if ((username as string).length > 25) {
-                // Check if username follows username size limiation
                 return NextResponse.json({ status: "error", message: "Username can only be 25 characters long" }, { status: 400 });
             }
         }
-        // Check if email already exists for a different user
+
         if (email) {
-            const isEmailTaken = await checkFieldAlreadyExists('Users', 'email', email as string);
+            const isEmailTaken = await checkFieldAlreadyExists("Users", "email", email as string);
             if (isEmailTaken) {
                 return NextResponse.json({ status: "error", message: "Email is already in use by another account" }, { status: 400 });
             }
         }
-        // Check if password follows password size limiation
-        if (password) {
-            if ((password as string).length < 8) {
-                return NextResponse.json({ status: "error", message: "Password must be more then 8 numbers long" }, { status: 400 });
-            }
+
+        if (password && (password as string).length < 8) {
+            return NextResponse.json({ status: "error", message: "Password must be more than 8 characters long" }, { status: 400 });
         }
 
-        // Prepare update data for user details
         const updateData: Record<string, unknown> = {};
         if (username) updateData.username = username;
         if (email) updateData.email = email;
@@ -75,14 +69,13 @@ export const PATCH = async (req: Request) => {
         if (lastname) updateData.lastname = lastname;
         if (password) updateData.password = password;
 
-        // Update user details if any fields were provided
         if (Object.keys(updateData).length > 0) {
             const detailsUpdated = await updateUserDetails(session.user.id as unknown as number, updateData);
             if (!detailsUpdated) {
                 return NextResponse.json({ message: "Failed to update user details" }, { status: 500 });
             }
         }
-        // Handle image upload
+
         if (image) {
             // Limit file to only image types
             const allowedMimeTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
@@ -122,26 +115,35 @@ export const PATCH = async (req: Request) => {
                     );
                 }
 
-                const result = await updateUserAccountImage(session.user.id as unknown as number, compressedImage);
-                console.log(result)
+                // const result = 
+                await updateUserAccountImage(session.user.id as unknown as number, compressedImage);
 
-                return NextResponse.json({ message: "File uploaded successfully", status: 201 });
+                // console.log(result)
+
             } catch (error) {
                 console.error("Error occurred while uploading file:", error);
                 return NextResponse.json({ message: "Failed to upload file", status: 500 });
             }
         }
-        // Return success and instruct the client to update the session
-        return NextResponse.json({
-            message: "User details updated successfully",
-            refresh: true,
-            user: {
-                username: username || session.user.username,
-                email: email || session.user.email,
-                firstname: firstname || session.user.name,
-                lastname: lastname || session.user.lastname,
-            },
-        }, { status: 200 });
+
+
+        // Update the session manually
+        const updatedSession = await getServerSession(authOptions);
+        // console.log(updatedSession)
+        if (updatedSession) {
+            return NextResponse.json({
+                message: "User details updated successfully",
+                user: {
+                    username: username || session.user.username,
+                    email: email || session.user.email,
+                    firstname: firstname || session.user.firstname,
+                    lastname: lastname || session.user.lastname,
+                },
+                refresh: true,
+            }, { status: 200 });
+        } else {
+            return NextResponse.json({ message: "Failed to refresh session" }, { status: 500 });
+        }
     } catch (error) {
         console.error("Error updating user details or image:", error);
         return NextResponse.json({ message: "Internal server error" }, { status: 500 });

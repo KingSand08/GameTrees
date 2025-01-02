@@ -8,7 +8,7 @@ import generatePhotoPid from "@/utils/generatePhotoId";
  */
 export async function updateUserAccountImage(userId: number, imageData: Buffer): Promise<void> {
     const pid = generatePhotoPid(userId);
-    console.log(pid)
+    // console.log(pid)
     const photoInsertQuery = `
             INSERT INTO Photos (pid, add_date) 
             VALUES (?, NOW())

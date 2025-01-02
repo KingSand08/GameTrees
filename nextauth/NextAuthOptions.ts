@@ -65,7 +65,7 @@ export const authOptions: AuthOptions = {
             id: user[0].uid,
             username: user[0].username,
             email: user[0].email,
-            name: user[0].firstname,
+            firstname: user[0].firstname,
             lastname: user[0].lastname,
             role,
           };
@@ -81,7 +81,7 @@ export const authOptions: AuthOptions = {
         // Manually update token fields during session updates
         token.username = session.user.username;
         token.email = session.user.email;
-        token.name = session.user.name;
+        token.firstname = session.user.firstname;
         token.lastname = session.user.lastname;
       }
 
@@ -90,7 +90,7 @@ export const authOptions: AuthOptions = {
         token.id = user.id;
         token.username = user.username;
         token.email = user.email;
-        token.firstname = user.name;
+        token.firstname = user.firstname;
         token.lastname = user.lastname;
         token.role = user.role;
       }
@@ -101,7 +101,7 @@ export const authOptions: AuthOptions = {
         id: token.id as string,
         username: token.username as string,
         email: token.email as string,
-        name: token.name as string,
+        firstname: token.firstname as string,
         lastname: token.lastname as string,
         role: token.role as string,
       };
@@ -119,7 +119,7 @@ export const authOptions: AuthOptions = {
           user.id = existingUser[0].uid;
           user.username = existingUser[0].username;
           user.email = existingUser[0].email;
-          user.name = existingUser[0].name;
+          user.firstname = existingUser[0].firstname;
           user.lastname = existingUser[0].lastname;
           user.role = role;
           return true;
