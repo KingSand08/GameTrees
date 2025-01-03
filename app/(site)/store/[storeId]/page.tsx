@@ -9,6 +9,7 @@ import StoreDisplay from "./StoreDisplay";
 import getUserWishlist from "@/database/queries/wishlist/getWishlist";
 import getStoreIdFromUserId from "@/database/queries/store/getStoreIDFromUserID"
 import { getManagerIdFromStoreId } from "@/database/queries/store/getManager";
+import { StoreImages } from "@/database/queries/store/StoreImages";
 
 interface StorePageProps {
   params: { storeId: string };
@@ -41,9 +42,11 @@ export default async function StorePage({ params }: StorePageProps) {
     const storeRepository = new StoreRepository();
     const storeDetailRep = new StoreDetailRep();
     const storeHoursRep = new StoreHoursRep();
+    const storeImages = new StoreImages();
   
     try {
-        const [games, storeDetails, storeHours, wishlist] = await Promise.all([
+        const [images, games, storeDetails, storeHours, wishlist] = await Promise.all([
+            storeImages.getStoreImages(storeId),
             storeRepository.getGamesByStoreId(storeId),
             storeDetailRep.getStoreDetails(storeId),
             storeHoursRep.getStoreHours(storeId),
@@ -54,6 +57,7 @@ export default async function StorePage({ params }: StorePageProps) {
         // Pass data and user info to the client
         return (
             <StoreDisplay
+            images={images}
             storeId={storeId}
             storeDetails={storeDetails}
             games={games}

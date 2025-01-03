@@ -29,7 +29,7 @@ import { isUserAdmin, isUserCustomer, isUserManager } from "./checkUserRole";
 // }
 
 // Using if-else statement instead of cross join 3 tables to optimize the database query 
-export async function getUserRoleByUID(uid: string | number): Promise<string | null> {
+export async function getUserRoleByUID(uid: string | number): Promise<string> {
     const isCustomer = await isUserCustomer(uid);
     if (isCustomer) {
         return "customer";

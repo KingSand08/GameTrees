@@ -7,9 +7,12 @@ import StoreDetails from "@/types/models/StoreDetail";
 import StoreHours from "@/types/models/StoreHours";
 import WishListButton from "@/app/ui/components/buttons/WishListButton";
 import WishlistRow from "@/types/models/WishlistRow";
+import ImageRow from "@/types/models/ImageRow";
+import ImageCarousel from "@/app/ui/components/structural/ImageCarousel";
 import Link from "next/link";
 
 interface StoreDisplayProps {
+    images: ImageRow[];
     storeId: string;
     uid: number | null;
     storeDetails: StoreDetails | undefined;
@@ -20,7 +23,7 @@ interface StoreDisplayProps {
     canEdit: boolean;
 }
 
-const StoreDisplay = ({ storeId, uid, storeDetails, games, storeHours, userRole, wishlist, canEdit}: StoreDisplayProps) => {
+const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, userRole, wishlist, canEdit}: StoreDisplayProps) => {
     const [isEditing, setIsEditing] = useState(false); // Track edit mode
     const [isInventoryEditing, setInventoryEditing] = useState(false);
     const [editedName, setEditedName] = useState(storeDetails?.name || "");
@@ -85,7 +88,7 @@ const StoreDisplay = ({ storeId, uid, storeDetails, games, storeHours, userRole,
         setEditedCountry(e.target.value);
     };
 
-    const handleModalityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleModalityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setEditedModality(e.target.value);
     };
 
@@ -174,14 +177,13 @@ const StoreDisplay = ({ storeId, uid, storeDetails, games, storeHours, userRole,
         <div className="relative">
             {/* Conditionally render the Edit Store button for managers with permissions */}
             {canEdit && (
-                <div className="absolute top-4 right-4">
+                <div className="flex justify-end items-start space-x-4 p-4">
                     <button
                         className="btn btn-primary text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
                         onClick = {toggleEditMode}
                         >
                         {isEditing? "Cancel" : "Edit Store"}
                     </button>
-
                             
                     {/* Edit Inventories Button */}
                     <button
@@ -194,10 +196,8 @@ const StoreDisplay = ({ storeId, uid, storeDetails, games, storeHours, userRole,
             )}
 
             {/* Store Information */}
-            <div className="hero bg-base-200 flex justify-center items-center">
-                
-                <div className="hero-content text-base-content flex-col lg:flex-row w-full max-w-7xl">
-                    
+            <div className="hero bg-base-200 flex justify-center items-center">   
+                <div className="hero-content text-base-content flex-col lg:flex-row w-full max-w-7xl">       
                     {storeDetails && (
                     <div className=" p-4 rounded-lg w-full lg:w-1/2">
                         <div>
@@ -267,22 +267,25 @@ const StoreDisplay = ({ storeId, uid, storeDetails, games, storeHours, userRole,
                                 {storeDetails.country && storeDetails.country}
                             </p>
                             )}
-                            
+
                             {isEditing ? (
-                                <input
-                                    type="text"
+                                <select
                                     value={editedModality}
                                     onChange={handleModalityChange}
-                                    className="input input-bordered w-full mt-2"
-                                    placeholder="Edit modality"
-                                    />
+                                    className="select select-bordered w-full mt-2"
+                                >
+                                    <option value="" disabled>Select a modality</option>
+                                    <option value="Digital">Digital (Online)</option>
+                                    <option value="Physical">Physical (In-Store)</option>
+                                    <option value="Digital & Physical">Digital & Physical (Hybrid)</option>
+                                </select>
                             ) : (
                                 <p>
                                     <strong className="mr-1">Modality:</strong>
                                     {storeDetails.modality}
                                 </p>
                             )}
-
+                            
                             {isEditing ? (
                                 <div className="block">
                                     <label className="text-sm font-medium text-gray-900 dark:text-white">Upload Store Image</label>
@@ -326,9 +329,17 @@ const StoreDisplay = ({ storeId, uid, storeDetails, games, storeHours, userRole,
                                                 <button
                                                     type="button"
                                                     onClick={() => setIsEditingPhoto(!isEditingPhoto)}
-                                                    className="ml-auto px-4 py-2 w-[5em] bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                                                    className="ml-auto px-4 py-2 w-[6em] bg-blue-500 text-white text-center rounded-lg hover:bg-blue-600 border-2 border-white shadow-lg"
                                                 >
                                                     {isEditingPhoto ? "Lock" : "Edit"}
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() => console.log("do later")}
+                                                    className="ml-auto px-4 py-2 w-[6em] bg-blue-500 text-white text-center rounded-lg hover:bg-blue-600 border-2 border-white shadow-lg"
+                                                >
+                                                    Remove
                                                 </button>
                                             </div>
                                             <div className="pt-2">
@@ -340,20 +351,11 @@ const StoreDisplay = ({ storeId, uid, storeDetails, games, storeHours, userRole,
                                     </div>
                                 </div>
                             ) : (
-                                <Image
-                                    src={storeDetails?.image as string}
-                                    alt={storeDetails?.name}
-                                    width={700}
-                                    height={500}
-                                    quality={100}
-                                    style={{
-                                        objectFit: 'cover', // Ensures the image is cropped to fill the container
-                                        width: '500px',
-                                        height: '300px',
-                                        marginTop: '20px',
-                                    }}
-                                    className="rounded-lg shadow-2xl"
-                            />
+                                images && images.length > 0 ? (
+                                    <ImageCarousel carouselImages={images} />
+                                ) : (
+                                    <p>No images available</p>
+                                )
                             )}                            
                         </div>
                     </div>

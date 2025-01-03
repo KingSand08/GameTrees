@@ -75,17 +75,18 @@ export const PATCH = async (req: Request) => {
 
             try {
                 const imageData = Buffer.from(await image.arrayBuffer());
-                const MAX_FILE_SIZE = 1000000; // 100KB
-                const MIN_QUALITY = 10;
-                const RESIZE_DIMENSIONS = 300;
+                const MAX_FILE_SIZE = 3145728; // 3MB
+                const MIN_QUALITY = 100;
+                const RESIZE_W_DIMENSIONS = 1920;
+                const RESIZE_H_DIMENSIONS = 1080;
 
                 // Resize image before compressing
                 const resizedImage = await sharp(imageData)
-                    .resize({ width: RESIZE_DIMENSIONS, height: RESIZE_DIMENSIONS, fit: "inside" })
+                    .resize({ width: RESIZE_W_DIMENSIONS, height: RESIZE_H_DIMENSIONS, fit: "cover" })
                     .toBuffer();
 
                 // Compress the resized image
-                let quality = 50;
+                let quality = 100;
                 let compressedImage = resizedImage;
 
                 while (compressedImage.length > MAX_FILE_SIZE && quality > MIN_QUALITY) {

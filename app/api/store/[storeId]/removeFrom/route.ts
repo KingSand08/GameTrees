@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { removeFromStoreInventory } from "@/database/queries/store/inventoryEdition";
+import { removeFromStoreInventory } from "@/database/queries/store/InventoryEdition";
 
 export async function DELETE(req: NextRequest) {
     try {

@@ -7,7 +7,9 @@ import generatePhotoPid from "@/utils/generatePhotoId";
  * @param imageData - The binary data of the image.
  */
 export async function updateStoreImage(storeId: number, imageData: Buffer): Promise<void> {
-    const pid = generatePhotoPid(storeId);
+    const dayCode = new Date().getTime();
+    const code = dayCode * 10 + storeId; 
+    const pid = generatePhotoPid(code);
     // console.log(pid)
     const photoInsertQuery = `
             INSERT INTO Photos (pid, add_date) 
