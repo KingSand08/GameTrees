@@ -15,7 +15,7 @@ export async function getGamesByID(game_id: string): Promise<GameDetails | undef
         FROM Games G
         LEFT JOIN Business B ON G.did = B.bid
         LEFT JOIN GamePhotos P ON P.gid = G.gid
-        WHERE G.gid = ?
+        WHERE G.gid = ?;
     `;
 
     try {

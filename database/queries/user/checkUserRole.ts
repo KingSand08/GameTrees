@@ -4,8 +4,8 @@ export async function isUserManager(uid: string | number): Promise<boolean> {
     const isManager = await executeQuery(`
             SELECT M.uid 
             FROM StoreMgrs M 
-            WHERE ? = M.uid;
-            LIMIT 1
+            WHERE ? = M.uid
+            LIMIT 1;
             `,
         [uid]) as string;
 

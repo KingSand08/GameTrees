@@ -1,5 +1,5 @@
-// interfaces/StoreDetails.ts
-export default interface StoreDetails {
+// interfaces/RawStoreDetails.ts
+export default interface RawStoreDetails {
     name: string;
     modality: string;
     street: string;
@@ -7,5 +7,5 @@ export default interface StoreDetails {
     state: string;
     zipCode: number | string;
     country: string;
-    image?: string;
+    image?: Buffer;
 }

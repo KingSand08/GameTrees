@@ -1,4 +1,4 @@
-import executeQuery from "@/database/mysqldb";
+// import executeQuery from "@/database/mysqldb";
 import { isUserAdmin, isUserCustomer, isUserManager } from "./checkUserRole";
 
 /**

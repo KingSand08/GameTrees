@@ -6,6 +6,6 @@ export default interface RawGameDetails {
     developer: string;
     price: number;
     publish_date: Date;
-    image?: Buffer
+    image?: Buffer;
   }
   

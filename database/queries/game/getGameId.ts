@@ -4,8 +4,8 @@ export async function getGameId(title: string): Promise<number | null> {
     try {
         const query = `
             SELECT gid
-            FROM Game
-            WHERE title = ?, did;
+            FROM Games
+            WHERE title = ?;
         `;
 
         const result = await executeQuery(query, [title]) as number;

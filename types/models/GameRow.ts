@@ -5,5 +5,6 @@ export default interface GameRow {
     price: number;
     platforms: string;
     image?: string;
+    discount: number;
   }
   

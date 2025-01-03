@@ -54,6 +54,7 @@ export default async function StorePage({ params }: StorePageProps) {
         // Pass data and user info to the client
         return (
             <StoreDisplay
+            storeId={storeId}
             storeDetails={storeDetails}
             games={games}
             storeHours={storeHours}

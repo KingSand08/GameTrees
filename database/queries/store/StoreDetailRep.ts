@@ -1,15 +1,36 @@
 import executeQuery from "@/database/mysqldb";
 import StoreDetails from "@/types/models/StoreDetail";
+import RawStoreDetails from "@/types/models/RawStoreDetail"
 
 export class StoreDetailRep {
-    public async getStoreDetails(storeId: string): Promise<StoreDetails> {
+    public async getStoreDetails(storeId: string): Promise<StoreDetails | undefined> {
         const query = `
             SELECT  S.store_name AS name, S.modality, 
-                    CONCAT_WS(', ', Street, City, State, Zip, Country) AS address
+                    S.street, 
+                    S.city, 
+                    S.state, 
+                    S.zip AS zipCode, 
+                    S.country,
+                    P.image
             FROM Stores S
-            WHERE sid = ?;
+            LEFT JOIN storePhotos P ON P.sid = S.sid
+            WHERE S.sid = ?;
         `;
-        const result = await executeQuery(query, [storeId]) as StoreDetails[];
-        return result[0];
+
+        try {
+            const rawResult = await executeQuery(query, [storeId]) as RawStoreDetails[];
+    
+            const refinedResult = rawResult.map((store) => ({
+                ...store,
+                image: store.image
+                    ? `data:image/jpeg;base64,${store.image.toString("base64")}` // Add prefix for base64
+                    : undefined, // Handle missing images
+            }));
+    
+            return refinedResult[0];
+        } catch (error) {
+            console.error("Error fetching Games:", error);
+            return undefined;
+        }
     }
 }

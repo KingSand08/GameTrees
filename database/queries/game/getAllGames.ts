@@ -18,7 +18,7 @@ export async function getAllGames(): Promise<Game[]> {
         LEFT JOIN
             Business B ON G.did = B.bid
         LEFT JOIN
-            GamePhotos GP ON G.gid = GP.gid
+            GamePhotos GP ON G.gid = GP.gid;
     `;
 
     try {

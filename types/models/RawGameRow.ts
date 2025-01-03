@@ -4,5 +4,6 @@ export default interface RawGameRow {
   price: number;
   platforms: string;
   image?: Buffer;
+  discount: number;
   }
   
