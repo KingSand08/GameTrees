@@ -64,7 +64,6 @@ export const PATCH = async (req: Request) => {
         }
 
         if (image) {
-            // Limit file to only country, modality, storeHours, image types
             const allowedMimeTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
             if (!allowedMimeTypes.includes(image.type)) {
                 return NextResponse.json(

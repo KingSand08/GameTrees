@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import GameRow from "@/types/models/GameRow";
@@ -35,12 +35,10 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
     const [editedCountry, setEditedCountry] = useState(storeDetails?.country || "");
     const [editedModality, setEditedModality] = useState(storeDetails?.modality || "");
     const [editedHours, setEditedHours] = useState(storeHours || []);
-    // const [newStoreDetails, setNewStoreDetails] = useState(storeDetails || []);
     const [isEditingPhoto, setIsEditingPhoto] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isModalOpen, setModalOpen] = useState(false);
-
-    
+    const [message, setMessage] = useState<string | null>(null); 
     
     const [errorMsg, setErrorMsg] = useState("");
     const router = useRouter();
@@ -101,20 +99,44 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
         }
     };
 
-    // const handleRemovePhoto = () => {
-    //     // setStoreImages(images.map((img) => img.image || "")); // Assuming `images` contains URLs
-    //     setModalOpen(true);
-    // };
+    const handleRemovePhoto = () => {
+        setModalOpen(true);
+    };
 
     const handleCloseModal = () => {
         setModalOpen(false);
     };
 
-    const handleRemoveImage = (image: string) => {
-        console.log(`Removing image: ${image}`);
-        // Add logic to remove the image from the backend or state
+    const handleRemoveImage = async (selectedImages: number[]) => {
+        try {
+            const response = await fetch("/api/images/delete", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ imageIds: selectedImages }),
+            });
+
+            const data = await response.json();
+    
+            if (response.ok) {
+                router.refresh(); 
+                setMessage("Images deleted successfully!")
+            } else {
+                setMessage(`Failed to delete images: ${data.message}`)
+            }
+        } catch (error) {
+            setMessage("Error while deleting images: " + error);
+        }
     };
 
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => setMessage(null), 5000); // Clear after 5 seconds
+            return () => clearTimeout(timer); // Cleanup
+        }
+    }, [message]);
+  
     const handleHoursChange = (index: number, field: "start_time" | "end_time", value: string) => {
         const updatedHours = [...editedHours];
         updatedHours[index][field] = value;
@@ -143,11 +165,6 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
         if (selectedFile) formData.append("file", selectedFile);
 
         try {
-            console.log("Sending formData...");
-            for (const [key, value] of formData.entries()) {
-                console.log(`${key}:`, value); // Log the key-value pairs for debugging
-            }
-
             const response = await fetch("/api/store/update", {
                 method: "PATCH",
                 body: formData,
@@ -174,6 +191,18 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
 
     return (
         <div className="relative">
+            <div>
+                {message && (
+                    <div
+                        className={`${
+                            message.includes("successfully") ? "bg-green-100 text-gray-700" : "bg-red-100 text-white"
+                        } p-4 mb-4 rounded`}
+                    >
+                        {message}
+                    </div>
+                )}
+        </div>
+
             {/* Conditionally render the Edit Store button for managers with permissions */}
             {canEdit && (
                 <div className="flex justify-end items-start space-x-4 p-4">
@@ -335,12 +364,22 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
 
                                                 <button
                                                     type="button"
-                                                    onClick={() => console.log("do thing here")}
+                                                    onClick={handleRemovePhoto}
                                                     className="ml-auto px-4 py-2 w-[6em] bg-blue-500 text-white text-center rounded-lg hover:bg-blue-600 border-2 border-white shadow-lg"
                                                 >
                                                     Remove
                                                 </button>
+
+                                                {/* Other parts of the UI */}
+                                                {isModalOpen && (
+                                                    <ImageModal
+                                                        images={images}
+                                                        onClose={handleCloseModal}
+                                                        onRemove={handleRemoveImage}
+                                                    />
+                                                )}
                                             </div>
+
                                             <div className="pt-2">
                                                 <p className="text-sm text-base-content neutral">
                                                     {selectedFile ? selectedFile.name : "No file chosen"}
@@ -358,15 +397,6 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                             )}                            
                         </div>
                     </div>
-                    )}
-
-                     {/* Other parts of the UI */}
-                    {isModalOpen && (
-                        <ImageModal
-                            images={images}
-                            onClose={handleCloseModal}
-                            onRemove={handleRemoveImage}
-                        />
                     )}
 
                     {/* Operating Hours */}
@@ -516,7 +546,7 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
             </div>
 
             {/* Error Message */}
-            {errorMsg ? (
+            {errorMsg && (
                 <div className="text-white py-2 mt-4">
                     <div className="opacity-75 flex justify-center text-center bg-red-600 rounded-lg w-full py-2 px-4">
                         <p className="text-white">
@@ -524,8 +554,7 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                         </p>
                     </div>
                 </div>
-            ) : null
-            }
+            )}
         </div>
     );
 };

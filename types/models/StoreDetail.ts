@@ -7,5 +7,4 @@ export default interface StoreDetails {
     state: string;
     zipCode: number | string;
     country: string;
-    image?: string;
 }
