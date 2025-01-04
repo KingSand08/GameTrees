@@ -9,6 +9,7 @@ import WishListButton from "@/app/ui/components/buttons/WishListButton";
 import WishlistRow from "@/types/models/WishlistRow";
 import ImageRow from "@/types/models/ImageRow";
 import ImageCarousel from "@/app/ui/components/structural/ImageCarousel";
+import ImageModal from "@/app/ui/components/modals/ImageModal";
 import Link from "next/link";
 
 interface StoreDisplayProps {
@@ -37,6 +38,8 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
     // const [newStoreDetails, setNewStoreDetails] = useState(storeDetails || []);
     const [isEditingPhoto, setIsEditingPhoto] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [isModalOpen, setModalOpen] = useState(false);
+
     
     
     const [errorMsg, setErrorMsg] = useState("");
@@ -98,6 +101,20 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
         }
     };
 
+    // const handleRemovePhoto = () => {
+    //     // setStoreImages(images.map((img) => img.image || "")); // Assuming `images` contains URLs
+    //     setModalOpen(true);
+    // };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
+
+    const handleRemoveImage = (image: string) => {
+        console.log(`Removing image: ${image}`);
+        // Add logic to remove the image from the backend or state
+    };
+
     const handleHoursChange = (index: number, field: "start_time" | "end_time", value: string) => {
         const updatedHours = [...editedHours];
         updatedHours[index][field] = value;
@@ -109,6 +126,7 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
         setErrorMsg("");
 
         const formData = new FormData();
+        
         if (hasChanges) formData.append("storeId", storeId);
         if (editedName !== storeDetails?.name) formData.append("name", editedName);
         if (editedStreet !== storeDetails?.street) formData.append("street", editedStreet);
@@ -135,28 +153,9 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                 body: formData,
             });
 
-            console.log("Response received:", response);
-
             const data = await response.json();
 
             if (response.ok) {
-                // setNewStoreDetails({
-                //     ...storeDetails,
-                //     name: editedName,
-                //     street: editedStreet,
-                //     city: editedCity,
-                //     state: editedState,
-                //     zipCode: editedZipCode,
-                //     country: editedCountry,
-                //     modality: editedModality,
-                // });
-
-                // setEditedHours(editedHours.length > 0 ? editedHours : storeHours);
-
-                // setIsEditing(false);
-                // await new Promise((resolve) => setTimeout(resolve, 1200));
-                // window.location.reload()
-
                 router.refresh(); 
                 setIsEditing(false); 
                 setErrorMsg("");
@@ -336,7 +335,7 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
 
                                                 <button
                                                     type="button"
-                                                    onClick={() => console.log("do later")}
+                                                    onClick={() => console.log("do thing here")}
                                                     className="ml-auto px-4 py-2 w-[6em] bg-blue-500 text-white text-center rounded-lg hover:bg-blue-600 border-2 border-white shadow-lg"
                                                 >
                                                     Remove
@@ -359,6 +358,15 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                             )}                            
                         </div>
                     </div>
+                    )}
+
+                     {/* Other parts of the UI */}
+                    {isModalOpen && (
+                        <ImageModal
+                            images={images}
+                            onClose={handleCloseModal}
+                            onRemove={handleRemoveImage}
+                        />
                     )}
 
                     {/* Operating Hours */}
