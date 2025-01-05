@@ -12,7 +12,6 @@ import ImageCarousel from "@/app/ui/components/structural/ImageCarousel";
 import ImageModal from "@/app/ui/components/modals/ImageModal";
 import Link from "next/link";
 import HourModal from "@/app/ui/components/modals/HourModal";
-import HoursData from "@/types/models/HoursData";
 
 interface StoreDisplayProps {
     images: ImageRow[];
@@ -38,6 +37,7 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
     const [editedModality, setEditedModality] = useState(storeDetails?.modality || "");
     const [isEditingPhoto, setIsEditingPhoto] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [selectedGames, setSelectedGames] = useState<number[]>([]);
     const [isModalOpen, setModalOpen] = useState(false);
     const [message, setMessage] = useState<string | null>(null); 
     const [isHourModalOpen, setHourModalOpen] = useState(false);
@@ -62,18 +62,15 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
         setHourModalOpen(false);
     }
 
-    const handleSaveHour = async (hoursData: HoursData) => {
-        console.log("Passed from hour modal ", hoursData);
-        console.log("store id ", storeId);
-
+    const handleSaveHour = async (hoursData: StoreHours) => {
         const hourData = new FormData();
         hourData.append("storeId", storeId);
         hourData.append("day", hoursData.day);
-        hourData.append("start_time", hoursData.open);
-        hourData.append("end_time", hoursData.close);
+        hourData.append("start_time", hoursData.start_time);
+        hourData.append("end_time", hoursData.end_time);
 
         try {
-            const response = await fetch("/api/store/hour-update", {
+            const response = await fetch("/api/store/update-hour", {
                 method: "PATCH",
                 body: hourData,
             });
@@ -93,6 +90,66 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
         }
     }
 
+    const handleDeleteHour = async (selectedDays: string[]) => {
+        try {
+            const response = await fetch("/api/store/delete-hour", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ days: selectedDays, storeId: storeId }),
+            });
+
+            const data = await response.json();
+    
+            if (response.ok) {
+                router.refresh(); 
+                setMessage("Hours deleted successfully!")
+            } else {
+                setMessage(`Failed to delete hours: ${data.message}`)
+            }
+        } catch (error) {
+            setMessage("Error while deleting hours: " + error);
+        }
+    };
+
+    const handleGameCheckboxChange = (gameId: number) => {
+        setSelectedGames((prevSelected) => {
+            if (prevSelected.includes(gameId)) {
+                // Remove game from selection if already selected
+                return prevSelected.filter((id) => id !== gameId);
+            } else {
+                // Add game to selection if not selected
+                return [...prevSelected, gameId];
+            }
+        });
+    };
+
+    const handleDeleteGames = async (selectedGames: number[]) => {
+        console.log("game id", selectedGames);
+        try {
+            const response = await fetch("/api/store/delete-game", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ games: selectedGames, storeId: storeId }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                router.refresh(); 
+                setMessage("Games deleted successfully!")
+            } else {
+                setMessage(`Failed to delete games: ${data.message}`)
+            }
+        } 
+        catch (error) {
+            setMessage("Error while deleting games: " + error);
+        }
+    };
+    
     const toggleEditMode = () => {
         setIsEditing(!isEditing);
     };
@@ -236,14 +293,6 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                         onClick = {toggleEditMode}
                         >
                         {isEditing? "Cancel" : "Edit Store"}
-                    </button>
-                            
-                    {/* Edit Inventories Button */}
-                    <button
-                        className="btn btn-primary text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
-                        onClick={toggleInventoryEditMode}
-                    >
-                        {isInventoryEditing ? "Cancel" : "Edit Inventories"}
                     </button>
                 </div>
             )}
@@ -435,16 +484,19 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                                     className="btn btn-primary ml-auto text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
                                     onClick = {handleHourEdit}
                                     >
+                                        Edit hours
                                 </button>               
                             )} 
 
-                                {/* Open Modal to remove images */}
-                        {isHourModalOpen && (
-                            <HourModal
-                                onClose={handleCloseHourModal}
-                                onSave={handleSaveHour}
-                            />
-                        )}
+                            {/* Open Modal to remove images */}
+                            {isHourModalOpen && (
+                                <HourModal
+                                    storeHours={storeHours}
+                                    onClose={handleCloseHourModal}
+                                    onSave={handleSaveHour}
+                                    onDelete={handleDeleteHour}
+                                />
+                            )}
                         </div>
                 
                         {storeHours.length === 0 ? (
@@ -485,7 +537,28 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
 
             {/* Games Section */}
             <div className="space-y-4 p-6">
-            <h2 className="text-xl font-bold">Games Available</h2>
+                <div className="flex items-center justify-between">
+                    <h2 className="text-xl text-blue-900 font-bold">Games Available</h2>
+                    {/* Edit Inventories Button */}
+                    <button
+                        className="btn btn-primary text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                        onClick={toggleInventoryEditMode}
+                    >
+                        {isInventoryEditing ? "Cancel" : "Edit Inventories"}
+                    </button>
+                    </div>
+
+                    {/* Delete Games Button */}
+                    {isInventoryEditing && (
+                        <button
+                            className="btn btn-primary bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                            onClick={() => handleDeleteGames(selectedGames)}
+                        >
+                            Delete Games
+                        </button>
+                    )}
+                
+
                 {games.map((game) => (
                     <div
                         key={game.gid}
@@ -496,6 +569,8 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                             <input
                                 type="checkbox"
                                 className="form-checkbox h-6 w-6 text-primary rounded-lg mr-4"
+                                checked={selectedGames.includes(game.gid)} 
+                                onChange={() => handleGameCheckboxChange(game.gid)}
                             />
                         )}
                         {/* Game Image */}

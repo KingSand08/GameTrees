@@ -1,7 +1,7 @@
 import executeQuery from "@/database/mysqldb";
 
 /**
- * Update user details in the database.
+ * Update store details in the database.
  * @param storeId Store's ID
  * @param updateData Fields to update
  * @returns Boolean indicating success or failure

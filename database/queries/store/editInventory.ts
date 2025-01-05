@@ -15,15 +15,16 @@ export async function addToStoreInventory(sid: string, gid: string) {
     }
 }
 
-export async function removeFromStoreInventory(sid: string, gid: string) {
+export async function removeFromStoreInventory(sid: string, games: number[]) {
+    const placeholders = games.map(() => "?").join(", ");
     const query = `
             DELETE FROM Inventories W
-            WHERE sid = ? AND gid = ?;
+            WHERE gid IN (${placeholders}) AND sid = ?;
         `;
-
+        
     try {
         // Execute the query
-        await executeQuery(query, [sid, gid]);
+        await executeQuery(query, [...games, sid]);
     } catch (error) {
         console.error("Error removing from store inventory:", error);
     }

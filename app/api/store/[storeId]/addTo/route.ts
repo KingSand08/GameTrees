@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addToStoreInventory } from "@/database/queries/store/InventoryEdition";
+import { addToStoreInventory } from "@/database/queries/store/editInventory";
 
 export async function POST(req: NextRequest) {
     try {

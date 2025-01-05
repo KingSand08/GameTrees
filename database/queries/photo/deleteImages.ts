@@ -1,7 +1,7 @@
 import executeQuery from "@/database/mysqldb";
 
 /**
- * Update the user image in the database.
+ * Delete the images in the database.
  * @param photoIds - The photo ID array.
  */
 export async function deleteImages(photoIds: number[]): Promise<void> {
