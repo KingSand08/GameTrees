@@ -12,6 +12,7 @@ import ImageCarousel from "@/app/ui/components/structural/ImageCarousel";
 import ImageModal from "@/app/ui/components/modals/ImageModal";
 import Link from "next/link";
 import HourModal from "@/app/ui/components/modals/HourModal";
+import DiscountEditModal from "@/app/ui/components/modals/DiscountEditModal";
 
 interface StoreDisplayProps {
     images: ImageRow[];
@@ -41,6 +42,8 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
     const [isModalOpen, setModalOpen] = useState(false);
     const [message, setMessage] = useState<string | null>(null); 
     const [isHourModalOpen, setHourModalOpen] = useState(false);
+    const [isDiscountModalOpen, setDiscountModalOpen] = useState(false);
+    const [discount, setDiscount] = useState<number | null>(null);
     const [errorMsg, setErrorMsg] = useState("");
 
     const hasChanges = editedName !== storeDetails?.name ||
@@ -56,10 +59,6 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
 
     const handleHourEdit = () => {
         setHourModalOpen(true);
-    }
-
-    const handleCloseHourModal = () => {
-        setHourModalOpen(false);
     }
 
     const handleSaveHour = async (hoursData: StoreHours) => {
@@ -126,7 +125,6 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
     };
 
     const handleDeleteGames = async (selectedGames: number[]) => {
-        console.log("game id", selectedGames);
         try {
             const response = await fetch("/api/store/delete-game", {
                 method: "DELETE",
@@ -147,6 +145,43 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
         } 
         catch (error) {
             setMessage("Error while deleting games: " + error);
+        }
+    };
+
+    const handleDiscounts = async (selectedGames: number[]) => {
+        if (selectedGames.length > 0) setDiscountModalOpen(true);
+        else {
+            setMessage("At least one game is selected. Discount: " + discount);
+            setTimeout(() => setMessage(null), 3000); // Clear the message after 3 seconds
+        }
+    };
+
+    const handleUpdateDiscounts = async (discount: number) => {
+        const decDiscount = discount/100;
+        const discountData = new FormData();
+        discountData.append("discount", decDiscount.toString());
+        discountData.append("storeId", storeId);
+        discountData.append("gameIds", JSON.stringify(selectedGames));
+
+        try {
+            const response = await fetch("/api/store/update-discount", {
+                method: "PATCH",
+                body: discountData,
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                router.refresh();
+                setErrorMsg("");
+                setDiscount(0);
+            }
+            else {
+                setErrorMsg(`Failed to update discounts: ${data.message}`);
+            }
+        }
+        catch (error) {
+            setErrorMsg(error as string);
         }
     };
     
@@ -196,8 +231,11 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
         setModalOpen(true);
     };
 
+    // Closes all opening modals
     const handleCloseModal = () => {
         setModalOpen(false);
+        setDiscountModalOpen(false)
+        setHourModalOpen(false);
     };
 
     const handleRemoveImage = async (selectedImages: number[]) => {
@@ -492,7 +530,7 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                             {isHourModalOpen && (
                                 <HourModal
                                     storeHours={storeHours}
-                                    onClose={handleCloseHourModal}
+                                    onClose={handleCloseModal}
                                     onSave={handleSaveHour}
                                     onDelete={handleDeleteHour}
                                 />
@@ -548,17 +586,43 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                     </button>
                     </div>
 
-                    {/* Delete Games Button */}
                     {isInventoryEditing && (
-                        <button
-                            className="btn btn-primary bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
-                            onClick={() => handleDeleteGames(selectedGames)}
-                        >
-                            Delete Games
-                        </button>
+                        <div className="flex items-center">
+                            {/* Delete Games Button */}
+                            <button
+                                className="btn btn-primary bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                                onClick={() => handleDeleteGames(selectedGames)}
+                            >
+                                Delete Games
+                            </button>
+
+                            {/* Discounts Button */}
+                            <button
+                                className="btn btn-primary hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                                onClick={() => handleDiscounts(selectedGames)}
+                            >
+                                Set Game Discounts
+                            </button>
+
+                            {/* Error messages when no game selected */}
+                            {message && (
+                                <div
+                                    className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg"
+                                >
+                                    {message}
+                                </div>
+                            )}
+
+                            {/* Open Modal to remove images */}
+                            {isDiscountModalOpen && (
+                                <DiscountEditModal
+                                    onClose={handleCloseModal}
+                                    onSave={handleUpdateDiscounts}
+                                />
+                            )}
+                        </div>
                     )}
                 
-
                 {games.map((game) => (
                     <div
                         key={game.gid}

@@ -13,8 +13,6 @@ export const DELETE = async (req: Request) => {
     try {
         const body = await req.json();
         const { games, storeId } = body;
-
-        console.log("game in API", games);
         
         if (!Array.isArray(games) || games.length === 0) {
             return NextResponse.json({ message: "No games provided" }, { status: 400 });

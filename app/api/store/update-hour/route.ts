@@ -42,7 +42,7 @@ export const PATCH = async (req: Request) => {
         if (Object.keys(contentType).length > 0) {
             const detailsUpdated = await updateHours(storeId, day, updateData);
             if (!detailsUpdated) {
-                return NextResponse.json({ message: "Failed to update store details" }, { status: 500 });
+                return NextResponse.json({ message: "Failed to update store hours" }, { status: 500 });
             }
         }
 
@@ -63,7 +63,7 @@ export const PATCH = async (req: Request) => {
             return NextResponse.json({ message: "Failed to refresh session" }, { status: 500 });
         }
     } catch (error) {
-        console.error("Error updating store details or image:", error);
+        console.error("Error updating store hours:", error);
         return NextResponse.json({ message: "Internal server error" }, { status: 500 });
     }
 };

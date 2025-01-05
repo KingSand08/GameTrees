@@ -29,3 +29,19 @@ export async function removeFromStoreInventory(sid: string, games: number[]) {
         console.error("Error removing from store inventory:", error);
     }
 }
+
+export async function updateDiscounts(sid: string, discount: number, games: number[]) {
+    const placeholders = games.map(() => "?").join(", ");
+    const query = `
+            UPDATE Inventories W
+            SET W.discount = ?
+            WHERE W.sid = ? AND W.gid IN (${placeholders});
+        `;
+        
+    try {
+        // Execute the query
+        await executeQuery(query, [discount, sid, ...games]);
+    } catch (error) {
+        console.error("Error removing from store inventory:", error);
+    }
+}
