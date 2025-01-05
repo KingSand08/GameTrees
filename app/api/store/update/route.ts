@@ -15,7 +15,7 @@ export const PATCH = async (req: Request) => {
     try {
         // Parse the request for JSON or form-data
         const contentType = req.headers.get("content-type") || "";
-        let storeId, name, street, city, state, zipCode, country, modality, storeHours, image;
+        let storeId, name, street, city, state, zipCode, country, modality, image;
 
         if (contentType.includes("application/json")) {
             const body = await req.json();
@@ -27,7 +27,6 @@ export const PATCH = async (req: Request) => {
             zipCode = body.zipCode;
             country = body.country;
             modality = body.modality;
-            storeHours = body.storeHours;
         } else if (contentType.includes("multipart/form-data")) {
             const formData = await req.formData();
             storeId = formData.get("storeId");
@@ -38,12 +37,11 @@ export const PATCH = async (req: Request) => {
             zipCode = formData.get("zipCode");
             country = formData.get("country");
             modality = formData.get("modality");
-            storeHours = formData.get("storeHours"); 
             image = formData.get("file") as File | null;
         }
-
+     
         // Ensure only non-empty fields
-        if (!name && !street && !city && !state && !zipCode && !country && !modality && !storeHours && !image) {
+        if (!name && !street && !city && !state && !zipCode && !country && !modality && !image) {
             return NextResponse.json({ message: "No fields to update" }, { status: 400 });
         }
 
@@ -110,10 +108,8 @@ export const PATCH = async (req: Request) => {
             }
         }
 
-
         // Update the session manually
         const updatedSession = await getServerSession(authOptions);
-        // console.log(updatedSession)
         if (updatedSession) {
             return NextResponse.json({
                 message: "Store details updated successfully",

@@ -17,8 +17,6 @@ export default async function GamePage({ params }: GamePageProps) {
   // Get server-side session (may be null if not logged in)
   const session = await getServerSession(authOptions);
   const username = session?.user?.username || "";
-  console.log(session)
-
 
   let userUID = null;
   let role = null;

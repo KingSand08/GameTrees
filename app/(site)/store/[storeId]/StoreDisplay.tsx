@@ -11,6 +11,8 @@ import ImageRow from "@/types/models/ImageRow";
 import ImageCarousel from "@/app/ui/components/structural/ImageCarousel";
 import ImageModal from "@/app/ui/components/modals/ImageModal";
 import Link from "next/link";
+import HourModal from "@/app/ui/components/modals/HourModal";
+import HoursData from "@/types/models/HoursData";
 
 interface StoreDisplayProps {
     images: ImageRow[];
@@ -34,14 +36,62 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
     const [editedZipCode, setEditedZipCode] = useState(storeDetails?.zipCode || "");
     const [editedCountry, setEditedCountry] = useState(storeDetails?.country || "");
     const [editedModality, setEditedModality] = useState(storeDetails?.modality || "");
-    const [editedHours, setEditedHours] = useState(storeHours || []);
     const [isEditingPhoto, setIsEditingPhoto] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isModalOpen, setModalOpen] = useState(false);
     const [message, setMessage] = useState<string | null>(null); 
-    
+    const [isHourModalOpen, setHourModalOpen] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
+
+    const hasChanges = editedName !== storeDetails?.name ||
+    editedStreet !== storeDetails?.street ||
+    editedCity !== storeDetails?.city ||
+    editedState !== storeDetails?.state ||
+    editedZipCode !== storeDetails?.zipCode ||
+    editedCountry !== storeDetails?.country ||
+    editedModality !== storeDetails.modality ||                
+    selectedFile !== null;
+    
     const router = useRouter();
+
+    const handleHourEdit = () => {
+        setHourModalOpen(true);
+    }
+
+    const handleCloseHourModal = () => {
+        setHourModalOpen(false);
+    }
+
+    const handleSaveHour = async (hoursData: HoursData) => {
+        console.log("Passed from hour modal ", hoursData);
+        console.log("store id ", storeId);
+
+        const hourData = new FormData();
+        hourData.append("storeId", storeId);
+        hourData.append("day", hoursData.day);
+        hourData.append("start_time", hoursData.open);
+        hourData.append("end_time", hoursData.close);
+
+        try {
+            const response = await fetch("/api/store/hour-update", {
+                method: "PATCH",
+                body: hourData,
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                router.refresh();
+                setErrorMsg("");
+            }
+            else {
+                setErrorMsg(`Failed to update hours: ${data.message}`);
+            }
+        }
+        catch (error) {
+            setErrorMsg(error as string);
+        }
+    }
 
     const toggleEditMode = () => {
         setIsEditing(!isEditing);
@@ -50,20 +100,6 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
     const toggleInventoryEditMode = () => {
         setInventoryEditing(!isInventoryEditing);
     }
-
-    const hasChanges = editedName !== storeDetails?.name ||
-                        editedStreet !== storeDetails?.street ||
-                        editedCity !== storeDetails?.city ||
-                        editedState !== storeDetails?.state ||
-                        editedZipCode !== storeDetails?.zipCode ||
-                        editedCountry !== storeDetails?.country ||
-                        editedModality !== storeDetails.modality ||
-                        editedHours.some(
-                            (hour, index) =>
-                                hour.start_time !== storeHours[index].start_time ||
-                                hour.end_time !== storeHours[index].end_time
-                        ) ||
-                        selectedFile !== null;
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEditedName(e.target.value);
@@ -136,12 +172,6 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
             return () => clearTimeout(timer); // Cleanup
         }
     }, [message]);
-  
-    const handleHoursChange = (index: number, field: "start_time" | "end_time", value: string) => {
-        const updatedHours = [...editedHours];
-        updatedHours[index][field] = value;
-        setEditedHours(updatedHours);
-    };
 
     const handleStoreEdit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -157,11 +187,6 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
         if (editedZipCode !== storeDetails?.zipCode) formData.append("zipCode", editedZipCode.toString());
         if (editedCountry !== storeDetails?.country) formData.append("country", editedCountry);
         if (editedModality !== storeDetails?.country) formData.append("modality", editedModality);
-        if (editedHours.some(
-            (hour, index) =>
-                hour.start_time !== storeHours[index].start_time ||
-                hour.end_time !== storeHours[index].end_time
-            )) formData.append("storeHours", JSON.stringify(editedHours));
         if (selectedFile) formData.append("file", selectedFile);
 
         try {
@@ -203,7 +228,7 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                 )}
         </div>
 
-            {/* Conditionally render the Edit Store button for managers with permissions */}
+            {/* Conditionally render the Edit buttons for managers with permissions */}
             {canEdit && (
                 <div className="flex justify-end items-start space-x-4 p-4">
                     <button
@@ -224,7 +249,7 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
             )}
 
             {/* Store Information */}
-            <div className="hero bg-base-200 flex justify-center items-center">   
+            <div className="hero bg-base-200 flex justify-center items-center">  
                 <div className="hero-content text-base-content flex-col lg:flex-row w-full max-w-7xl">       
                     {storeDetails && (
                     <div className=" p-4 rounded-lg w-full lg:w-1/2">
@@ -370,7 +395,7 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                                                     Remove
                                                 </button>
 
-                                                {/* Other parts of the UI */}
+                                                {/* Open Modal to remove images */}
                                                 {isModalOpen && (
                                                     <ImageModal
                                                         images={images}
@@ -401,46 +426,28 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
 
                     {/* Operating Hours */}
                     <div className="p-4 rounded-lg w-full lg:w-1/2 lg:ml-4 lg:order-last">
-                        <h2 className="text-lg font-bold mb-2 ">Operating Hours</h2>
-                        {isEditing ? (
-                            <table className="table table-sm bg-base-100 text-base-content max-w-96">
-                                <thead>
-                                    <tr>
-                                        <th className="text-left">Weekday</th>
-                                        <th className="text-left">Open</th>
-                                        <th className="text-left">Close</th>
-                                    </tr>
-                                </thead>
+                        <div className="flex items-center justify-between">
+                            <h2 className="text-lg font-bold mb-2">Operating Hours</h2>
 
-                                <tbody>
-                                    {editedHours.map((hour, index) => (
-                                        <tr key={index}>
-                                            <td className="font-bold">{hour.day}:</td>
-                                            <td>
-                                                <input
-                                                    type="text"
-                                                    value={hour.start_time}
-                                                    onChange={(e) =>
-                                                        handleHoursChange(index, "start_time", e.target.value)
-                                                    }
-                                                    className="input input-bordered w-full"
-                                                />
-                                            </td>
-                                            <td>
-                                                <input
-                                                    type="text"
-                                                    value={hour.end_time}
-                                                    onChange={(e) =>
-                                                        handleHoursChange(index, "end_time", e.target.value)
-                                                    }
-                                                    className="input input-bordered w-full"
-                                                />
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        ) : storeHours.length === 0 ? (
+                            {/* Conditionally render the Edit Hour button for managers with permissions */}
+                            {canEdit && (
+                                <button
+                                    className="btn btn-primary ml-auto text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                                    onClick = {handleHourEdit}
+                                    >
+                                </button>               
+                            )} 
+
+                                {/* Open Modal to remove images */}
+                        {isHourModalOpen && (
+                            <HourModal
+                                onClose={handleCloseHourModal}
+                                onSave={handleSaveHour}
+                            />
+                        )}
+                        </div>
+                
+                        {storeHours.length === 0 ? (
                             <p className="text-center">No operating hours available.</p>
                         ) : (
                             <table className="table table-sm bg-base-100 text-base-content max-w-96">
@@ -462,7 +469,7 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                                 </tbody>
                             </table>
                         )}
-                               
+                                           
                         {/* Submit Button */}
                         {isEditing && hasChanges && (
                             <button
