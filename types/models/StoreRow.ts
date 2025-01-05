@@ -5,5 +5,10 @@ export default interface StoreRow {
     address: string;
     discount: number;
     price: number;
+    image?: string;
+    modality: string;
+    manager_id: number;
+    business_id: number;
+    available: number;
   }
   

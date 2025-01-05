@@ -66,6 +66,9 @@ export default async function Navbar() {
                                     <NavButton page="Admin User View" route="/admin/user-view" className='flex-shrink-0 hidden min-[780px]:block text-[1em]' />
                                 </>
                             )}
+                            {session?.user.role === "manager" && (
+                                <NavButton page="Inventory" route={`/users/${session?.user?.username}/inventory`} className='flex-shrink-0 hidden min-[830px]:block text-[1em]' />
+                            )}
 
                             {/* Conditional Rendering based on session */}
                             {session?.user ? (
