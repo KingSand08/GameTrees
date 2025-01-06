@@ -210,7 +210,8 @@ source loadStorePicturesTest.sql;
 - Query Optimization
 - Wishlist: backend fetching
 - Search page: database query, backend and frontend
-- Store page: store details, store inventories
+- Store page: store details, store inventories, store details edit, inventories edit
+- Inventory page: stores management, games adding, new store creating 
 - Homepage: games and stores fetching
 - Wishlist button: add game, remove game logic and queries
 - Project Management: Reminder and team engagement
