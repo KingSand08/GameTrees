@@ -5,32 +5,40 @@ import Image from "next/image";
 import Link from "next/link";
 import StoreRow from "@/types/models/StoreRow";
 import StoreModal from "@/app/ui/components/modals/StoreModal";
+import GameModal from "@/app/ui/components/modals/GameModal";
+import CreateStoreModal from "@/app/ui/components/modals/CreateStoreModal";
+import Game from "@/types/models/Game";
+import Business from "@/types/models/Business"
 
 interface InventoryDisplayProps {
     uid: string | "";
     stores: StoreRow[];
     myStores: StoreRow[];
     unclaimedStores: StoreRow[];
+    games: Game[];
+    businesses: Business[];
     userRole: string | "";
     canEdit: boolean;
 }
 
-export default function InventoryDisplay({ uid, stores, unclaimedStores, canEdit }: InventoryDisplayProps) {
+export default function InventoryDisplay({ uid, stores, unclaimedStores, games, businesses, canEdit }: InventoryDisplayProps) {
     const [selectedStores, setSelectedStores] = useState<number[]>([]);
     const [message, setMessage] = useState<string | null>(null); 
     const [isStoreModalOpen, setStoreModalOpen] = useState(false);
-    
+    const [isGameModalOpen, setGameModalOpen] = useState(false);   
+    const [isCreateStoreModalOpen, setCreateStoreModalOpen] = useState(false);   
+    const [isSelectAll, setSelectAll] = useState(false);
 
     const router = useRouter();
 
-    const handleCheckboxChange = (storeId: number) => {
+    const handleCheckboxChange = (id: number) => {
         setSelectedStores((prevSelected) => {
-            if (prevSelected.includes(storeId)) {
+            if (prevSelected.includes(id)) {
                 // Remove game from selection if already selected
-                return prevSelected.filter((id) => id !== storeId);
+                return prevSelected.filter((id) => id !== id);
             } else {
                 // Add game to selection if not selected
-                return [...prevSelected, storeId];
+                return [...prevSelected, id];
             }
         });
     };
@@ -48,61 +56,116 @@ export default function InventoryDisplay({ uid, stores, unclaimedStores, canEdit
             const data = await response.json();
 
             if (response.ok) {
-                router.refresh(); 
+                router.refresh();
+                setSelectedStores([]); 
                 setMessage("Stores removed successfully!")
+                setTimeout(() => setMessage(null), 3000); // Clear the message after 3 seconds                        
             } else {
                 setMessage(`Failed to remove stores: ${data.message}`)
+                setTimeout(() => setMessage(null), 3000); // Clear the message after 3 seconds                        
             }
         }
         catch (error) {
             setMessage("Error while removing stores: " + error);
+            setTimeout(() => setMessage(null), 3000); // Clear the message after 3 seconds                     
         }
     }
 
-    const handleClaimStores = async () => {
-        setStoreModalOpen(true);
+    const openModal = async (type: string) => {
+        switch (type) {
+            case "store": setStoreModalOpen(true); return;
+            case "game": setGameModalOpen(true); return;
+            case "create": setCreateStoreModalOpen(true); return;
+        }
     }
 
      // Closes all opening modals
      const handleCloseModal = () => {
         setStoreModalOpen(false);
-        // setDiscountModalOpen(false)
-        // setHourModalOpen(false);
+        setGameModalOpen(false);
+        setCreateStoreModalOpen(false);
     };
 
-    const handleSave = async (stores: number[]) => {
-        console.log("handling save", stores);
+    const handleSave = async (array: string[], type: string) => {
+        const storeData = new FormData();
+        if (array.length > 0) {
+                if (type === "store") {
+                    storeData.append("managerId", uid);
+                    storeData.append("storeIds", JSON.stringify(array));
+                }
+                
+                if (type === "game") {
+                    if (selectedStores.length === 0) {
+                        setMessage("No stores selected. Unable to proceed.");
+                        setTimeout(() => setMessage(null), 3000); // Clear the message after 3 seconds                        
+                    }
+                    else {
+                        storeData.append("storeIds", JSON.stringify(selectedStores));
+                        storeData.append("gameIds", JSON.stringify(array));
+                    }
+                }
 
-        if (stores.length > 0) {
-            const storeData = new FormData();
-            storeData.append("managerId", uid);
-            storeData.append("storeIds", JSON.stringify(stores));
-
+                if (type === "create") {
+                    storeData.append("store_name", array?.[0] as string);
+                    storeData.append("street", array?.[1] as string);
+                    if (array?.[2] !== "") storeData.append("city", array?.[2] as string);
+                    if (array?.[3] !== "") storeData.append("state", array?.[3] as string);
+                    if (array?.[4] !== "") storeData.append("zip", array?.[4] as string);
+                    if (array?.[5] !== "") storeData.append("country", array?.[5] as string);
+                    if (array?.[6] !== "") storeData.append("modality", array?.[6] as string);
+                    storeData.append("bid", array?.[7] as string);
+                    storeData.append("mid", uid);
+                }
+            
             try {
-                const response = await fetch("/api/inventory/add-store", {
-                    method: "PATCH",
-                    body: storeData,
-                });
-
-                const data = await response.json();
-        
+                let response = new Response();
+                
+                if (type === "store") {
+                    response = await fetch("/api/inventory/add-store", {
+                        method: "PATCH",
+                        body: storeData,
+                    });
+                }
+                    
+                if (type === "game") {
+                    response = await fetch("/api/inventory/add-game", {
+                        method: "PATCH",
+                        body: storeData,
+                    });
+                }
+                
+                if (type === "create") {
+                    response = await fetch("/api/inventory/create-store", {
+                        method: "PATCH",
+                        body: storeData,
+                    });
+                }
+                        
                 if (response.ok) {
                     router.refresh(); 
-                    setMessage("Stores added successfully!")
-                } else {
-                    setMessage(`Failed to claim stores: ${data.message}`)
-                }
-            } catch (error) {
-                setMessage("Error while adding stores: " + error);
+                    setMessage("Added successfully!")
+                    setTimeout(() => setMessage(null), 3000); // Clear the message after 3 seconds                        
+                } 
+            } 
+            catch (error) {
+                setMessage("Error while adding: " + error);
+                setTimeout(() => setMessage(null), 3000); // Clear the message after 3 seconds                        
             }
             
             // Close modal upon success, remove this line if allow users to continue
             setStoreModalOpen(false);
+            setCreateStoreModalOpen(false)
         }
         else {
-            setMessage("No store selected. Unable to proceed.");
+            setMessage("Error: No items selected. Unable to proceed.");
             setTimeout(() => setMessage(null), 3000); // Clear the message after 3 seconds
         }
+    }
+
+    const handleSelectAll = () => {
+        if (!isSelectAll) setSelectedStores(games.map((game) => game.gid));
+        else setSelectedStores([]);
+        setSelectAll(!isSelectAll);
     }
 
     return (
@@ -117,46 +180,74 @@ export default function InventoryDisplay({ uid, stores, unclaimedStores, canEdit
                 </div>
             )}
 
-            <div className="flex items-center">
-                {/* Remove Stores Button */}
-                <button
-                    className="btn btn-primary bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
-                    onClick={() => handleRemoveStores(selectedStores)}
-                    >
-                        Remove Stores
-                </button>
+            <div className="flex items-center justify-between w-full">
+                <div className="flex items-center space-x-4">
+                    {/* Remove Stores Button */}
+                    <button
+                        className="btn btn-primary bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                        onClick={() => handleRemoveStores(selectedStores)}
+                        >
+                            Remove Stores
+                    </button>
 
-                {/* Claim ownership Button */}
-                <button
-                    className="btn btn-primary hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
-                    onClick={handleClaimStores}
-                    >
-                        Claim As Manager
-                </button>
-                {/* Open Modal to remove images */}
-                {isStoreModalOpen && (
-                    <StoreModal
-                        stores={unclaimedStores}
-                        onClose={handleCloseModal}
-                        onSave={handleSave}
-                    />
-                )}
+                    {/* Claim ownership Button */}
+                    <button
+                        className="btn btn-primary hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                        onClick={() => openModal("store")}
+                        >
+                            Claim As Manager
+                    </button>
+                    {/* Open Modal to claim stores */}
+                    {isStoreModalOpen && (
+                        <StoreModal
+                            stores={unclaimedStores}
+                            onClose={handleCloseModal}
+                            onSave={handleSave}
+                        />
+                    )}
 
-                {/* Create a store Button */}
-                <button
-                        className="btn btn-primary hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
-                        // onClick={handleCreateStore}
-                    >
-                        Create Store
-                </button>
-                
-                {/* Add Games Button */}
-                <button
-                        className="btn btn-primary hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
-                        // onClick={() => handleAddGames(selectedStores)}
-                    >
-                        Add Games to Selected Stores
-                </button>
+                    {/* Create a store Button */}
+                    <button
+                            className="btn btn-primary hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                            onClick={() => openModal("create")}
+                        >
+                            Create Store
+                    </button>
+                    {/* Open Modal to add games */}
+                    {isCreateStoreModalOpen && (
+                        <CreateStoreModal
+                            businesses={businesses}
+                            onClose={handleCloseModal}
+                            onSave={handleSave}
+                        />
+                    )}
+                    
+                    {/* Add Games Button */}
+                    <button
+                            className="btn btn-primary hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                            onClick={() => openModal("game")}
+                        >
+                            Add Games to Selected Stores
+                    </button>
+                    {/* Open Modal to add games */}
+                    {isGameModalOpen && (
+                        <GameModal
+                            games={games}
+                            onClose={handleCloseModal}
+                            onSave={handleSave}
+                        />
+                    )}
+                </div>
+                    
+                {/* Select/Deselect All Button */}
+                <div className="flex justify-end">
+                    <button
+                            className="btn btn-primary hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                            onClick={handleSelectAll}
+                        >
+                            {isSelectAll ? "Deselect All Stores" : "Select All Stores"}
+                    </button>
+                </div>
             </div>
 
             {stores.length > 0 ? (

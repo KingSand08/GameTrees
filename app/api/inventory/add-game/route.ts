@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/nextauth/NextAuthOptions";
-import { updateManagerIdInStores } from "@/database/queries/store/editStore";
+import { addGameToStores } from "@/database/queries/store/editStore";
 
 export const PATCH = async (req: Request) => {
     const session = await getServerSession(authOptions);
@@ -13,25 +13,24 @@ export const PATCH = async (req: Request) => {
     try {
         // Parse the request for JSON or form-data
         const contentType = req.headers.get("content-type") || "";
-        let managerId, storeIds;
+        let gameIds, storeIds;
 
         if (contentType.includes("application/json")) {
             const body = await req.json();
             storeIds = body.storeIds;
-            managerId = body.managerId;
+            gameIds = body.gameId;
         } else if (contentType.includes("multipart/form-data")) {
             const formData = await req.formData();
-            storeIds = JSON.parse(formData.get("storeIds") as string || "[]");
-            managerId = formData.get("managerId") as string;
+            storeIds = JSON.parse(formData.get("storeIds") as string);
+            gameIds = JSON.parse(formData.get("gameIds") as string);
         }
      
         // Ensure only non-empty fields
-        if (storeIds.length === 0 || !managerId) {
+        if (storeIds === null || gameIds === null || storeIds.length === 0 || gameIds.length === 0) {
             return NextResponse.json({ message: "No fields to update" }, { status: 400 });
         }
-
-        if (Object.keys(contentType).length > 0) {
-            await updateManagerIdInStores(storeIds, managerId);
+        else if (Object.keys(contentType).length > 0) {
+            await addGameToStores(storeIds, gameIds);
         }    
 
         // Update the session manually
@@ -41,7 +40,7 @@ export const PATCH = async (req: Request) => {
                 message: "Inventory added successfully",
                 inventory: {
                     storeIds: storeIds || "",
-                    managerId: managerId || "",
+                    gameIds: gameIds || "",
                 },
                 refresh: true,
             }, { status: 200 });

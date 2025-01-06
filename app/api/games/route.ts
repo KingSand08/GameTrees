@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAllGames } from "@/database/queries/search/searchGame";
+import { searchGames } from "@/database/queries/search/searchGame";
 
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
@@ -10,7 +10,7 @@ export async function GET(req: Request) {
     }
 
     try {
-        const games = await getAllGames(query);
+        const games = await searchGames(query);
         return NextResponse.json(games);
     } catch (error) {
         console.error("Error fetching games:", error);

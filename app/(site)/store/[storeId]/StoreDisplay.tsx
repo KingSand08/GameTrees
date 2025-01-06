@@ -44,6 +44,8 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
     const [isHourModalOpen, setHourModalOpen] = useState(false);
     const [isDiscountModalOpen, setDiscountModalOpen] = useState(false);
     const [discount, setDiscount] = useState<number | null>(null);
+    const [isSelectAll, setSelectAll] = useState(false);
+    
     const [errorMsg, setErrorMsg] = useState("");
 
     const hasChanges = editedName !== storeDetails?.name ||
@@ -267,6 +269,12 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
             return () => clearTimeout(timer); // Cleanup
         }
     }, [message]);
+
+    const handleSelectAll = () => {
+        if (!isSelectAll) setSelectedGames(games.map((game) => game.gid));
+        else setSelectedGames([]);
+        setSelectAll(!isSelectAll);
+    }
 
     const handleStoreEdit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -582,44 +590,50 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
                     >
                         {isInventoryEditing ? "Cancel" : "Edit Inventories"}
                     </button>
+                </div>
+
+                {isInventoryEditing && (
+                    <div className="flex items-center">
+                        <button
+                            className="btn btn-primary hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                            onClick={handleSelectAll}
+                        >
+                            {isSelectAll ? "Deselect All Games" : "Select All Games"}
+                        </button>
+                        {/* Delete Games Button */}
+                        <button
+                            className="btn btn-primary bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                            onClick={() => handleDeleteGames(selectedGames)}
+                        >
+                            Delete Games
+                        </button>
+
+                        {/* Discounts Button */}
+                        <button
+                            className="btn btn-primary hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                            onClick={() => handleDiscounts(selectedGames)}
+                        >
+                            Set Game Discounts
+                        </button>
+
+                        {/* Error messages when no game selected */}
+                        {message && (
+                            <div
+                                className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg"
+                            >
+                                {message}
+                            </div>
+                        )}
+
+                        {/* Open Modal to remove images */}
+                        {isDiscountModalOpen && (
+                            <DiscountEditModal
+                                onClose={handleCloseModal}
+                                onSave={handleUpdateDiscounts}
+                            />
+                        )}
                     </div>
-
-                    {isInventoryEditing && (
-                        <div className="flex items-center">
-                            {/* Delete Games Button */}
-                            <button
-                                className="btn btn-primary bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
-                                onClick={() => handleDeleteGames(selectedGames)}
-                            >
-                                Delete Games
-                            </button>
-
-                            {/* Discounts Button */}
-                            <button
-                                className="btn btn-primary hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
-                                onClick={() => handleDiscounts(selectedGames)}
-                            >
-                                Set Game Discounts
-                            </button>
-
-                            {/* Error messages when no game selected */}
-                            {message && (
-                                <div
-                                    className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg"
-                                >
-                                    {message}
-                                </div>
-                            )}
-
-                            {/* Open Modal to remove images */}
-                            {isDiscountModalOpen && (
-                                <DiscountEditModal
-                                    onClose={handleCloseModal}
-                                    onSave={handleUpdateDiscounts}
-                                />
-                            )}
-                        </div>
-                    )}
+                )}
                 
                 {games.map((game) => (
                     <div

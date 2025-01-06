@@ -6,6 +6,8 @@ import { getUserRoleByUID } from "@/database/queries/user/getUserRoleByUID";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 import { getStoreByMid, getUnclaimedStores } from "@/database/queries/store/getStoreByMid";
+import { getAllGames } from "@/database/queries/game/getAllGames";
+import getAllBusinesses from "@/database/queries/business/getAllBusinessData"
 
 interface InventoryPageProps {
     params: { username: string };
@@ -33,13 +35,13 @@ const InventoryPage = async ({ params }: InventoryPageProps) => {
         return redirectToErrorPage(username);
     }
 
-    
-
-    const [stores, myStores, unclaimedStores, userProfileImage] = await Promise.all([
+    const [stores, myStores, unclaimedStores, userProfileImage, games, businesses] = await Promise.all([
         await getStoreByMid(managerId),
         await getStoreByMid(myId),
         await getUnclaimedStores(),
         await getUserAccountImage(managerId),
+        await getAllGames(),
+        await getAllBusinesses(),
     ]);
 
     return (
@@ -61,6 +63,8 @@ const InventoryPage = async ({ params }: InventoryPageProps) => {
                 stores={stores}
                 myStores={myStores}
                 unclaimedStores={unclaimedStores}
+                games={games}
+                businesses={businesses}
                 uid={session?.user.id as unknown as string}
                 userRole={role}
                 canEdit = {canEdit}

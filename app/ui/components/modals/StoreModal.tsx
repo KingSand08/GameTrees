@@ -2,15 +2,15 @@
 import StoreRow from "@/types/models/StoreRow";
 import React, { useState } from "react";
 
-interface HourModalProps {
+interface StoreModalProps {
   stores: StoreRow[]; // Array of existing store hours
   onClose: () => void; // Function to close the modal
-  onSave: (selectedStoreIds: number[]) => void; // Function to save the entered data
+  onSave: (selectedStoreIds: string[], type: string) => void; // Function to save the entered data
 }
 
 const ITEMS_PER_PAGE = 6;
 
-const StoreModal: React.FC<HourModalProps> = ({ stores, onClose, onSave }) => {
+const StoreModal: React.FC<StoreModalProps> = ({ stores, onClose, onSave }) => {
   const [selectedStoreIds, setSelectedStoreIds] = useState<{ store_id: number }[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -95,7 +95,7 @@ const StoreModal: React.FC<HourModalProps> = ({ stores, onClose, onSave }) => {
 
           {/* Proceed button */}
           <button
-              onClick={() => onSave(selectedStoreIds.map((store) => store.store_id))}
+              onClick={() => onSave(selectedStoreIds.map((store) => store.store_id.toString()), "store")}
               className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
             >
               Claim Stores

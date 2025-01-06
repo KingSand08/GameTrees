@@ -27,3 +27,6 @@ SELECT
 S.sid
 FROM Stores S
 WHERE S.mid = 7;
+
+INSERT IGNORE INTO Inventories(sid, gid)
+VALUES (?, ?), (?, ?);

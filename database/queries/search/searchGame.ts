@@ -2,7 +2,7 @@ import executeQuery from "@/database/mysqldb";
 import Game from "@/types/models/Game";
 import RawGame from "@/types/models/RawGame";
 
-export async function getAllGames(title: string): Promise<Game[]> {
+export async function searchGames(title: string): Promise<Game[]> {
     const query = `
         SELECT
             G.gid,

@@ -12,14 +12,16 @@ export const updateHours = async (storeId: number, day: string, updateData: Reco
             affectedRows: number;
         }
         
-        const fields = Object.keys(updateData).map((key) => `${key} = ?`).join(", ");  
         const values = Object.values(updateData);
+
         const query = `
-            UPDATE StoreHours
-            SET ${fields}
-            WHERE day = ? AND sid = ?;
-        `;
-       
+            INSERT INTO StoreHours(start_time, end_time, day, sid)
+            VALUES (?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE 
+                start_time = VALUES(start_time),
+                end_time = VALUES(end_time);
+        `
+               
         const result = await executeQuery(query, [...values, day, storeId]) as QueryResult;
         return result.affectedRows > 0;
     } catch (error) {
