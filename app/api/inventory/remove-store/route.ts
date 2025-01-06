@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/nextauth/NextAuthOptions";
-import { removeFromStoreInventory } from "@/database/queries/store/editInventory";
+import { removeManagerIdInStores } from "@/database/queries/store/editStore";
 
 export const DELETE = async (req: Request) => {
     const session = await getServerSession(authOptions);
@@ -12,17 +12,17 @@ export const DELETE = async (req: Request) => {
 
     try {
         const body = await req.json();
-        const { games, storeId } = body;
-        
-        if (!Array.isArray(games) || games.length === 0) {
-            return NextResponse.json({ message: "No games provided" }, { status: 400 });
+        const { storeIds, managerId } = body;
+
+        if (!Array.isArray(storeIds) || storeIds.length === 0) {
+            return NextResponse.json({ message: "No stores provided" }, { status: 400 });
         }
+        
+        await removeManagerIdInStores(storeIds, managerId);
 
-        await removeFromStoreInventory(storeId, games);
-
-        return NextResponse.json({ message: "Games removed successfully", games }, { status: 200 });
+        return NextResponse.json({ message: "Stores removed successfully", storeIds }, { status: 200 });
     } catch (error) {
-        console.error("Error deleting images:", error);
+        console.error("Error removing manager:", error);
         return NextResponse.json({ message: "Internal server error" }, { status: 500 });
     }
 };

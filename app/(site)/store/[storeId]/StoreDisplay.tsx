@@ -311,17 +311,15 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
 
     return (
         <div className="relative">
-            <div>
-                {message && (
-                    <div
-                        className={`${
-                            message.includes("successfully") ? "bg-green-100 text-gray-700" : "bg-red-100 text-white"
-                        } p-4 mb-4 rounded`}
-                    >
-                        {message}
-                    </div>
-                )}
-        </div>
+            {message && (
+                <div
+                    className={`${
+                        message.includes("successfully") ? "bg-green-100 text-gray-700" : "bg-red-100 text-gray-700"
+                    } p-4 mb-4 rounded`}
+                >
+                    {message}
+                </div>
+            )}
 
             {/* Conditionally render the Edit buttons for managers with permissions */}
             {canEdit && (

@@ -26,5 +26,10 @@ SELECT
     ) AS image -- Gets the first photo for the store
 FROM Stores S
 LEFT JOIN Inventories I ON I.sid = S.sid
-WHERE S.mid = 6
-GROUP BY S.sid; -- Group by store ID
+WHERE S.mid is NULL
+GROUP BY S.sid
+ORDER BY available DESC;
+
+UPDATE Stores S
+SET S.mid = 6
+WHERE S.sid IN (9, 11);

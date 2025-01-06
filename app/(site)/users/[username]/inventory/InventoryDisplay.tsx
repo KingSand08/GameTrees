@@ -1,19 +1,27 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import StoreRow from "@/types/models/StoreRow";
+import StoreModal from "@/app/ui/components/modals/StoreModal";
 
 interface InventoryDisplayProps {
     uid: string | "";
     stores: StoreRow[];
     myStores: StoreRow[];
+    unclaimedStores: StoreRow[];
     userRole: string | "";
     canEdit: boolean;
 }
 
-export default function InventoryDisplay({ stores, canEdit }: InventoryDisplayProps) {
+export default function InventoryDisplay({ uid, stores, unclaimedStores, canEdit }: InventoryDisplayProps) {
     const [selectedStores, setSelectedStores] = useState<number[]>([]);
+    const [message, setMessage] = useState<string | null>(null); 
+    const [isStoreModalOpen, setStoreModalOpen] = useState(false);
+    
+
+    const router = useRouter();
 
     const handleCheckboxChange = (storeId: number) => {
         setSelectedStores((prevSelected) => {
@@ -27,16 +35,112 @@ export default function InventoryDisplay({ stores, canEdit }: InventoryDisplayPr
         });
     };
 
+    const handleRemoveStores = async (selectedStores: number[]) => {
+        try {
+            const response = await fetch("/api/inventory/remove-store", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({storeIds: selectedStores, managerId: uid}),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                router.refresh(); 
+                setMessage("Stores removed successfully!")
+            } else {
+                setMessage(`Failed to remove stores: ${data.message}`)
+            }
+        }
+        catch (error) {
+            setMessage("Error while removing stores: " + error);
+        }
+    }
+
+    const handleClaimStores = async () => {
+        setStoreModalOpen(true);
+    }
+
+     // Closes all opening modals
+     const handleCloseModal = () => {
+        setStoreModalOpen(false);
+        // setDiscountModalOpen(false)
+        // setHourModalOpen(false);
+    };
+
+    const handleSave = async (stores: number[]) => {
+        console.log("handling save", stores);
+
+        if (stores.length > 0) {
+            const storeData = new FormData();
+            storeData.append("managerId", uid);
+            storeData.append("storeIds", JSON.stringify(stores));
+
+            try {
+                const response = await fetch("/api/inventory/add-store", {
+                    method: "PATCH",
+                    body: storeData,
+                });
+
+                const data = await response.json();
+        
+                if (response.ok) {
+                    router.refresh(); 
+                    setMessage("Stores added successfully!")
+                } else {
+                    setMessage(`Failed to claim stores: ${data.message}`)
+                }
+            } catch (error) {
+                setMessage("Error while adding stores: " + error);
+            }
+            
+            // Close modal upon success, remove this line if allow users to continue
+            setStoreModalOpen(false);
+        }
+        else {
+            setMessage("No store selected. Unable to proceed.");
+            setTimeout(() => setMessage(null), 3000); // Clear the message after 3 seconds
+        }
+    }
+
     return (
         <div className="space-y-4">
+            {message && (
+                <div
+                    className={`${
+                        message.includes("successfully") ? "bg-green-100 text-gray-700" : "bg-red-100 text-gray-700"
+                    } p-4 mb-4 rounded`}
+                >
+                    {message}
+                </div>
+            )}
+
             <div className="flex items-center">
                 {/* Remove Stores Button */}
                 <button
                     className="btn btn-primary bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
-                    // onClick={() => handleRemoveStores(selectedStores)}
+                    onClick={() => handleRemoveStores(selectedStores)}
                     >
                         Remove Stores
                 </button>
+
+                {/* Claim ownership Button */}
+                <button
+                    className="btn btn-primary hover:bg-blue-900 text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                    onClick={handleClaimStores}
+                    >
+                        Claim As Manager
+                </button>
+                {/* Open Modal to remove images */}
+                {isStoreModalOpen && (
+                    <StoreModal
+                        stores={unclaimedStores}
+                        onClose={handleCloseModal}
+                        onSave={handleSave}
+                    />
+                )}
 
                 {/* Create a store Button */}
                 <button

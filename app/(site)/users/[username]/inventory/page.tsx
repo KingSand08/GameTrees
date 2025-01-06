@@ -5,7 +5,7 @@ import { getUserIdByUsername } from "@/database/queries/user/getUIDFromUsername"
 import { getUserRoleByUID } from "@/database/queries/user/getUserRoleByUID";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/nextauth/NextAuthOptions";
-import getStoreByMid from "@/database/queries/store/getStoreByMid";
+import { getStoreByMid, getUnclaimedStores } from "@/database/queries/store/getStoreByMid";
 
 interface InventoryPageProps {
     params: { username: string };
@@ -35,9 +35,10 @@ const InventoryPage = async ({ params }: InventoryPageProps) => {
 
     
 
-    const [stores, myStores, userProfileImage] = await Promise.all([
+    const [stores, myStores, unclaimedStores, userProfileImage] = await Promise.all([
         await getStoreByMid(managerId),
         await getStoreByMid(myId),
+        await getUnclaimedStores(),
         await getUserAccountImage(managerId),
     ]);
 
@@ -59,6 +60,7 @@ const InventoryPage = async ({ params }: InventoryPageProps) => {
             <InventoryDisplay
                 stores={stores}
                 myStores={myStores}
+                unclaimedStores={unclaimedStores}
                 uid={session?.user.id as unknown as string}
                 userRole={role}
                 canEdit = {canEdit}
