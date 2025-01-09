@@ -2,5 +2,9 @@
 export default interface StoreDetails {
     name: string;
     modality: string;
-    address: string;
+    street: string;
+    city: string;
+    state: string;
+    zipCode: number | string;
+    country: string;
 }

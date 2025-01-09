@@ -10,9 +10,10 @@ export class StoreRepository {
             SELECT
                 G.gid,
                 MAX(G.Title) AS title,
-                ROUND(MAX(G.Price) * (1 - MAX(I.Discount)), 2) AS price,
+                ROUND(MAX(G.Price) * (1 - MAX(I.discount)), 2) AS price,
                 MAX(GP.image) AS image,
-                GROUP_CONCAT(DISTINCT L.Platform SEPARATOR ', ') AS platforms
+                GROUP_CONCAT(DISTINCT L.Platform SEPARATOR ', ') AS platforms,
+                CAST(MAX(I.discount) * 100 AS UNSIGNED) AS discount
             FROM Inventories I
             LEFT JOIN Games G ON I.gid = G.gid
             LEFT JOIN GamePhotos GP ON GP.gid = G.gid

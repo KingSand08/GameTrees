@@ -1,23 +1,37 @@
 import executeQuery from "@/database/mysqldb";
 
-export async function isUserManager(uid: number): Promise<string | null> {
-    const isManager = await executeQuery(`SELECT M.uid FROM Users U JOIN StoreMgrs M WHERE U.uid = M.uid`,
+export async function isUserManager(uid: string | number): Promise<boolean> {
+    const isManager = await executeQuery(`
+            SELECT M.uid 
+            FROM StoreMgrs M 
+            WHERE ? = M.uid
+            LIMIT 1;
+            `,
         [uid]) as string;
 
-    if (isManager.length > 0) {
-        return "manager";
-    } else {
-        return null;
-    }
+    return isManager.length > 0;
 }
 
-export async function isUserAdmin(uid: number): Promise<string | null> {
-    const isAdmin = await executeQuery(`SELECT A.uid FROM Users U JOIN Admins A WHERE U.uid = A.uid`,
+export async function isUserAdmin(uid: string | number): Promise<boolean> {
+    const isAdmin = await executeQuery(`
+        SELECT A.uid 
+        FROM Admins A 
+        WHERE ? = A.uid
+        LIMIT 1;
+        `,
         [uid]) as string;
 
-    if (isAdmin.length > 0) {
-        return "admin";
-    } else {
-        return null;
-    }
+    return isAdmin.length > 0;
+}
+
+export async function isUserCustomer(uid: string | number): Promise<boolean> {
+    const isCustomer = await executeQuery(`
+        SELECT C.uid 
+        FROM Customers C 
+        WHERE ? = C.uid
+        LIMIT 1;
+        `,
+        [uid]) as string;
+
+    return isCustomer.length > 0;
 }

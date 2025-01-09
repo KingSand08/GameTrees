@@ -24,7 +24,7 @@ const GameTable: React.FC<GameTableProps> = ({ games }) => {
                         <tr key={index} className="hover">
                             <th>{index + 1}</th>
                             <td>{game.title}</td>
-                            <td>${game.price.toFixed(2)}</td>
+                            <td>${game.price}</td>
                             <td>{game.platforms || "N/A"}</td>
                         </tr>
                     ))}

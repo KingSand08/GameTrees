@@ -1,7 +1,7 @@
-SELECT 
+EXPLAIN SELECT 
         G.Title,
         B.Name,
-        PG.img,
+        PG.image,
         G.Price,
         W.gid
     FROM 

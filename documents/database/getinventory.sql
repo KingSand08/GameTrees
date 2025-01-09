@@ -22,3 +22,11 @@ GROUP BY I.gid, G.Price, I.Discount, GP.image;
 
 INSERT INTO inventories(sid, gid) VALUES
         (1, 1);
+
+SELECT
+S.sid
+FROM Stores S
+WHERE S.mid = 7;
+
+INSERT IGNORE INTO Inventories(sid, gid)
+VALUES (?, ?), (?, ?);

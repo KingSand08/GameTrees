@@ -1,6 +1,17 @@
 import executeQuery from "@/database/mysqldb";
 import blobToBase64 from "@/utils/blobToBase64";
 
+interface StoreData {
+    id: number;
+    name: string;
+    address: string;
+    modality: string;
+    city: string;
+    day: string;
+    startTime: string;
+    endTime: string;
+    image: Buffer;
+}
 
 export type StoreHours = {
     day: string; // E.g., "Monday", "Tuesday"
@@ -47,15 +58,18 @@ export class SeparateStoresRep {
                 SH.day,
                 DATE_FORMAT(SH.start_time, '%h:%i %p') AS startTime,
                 DATE_FORMAT(SH.end_time, '%h:%i %p') AS endTime,
-                P.image
+                (   SELECT P.image
+                    FROM StorePhotos P
+                    WHERE P.sid = S.sid
+                    LIMIT 1
+                ) AS image
             FROM Stores S
             LEFT JOIN StoreHours SH ON S.sid = SH.sid
-            LEFT JOIN StorePhotos P ON P.sid = S.sid
             WHERE S.city ${isBayArea ? "IN" : "NOT IN"} (${cities.map(() => '?').join(', ')})
             ORDER BY S.sid, FIELD(SH.day, 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
             LIMIT 65
         `;
-        const result = await executeQuery(query, cities) as any[];
+        const result = await executeQuery(query, cities) as StoreData[];
 
         // Group rows into stores with hours
         return result.reduce((stores: Store[], row) => {
