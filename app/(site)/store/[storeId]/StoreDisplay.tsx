@@ -581,16 +581,17 @@ const StoreDisplay = ({images, storeId, uid, storeDetails, games, storeHours, us
 
             {/* Games Section */}
             <div className="space-y-4 p-6">
-                <div className="flex items-center justify-between">
-                    <h2 className="text-xl text-blue-900 font-bold">Games Available</h2>
-                    {/* Edit Inventories Button */}
-                    <button
-                        className="btn btn-primary text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
-                        onClick={toggleInventoryEditMode}
-                    >
-                        {isInventoryEditing ? "Cancel" : "Edit Inventories"}
-                    </button>
-                </div>
+                {canEdit && (<div className="flex items-center justify-between">
+                        <h2 className="text-xl text-blue-900 font-bold">Games Available</h2>
+                        {/* Edit Inventories Button */}
+                        <button
+                            className="btn btn-primary text-white font-bold py-2 px-4 rounded-lg border-2 border-white shadow-lg mb-4"
+                            onClick={toggleInventoryEditMode}
+                        >
+                            {isInventoryEditing ? "Cancel" : "Edit Inventories"}
+                        </button>
+                    </div>
+                )};
 
                 {isInventoryEditing && (
                     <div className="flex items-center">
