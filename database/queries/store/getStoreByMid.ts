@@ -19,7 +19,7 @@ export async function getStoreByMid(managerId: number | null): Promise<StoreRow[
             FROM Stores S
             LEFT JOIN Inventories I ON I.sid = S.sid
             WHERE S.mid = ?
-            GROUP BY (s.sid)
+            GROUP BY (S.sid)
             ORDER BY available DESC;
         `;
 
@@ -57,7 +57,7 @@ export async function getUnclaimedStores(): Promise<StoreRow[]> {
             FROM Stores S
             LEFT JOIN Inventories I ON I.sid = S.sid
             WHERE S.mid IS NULL
-            GROUP BY (s.sid)
+            GROUP BY (S.sid)
             ORDER BY available DESC;
         `;
 
