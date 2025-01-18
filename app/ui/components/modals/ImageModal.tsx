@@ -4,7 +4,7 @@ import Image from "next/image";
 import ImageRow from "@/types/models/ImageRow";
 
 interface ImageModalProps {
-  images: ImageRow[]; // Array of image objects
+  images: ImageRow[] | undefined; // Array of image objects
   onClose: () => void; // Function to close the modal
   onRemove: (selectedImages: number[]) => void; // Function to handle selected images
 }
@@ -25,7 +25,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ images, onClose, onRemove }) =>
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
         <h2 className="text-lg font-bold mb-4">Remove Store Images</h2>
         <ul className="space-y-2">
-          {images.map((image, index) => (
+          {images && (images.map((image, index) => (
             <li key={index} className="flex items-center space-x-4">
               <Image
                 src={image.image || ""}
@@ -41,7 +41,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ images, onClose, onRemove }) =>
                 className="ml-4"
               />
             </li>
-          ))}
+          )))}
         </ul>
         <button
           onClick={() => onRemove(selectedImages)}

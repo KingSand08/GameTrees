@@ -9,7 +9,7 @@ import StoreDisplay from "./StoreDisplay";
 import getUserWishlist from "@/database/queries/wishlist/getWishlist";
 import getStoreIdFromUserId from "@/database/queries/store/getStoreIDFromUserID"
 import { getManagerIdFromStoreId } from "@/database/queries/store/getManager";
-import { StoreImages } from "@/database/queries/store/StoreImages";
+import { getStoreImages } from "@/database/queries/store/StoreImages";
 
 interface StorePageProps {
   params: { storeId: string };
@@ -42,11 +42,10 @@ export default async function StorePage({ params }: StorePageProps) {
     const storeRepository = new StoreRepository();
     const storeDetailRep = new StoreDetailRep();
     const storeHoursRep = new StoreHoursRep();
-    const storeImages = new StoreImages();
   
     try {
         const [images, games, storeDetails, storeHours, wishlist] = await Promise.all([
-            storeImages.getStoreImages(storeId),
+            getStoreImages(storeId),
             storeRepository.getGamesByStoreId(storeId),
             storeDetailRep.getStoreDetails(storeId),
             storeHoursRep.getStoreHours(storeId),

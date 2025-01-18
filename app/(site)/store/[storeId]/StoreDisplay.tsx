@@ -15,7 +15,7 @@ import HourModal from "@/app/ui/components/modals/HourModal";
 import DiscountEditModal from "@/app/ui/components/modals/DiscountEditModal";
 
 interface StoreDisplayProps {
-    images: ImageRow[];
+    images: ImageRow[] | undefined;
     storeId: string;
     uid: number | null;
     storeDetails: StoreDetails | undefined;
