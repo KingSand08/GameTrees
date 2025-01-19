@@ -1,8 +1,8 @@
 // Store hours for operating days
 export interface StoreHours {
     day: string; // e.g., "Monday"
-    startTime: string; // e.g., "10:00:00"
-    endTime: string; // e.g., "20:00:00"
+    start_time: string; // e.g., "10:00:00"
+    end_time: string; // e.g., "20:00:00"
 }
 
 // Store details, including address and modality

@@ -57,8 +57,8 @@ SELECT
     S.modality,
     S.city,
     SH.day,
-    DATE_FORMAT(SH.start_time, '%h:%i %p') AS startTime,
-    DATE_FORMAT(SH.end_time, '%h:%i %p') AS endTime,
+    DATE_FORMAT(SH.start_time, '%h:%i %p') AS start_time,
+    DATE_FORMAT(SH.end_time, '%h:%i %p') AS end_time,
     (SELECT DISTINCT P.spid
     FROM StorePhotos P
     WHERE P.sid = S.sid

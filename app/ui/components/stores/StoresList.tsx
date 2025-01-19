@@ -3,8 +3,8 @@ import StoreCard from "./StoreCard";
 
 type StoreHours = {
     day: string; // E.g., "Monday", "Tuesday"
-    startTime: string; // E.g., "10:00:00"
-    endTime: string; // E.g., "20:00:00"
+    start_time: string; // E.g., "10:00:00"
+    end_time: string; // E.g., "20:00:00"
 };
 
 type Store = {

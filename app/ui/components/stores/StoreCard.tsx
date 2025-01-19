@@ -2,8 +2,8 @@ import React from "react";
 
 type StoreHours = {
     day: string;
-    startTime: string;
-    endTime: string;
+    start_time: string;
+    end_time: string;
 };
 
 type StoreCardProps = {
@@ -34,7 +34,7 @@ const StoreCard: React.FC<StoreCardProps> = ({ name, address, modality, city, ho
                         {hours.length > 0 ? (
                             hours.map((hour, index) => (
                                 <li key={index}>
-                                    {hour.day}: {hour.startTime} - {hour.endTime}
+                                    {hour.day}: {hour.start_time} - {hour.end_time}
                                 </li>
                             ))
                         ) : (

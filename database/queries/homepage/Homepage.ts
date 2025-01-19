@@ -5,8 +5,8 @@ import blobToBase64 from "@/utils/blobToBase64";
 
 export type StoreHours = {
     day: string;
-    startTime: string;
-    endTime: string;
+    start_time: string;
+    end_time: string;
 };
 
 export type Store = {
@@ -51,8 +51,8 @@ export class HomepageQueries {
                 S.modality,
                 S.city,
                 SH.day,
-                SH.start_time AS startTime,
-                SH.end_time AS endTime
+                SH.start_time AS start_time,
+                SH.end_time AS end_time
             FROM Stores S
             LEFT JOIN StoreHours SH ON S.sid = SH.sid
             WHERE S.city IN (${bayAreaCities.map(() => '?').join(', ')})
@@ -65,8 +65,8 @@ export class HomepageQueries {
             const existingStore = stores.find(store => store.id === row.id);
             const hours: StoreHours = {
                 day: row.day,
-                startTime: row.startTime,
-                endTime: row.endTime
+                start_time: row.start_time,
+                end_time: row.end_time
             };
 
             if (existingStore) {
