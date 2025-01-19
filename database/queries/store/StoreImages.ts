@@ -8,7 +8,7 @@ export async function getStoreImages(storeId: string | number): Promise<ImageRow
         SELECT
                 P.spid AS photoId,
                 P.image
-        FROM storePhotos P
+        FROM StorePhotos P
         WHERE P.sid = ?;
     `;
 
