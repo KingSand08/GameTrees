@@ -1,11 +1,24 @@
+"use client"
+
 import Link from "next/link";
 import Image from "next/image";
-import { SeparateStoresRep } from "@/database/queries/store/SeparateStores";
+import StoreHours from "@/types/models/StoreHours";
 
-const storeRep = new SeparateStoresRep();
-const stores = await storeRep.getBayAreaStores();
+export type HighlightStore = {
+  id: number,
+  name: string,
+  address: string,
+  modality: string,
+  city: string,
+  hours: StoreHours[]
+  image?: string,
+}
 
-export default function HighlightStores() {
+type HighlightStoresProps = {
+  stores: HighlightStore[];
+};
+
+const HighlightStores: React.FC<HighlightStoresProps> =({stores}) => {
   return (
     <div className="flex flex-col space-y-5">
       {/* Carousel Section */}
@@ -53,8 +66,8 @@ export default function HighlightStores() {
                           {store.hours.map((hour, index) => (
                             <tr key={index}>
                               <td className="font-bold">{hour.day}:</td>
-                              <td>{hour.startTime}</td>
-                              <td>{hour.endTime}</td>
+                              <td>{hour.start_time}</td>
+                              <td>{hour.end_time}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -82,3 +95,5 @@ export default function HighlightStores() {
     </div>
   );
 }
+
+export default HighlightStores;

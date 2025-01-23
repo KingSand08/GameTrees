@@ -1,13 +1,23 @@
+"use client"
+
 import React from "react";
 import Link from "next/link";
-import { DiscountedGamesRep } from "@/database/queries/game/DiscountedGames";
 
-async function fetchBestGameDeals() {
-    return await DiscountedGamesRep.getBestGameDeals(50);
-}
+export type GameDeal = {
+    gid: number;
+    title: string;
+    price: number;
+    discount: number;
+    discountedPrice: number;
+    storeName: string;
+    storeId: number;
+};
 
-const BestGameDeals = async () => {
-    const bestDeals = await fetchBestGameDeals();
+type BestDealProps = {
+    bestDeals: GameDeal[];
+};
+
+const BestGameDeals: React.FC<BestDealProps> = ({bestDeals}) => {
 
     // Deduplicate games by gid
     const uniqueDeals = Array.from(new Map(bestDeals.map((deal) => [deal.gid, deal])).values());

@@ -20,7 +20,7 @@ export async function updateStoreImage(storeId: number, imageData: Buffer): Prom
     await executeQuery(photoInsertQuery, [pid]);
 
     const storePhotoInsertQuery = `
-            INSERT INTO storePhotos (spid, image, sid) 
+            INSERT INTO StorePhotos (spid, image, sid) 
             VALUES (?, ?, ?)
             ON DUPLICATE KEY UPDATE image = VALUES(image), sid = VALUES(sid);
         `;

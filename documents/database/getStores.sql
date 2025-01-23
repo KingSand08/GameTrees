@@ -5,8 +5,8 @@
 --     S.modality,
 --     S.city,
 --     SH.day,
---     SH.start_time AS startTime,
---     SH.end_time AS endTime
+--     SH.start_time AS start_time,
+--     SH.end_time AS end_time
 -- FROM Stores S
 -- LEFT JOIN StoreHours SH ON S.sid = SH.sid
 -- WHERE S.city ${isBayArea ? "IN" : "NOT IN"} (${cities.map(() => '?').join(', ')})

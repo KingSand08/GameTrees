@@ -8,15 +8,15 @@ interface StoreData {
     modality: string;
     city: string;
     day: string;
-    startTime: string;
-    endTime: string;
+    start_time: string;
+    end_time: string;
     image: Buffer;
 }
 
 export type StoreHours = {
     day: string; // E.g., "Monday", "Tuesday"
-    startTime: string; // E.g., "10:00:00"
-    endTime: string; // E.g., "20:00:00"
+    start_time: string; // E.g., "10:00:00"
+    end_time: string; // E.g., "20:00:00"
 };
 
 export type Store = {
@@ -36,8 +36,8 @@ export type QueryResultRow = {
     modality: string;    // Store modality
     city: string;        // Store city
     day?: string;        // Day of operation (optional, because LEFT JOIN may result in null)
-    startTime?: string;  // Start time in formatted string (optional)
-    endTime?: string;    // End time in formatted string (optional)
+    start_time?: string;  // Start time in formatted string (optional)
+    end_time?: string;    // End time in formatted string (optional)
 };
 
 export class SeparateStoresRep {
@@ -56,8 +56,8 @@ export class SeparateStoresRep {
                 S.modality,
                 S.city,
                 SH.day,
-                DATE_FORMAT(SH.start_time, '%h:%i %p') AS startTime,
-                DATE_FORMAT(SH.end_time, '%h:%i %p') AS endTime,
+                DATE_FORMAT(SH.start_time, '%h:%i %p') AS start_time,
+                DATE_FORMAT(SH.end_time, '%h:%i %p') AS end_time,
                 (   SELECT P.image
                     FROM StorePhotos P
                     WHERE P.sid = S.sid
@@ -76,8 +76,8 @@ export class SeparateStoresRep {
             const existingStore = stores.find(store => store.id === row.id);
             const hours: StoreHours = {
                 day: row.day,
-                startTime: row.startTime,
-                endTime: row.endTime
+                start_time: row.start_time,
+                end_time: row.end_time
             };
 
             if (existingStore) {
