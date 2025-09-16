@@ -39,7 +39,9 @@ export const PATCH = async (req: Request) => {
             modality = formData.get("modality");
             image = formData.get("file") as File | null;
         }
-     
+
+        console.log("Parsed values:", { storeId, name, street, city, state, zipCode, country, modality, image });
+
         // Ensure only non-empty fields
         if (!name && !street && !city && !state && !zipCode && !country && !modality && !image) {
             return NextResponse.json({ message: "No fields to update" }, { status: 400 });
@@ -73,7 +75,7 @@ export const PATCH = async (req: Request) => {
             try {
                 const imageData = Buffer.from(await image.arrayBuffer());
                 const MAX_FILE_SIZE = 3145728; // 3MB
-                const MIN_QUALITY = 100;
+                const MIN_QUALITY = 10;
                 const RESIZE_W_DIMENSIONS = 1920;
                 const RESIZE_H_DIMENSIONS = 1080;
 
@@ -94,6 +96,7 @@ export const PATCH = async (req: Request) => {
                 }
 
                 if (compressedImage.length > MAX_FILE_SIZE) {
+                    console.log("HELLOOOO MCFLY!")
                     return NextResponse.json(
                         { message: `Unable to compress image to ${MAX_FILE_SIZE / 1024}KB. Try uploading a smaller file.` },
                         { status: 400 }
@@ -101,7 +104,7 @@ export const PATCH = async (req: Request) => {
                 }
 
                 await updateStoreImage(storeId as unknown as number, compressedImage);
-            
+
             } catch (error) {
                 console.error("Error occurred while uploading file:", error);
                 return NextResponse.json({ message: "Failed to upload file", status: 500 });

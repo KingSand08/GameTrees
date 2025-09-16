@@ -8,7 +8,7 @@ import generatePhotoPid from "@/utils/generatePhotoId";
  */
 export async function updateStoreImage(storeId: number, imageData: Buffer): Promise<void> {
     const dayCode = new Date().getTime();
-    const code = dayCode * 10 + storeId; 
+    const code = dayCode * 10 + storeId;
     const pid = generatePhotoPid(code);
     // console.log(pid)
     const photoInsertQuery = `
@@ -19,14 +19,21 @@ export async function updateStoreImage(storeId: number, imageData: Buffer): Prom
     // Insert into Photos
     await executeQuery(photoInsertQuery, [pid]);
 
-    const storePhotoInsertQuery = `
-            INSERT INTO StorePhotos (spid, image, sid) 
-            VALUES (?, ?, ?)
-            ON DUPLICATE KEY UPDATE image = VALUES(image), sid = VALUES(sid);
-        `;
+    // const storePhotoInsertQuery = `
+    //         INSERT INTO StorePhotos (spid, image, sid) 
+    //         VALUES (?, ?, ?)
+    //         ON DUPLICATE KEY UPDATE image = VALUES(image), sid = VALUES(sid);
+    //     `;
+
+    await executeQuery("DELETE FROM StorePhotos WHERE sid = ?", [storeId]);
+
+    await executeQuery(
+        "INSERT INTO StorePhotos (spid, image, sid) VALUES (?, ?, ?)",
+        [pid, imageData, storeId]
+    );
 
     // Insert into Acc_Photos
-    await executeQuery(storePhotoInsertQuery, [pid, imageData, storeId]);
+    // await executeQuery(storePhotoInsertQuery, [pid, imageData, storeId]);
 }
 
 export default updateStoreImage;
