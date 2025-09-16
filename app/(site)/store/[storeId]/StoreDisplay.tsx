@@ -412,7 +412,6 @@ const StoreDisplay = ({ images, storeId, uid, storeDetails, games, storeHours, u
                                         {storeDetails.country && storeDetails.country}
                                     </p>
                                 )}
-                                <button>Edit</button>
                                 {isEditing ? (
                                     <select
                                         value={editedModality}
