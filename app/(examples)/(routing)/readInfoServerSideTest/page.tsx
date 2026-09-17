@@ -1,11 +1,17 @@
-const Page = async (props: { searchParams: Promise<{ msg?: string }> }) => {
-    const searchParams = await props.searchParams;
+export default async function Page({
+    searchParams,
+}: {
+    searchParams: Promise<{ msg?: string | string[] }>;
+}) {
+    const { msg } = await searchParams;
+    const message = Array.isArray(msg) ? msg[0] : msg;
+
     return (
         <>
-            <h4 className="text-3xl">This is for Reading Information by Link Component via Sever Side</h4>
-            {searchParams.msg ? searchParams.msg : null}
+            <h4 className="text-3xl">
+                This is for Reading Information by Link Component via Server Side
+            </h4>
+            {message ?? null}
         </>
     );
 }
-
-export default Page;

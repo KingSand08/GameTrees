@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { useFormStatus, useFormState } from "react-dom";
+import { useFormStatus } from "react-dom";
+import { useActionState } from "react";
 import MysqlSignUpAction from "@/database/queries/test/mysqlSignUpAction";
 
 const initialState = {
@@ -10,7 +11,7 @@ const initialState = {
 
 const ModifyUserData = () => {
   const { pending } = useFormStatus();
-  const [state, formAction] = useFormState(MysqlSignUpAction, initialState);
+  const [state, formAction] = useActionState(MysqlSignUpAction, initialState);
   const [showPassword, setShowPassword] = useState(false);
 
   return (

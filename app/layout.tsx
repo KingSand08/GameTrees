@@ -6,6 +6,11 @@ import Navbar from "@/app/ui/components/Navbar";
 import Footer from "@/app/ui/components/structural/Footer";
 import NextAuthSessionProvider from "@/nextauth/NextAuthSessionProvider"
 
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+// Remove this opt-out after verifying the segment passes validation without it.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+// export const instant = false;
+
 export const metadata: Metadata = {
   title: "Game Trees",
   description: "Search local and larger stores for games, prices, and discounts for many shop fronts, developers, and publishers in one area! You can connect with community and view your gamestats cross platform!",

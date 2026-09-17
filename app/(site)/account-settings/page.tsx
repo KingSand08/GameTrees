@@ -5,6 +5,11 @@ import AccountSettingsPageWrapper from "./AccountSettingsWrapper";
 import SignOutButton from "@/app/ui/components/auth/SignOutButton";
 import { getUser } from "@/database/queries/user/getUser";
 
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+// Remove this opt-out after verifying the segment passes validation without it.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+// export const instant = false;
+
 export default async function AccountSettingsPage() {
     const session = await getServerSession(authOptions);
 

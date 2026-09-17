@@ -18,7 +18,7 @@ type HighlightStoresProps = {
   stores: HighlightStore[];
 };
 
-const HighlightStores: React.FC<HighlightStoresProps> =({stores}) => {
+const HighlightStores: React.FC<HighlightStoresProps> = ({ stores }) => {
   return (
     <div className="flex flex-col space-y-5">
       {/* Carousel Section */}
@@ -27,7 +27,7 @@ const HighlightStores: React.FC<HighlightStoresProps> =({stores}) => {
           <div
             key={store.id}
             id={`item${index + 1}`}
-            className="carousel-item w-full"
+            className="carousel-item w-screen"
           >
             <div className="hero flex flex-col items-center justify-center">
 
@@ -40,7 +40,8 @@ const HighlightStores: React.FC<HighlightStoresProps> =({stores}) => {
                   quality={100}
                   style={{
                     objectFit: 'cover', // Ensures the image is cropped to fill the container
-                    width: '700px',
+                    width: '70%',
+                    maxWidth: '700px',
                     height: '500px',
                   }}
                   className="rounded-lg shadow-2xl"
@@ -54,7 +55,7 @@ const HighlightStores: React.FC<HighlightStoresProps> =({stores}) => {
                     {store.hours.length === 0 ? (
                       <p className="text-center">No operating hours available.</p>
                     ) : (
-                      <table className="table table-sm bg-base-100 text-base-content max-w-96 rounded-md">
+                      <table className="table table-sm bg-base-100 text-base-content max-w-96 rounded-md min-w-fit overflow-x-auto">
                         <thead>
                           <tr>
                             <th className="text-left">Weekday</th>

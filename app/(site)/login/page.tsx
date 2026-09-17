@@ -1,14 +1,15 @@
 "use client";
-import React from 'react'
+import React, { use } from 'react';
 import Signin from '@/app/ui/components/auth/SigninPage'
 import styles from "@/app/ui/styles/Animations/AnimatedBackground.module.css";
 
 type Props = {
-    searchParams?: Record<"callbackUrl" | "error", string>;
+    searchParams: Promise<{ callbackUrl?: string; error?: string; }>
 }
 
 
 const Page = (props: Props) => {
+    const searchParams = use(props.searchParams);
 
     return (
         <div className="relative min-h-screen inset-0">
@@ -23,13 +24,13 @@ const Page = (props: Props) => {
             <div className='relative z-10 flex justify-center m-0 md:m-[2em] min-h-screen'>
                 <div className='w-screen md:w-3/4 lg:w-1/2 p-6 dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 bg-slate-800 rounded-lg shadow-lg h-fit'>
                     <Signin
-                        error={props.searchParams?.error}
-                        callbackUrl={props.searchParams?.callbackUrl}
+                        error={searchParams?.error}
+                        callbackUrl={searchParams?.callbackUrl}
                     />
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default Page

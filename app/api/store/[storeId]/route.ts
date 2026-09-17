@@ -7,7 +7,8 @@ const storeRepository = new StoreRepository();
 const storeDetailRep = new StoreDetailRep();
 const storeHoursRep = new StoreHoursRep();
 
-export async function GET(request: NextRequest, { params }: { params: { storeId: string } }) {
+export async function GET(request: NextRequest, props: { params: Promise<{ storeId: string }> }) {
+    const params = await props.params;
     const { storeId } = params;
 
     try {
