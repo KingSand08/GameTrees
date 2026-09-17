@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-export const middleware = async (request: NextRequest) => {
+export const proxy = async (request: NextRequest) => {
     // Check if the user is authenticated
     const token = await getToken({ req: request });
 

@@ -7,11 +7,17 @@ import { getUserRoleByUID } from "@/database/queries/user/getUserRoleByUID";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/nextauth/NextAuthOptions";
 
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+// Remove this opt-out after verifying the segment passes validation without it.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+// export const instant = false;
+
 interface WishlistPageProps {
-    params: { username: string };
+    params: Promise<{ username: string }>;
 }
 
-const WishlistPage = async ({ params }: WishlistPageProps) => {
+const WishlistPage = async (props: WishlistPageProps) => {
+    const params = await props.params;
     const { username } = params;
 
     const session = await getServerSession(authOptions);

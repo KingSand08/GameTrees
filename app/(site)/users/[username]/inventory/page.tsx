@@ -9,11 +9,17 @@ import { getStoreByMid, getUnclaimedStores } from "@/database/queries/store/getS
 import { getAllGames } from "@/database/queries/game/getAllGames";
 import getAllBusinesses from "@/database/queries/business/getAllBusinessData"
 
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+// Remove this opt-out after verifying the segment passes validation without it.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+// export const instant = false;
+
 interface InventoryPageProps {
-    params: { username: string };
+    params: Promise<{ username: string }>;
 }
 
-const InventoryPage = async ({ params }: InventoryPageProps) => {
+const InventoryPage = async (props: InventoryPageProps) => {
+    const params = await props.params;
     const { username } = params;
 
     const session = await getServerSession(authOptions);
@@ -22,7 +28,7 @@ const InventoryPage = async ({ params }: InventoryPageProps) => {
     const managerId = await getUserIdByUsername(username);
     const myId = await getUserIdByUsername(session?.user.username || "");
     let canEdit = false;
-    
+
     // Manager can only modify own inventory
     if (myId === managerId) canEdit = true;
 
@@ -67,7 +73,7 @@ const InventoryPage = async ({ params }: InventoryPageProps) => {
                 businesses={businesses}
                 uid={session?.user.id as unknown as string}
                 userRole={role}
-                canEdit = {canEdit}
+                canEdit={canEdit}
             />
         </div>
     );

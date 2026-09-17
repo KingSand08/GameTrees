@@ -7,11 +7,17 @@ import GameDisplay from "./GameDisplay";
 import { getGamesByID } from "@/database/queries/game/getGameDetails";
 import getUserWishlist from "@/database/queries/wishlist/getWishlist";
 
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+// Remove this opt-out after verifying the segment passes validation without it.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+// export const instant = false;
+
 interface GamePageProps {
-  params: { gameId: string };
+  params: Promise<{ gameId: string }>;
 }
 
-export default async function GamePage({ params }: GamePageProps) {
+export default async function GamePage(props: GamePageProps) {
+  const params = await props.params;
   const gameId = params.gameId;
 
   // Get server-side session (may be null if not logged in)

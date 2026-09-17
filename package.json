@@ -6,29 +6,35 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "i": "^0.3.7",
     "lucide": "^0.462.0",
     "lucide-react": "^0.462.0",
     "mysql2": "^3.11.4",
-    "next": "^14.2.22",
-    "next-auth": "^4.24.10",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "sharp": "^0.33.5"
+    "next": "16.3.5",
+    "next-auth": "^4.24.15",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "sharp": "^0.35.4"
   },
   "devDependencies": {
     "@types/node": "^20.17.6",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
     "@types/uuid": "^10.0.0",
     "daisyui": "^4.12.14",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.14",
-    "postcss": "^8",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.5",
+    "postcss": "^8.5.28",
     "tailwindcss": "^3.4.14",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.3.0",
+      "@types/react-dom": "19.3.0"
+    }
   }
 }

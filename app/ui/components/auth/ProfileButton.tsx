@@ -1,4 +1,3 @@
-"use server";
 import React from "react";
 import { ClassChange } from "@/types/ui/classChange";
 import { Profile } from "@/types/models/Profile";

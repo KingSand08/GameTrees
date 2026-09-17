@@ -1,14 +1,15 @@
 "use client";
-import React from "react";
+import React, { use } from "react";
 import Signin from '@/app/ui/components/auth/SigninPage'
 import Modal from "@/app/ui/components/structural/Modal";
 import styles from "@/app/ui/styles/Animations/AnimatedBackground.module.css";
 
 type Props = {
-    searchParams?: Record<"callbackUrl" | "error", string>;
+    searchParams: Promise<{ callbackUrl?: string; error?: string; }>
 };
 
-const SignInModal = ({ searchParams }: Props) => {
+const SignInModal = (props: Props) => {
+    const searchParams = use(props.searchParams);
     return (
         <>
             {/* Background Design */}

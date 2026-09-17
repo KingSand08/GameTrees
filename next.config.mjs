@@ -1,13 +1,29 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      "avatars.githubusercontent.com",
-      "lh3.googleusercontent.com",
-      "img.daisyui.com",
-      "www.giantbomb.com",
-      "gamekastle.com", // Added Game Kastle domain
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.daisyui.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.giantbomb.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'gamekastle.com',
+      },
     ],
+    qualities: [75, 100],
   },
 };
 

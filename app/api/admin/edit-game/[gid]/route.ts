@@ -6,7 +6,8 @@ import { getServerSession } from "next-auth";
 // import { revalidatePath } from "next/cache";
 import { editGame } from "@/database/queries/game/editGame";
 
-export async function POST(req: Request, { params }: { params: { gid: string } }) {
+export async function POST(req: Request, props: { params: Promise<{ gid: string }> }) {
+    const params = await props.params;
     const session = await getServerSession(authOptions);
 
     if (!session) {

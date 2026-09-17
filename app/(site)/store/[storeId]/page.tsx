@@ -11,11 +11,17 @@ import getStoreIdFromUserId from "@/database/queries/store/getStoreIDFromUserID"
 // import { getManagerIdFromStoreId } from "@/database/queries/store/getManager";
 import { getStoreImages } from "@/database/queries/store/StoreImages";
 
+// @next-codemod-ignore Cache Components adoption: this segment temporarily allows blocking.
+// Remove this opt-out after verifying the segment passes validation without it.
+// See: https://nextjs.org/docs/app/guides/migrating-to-cache-components
+// export const instant = false;
+
 interface StorePageProps {
-    params: { storeId: string };
+    params: Promise<{ storeId: string }>;
 }
 
-export default async function StorePage({ params }: StorePageProps) {
+export default async function StorePage(props: StorePageProps) {
+    const params = await props.params;
     const storeId = params.storeId;
 
     // Get server-side session (may be null if not logged in)

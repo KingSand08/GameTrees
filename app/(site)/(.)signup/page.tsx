@@ -1,15 +1,16 @@
 "use client";
-import React from 'react'
+import React, { use } from 'react';
 import SignUp from '@/app/ui/components/auth/SignupPage'
 import Modal from '@/app/ui/components/structural/Modal';
 import styles from "@/app/ui/styles/Animations/AnimatedBackground.module.css";
 
 type Props = {
-    searchParams?: Record<"callbackUrl" | "error", string>;
+    searchParams: Promise<{ callbackUrl?: string; error?: string; }>
 }
 
 
 const SignUpModal = (props: Props) => {
+    const searchParams = use(props.searchParams);
 
     return (
         <>
@@ -24,11 +25,11 @@ const SignUpModal = (props: Props) => {
                 className="dark:bg-gradient-to-r dark:from-slate-800 dark:to-slate-900 bg-slate-800">
                 <div className="">
                     {/* Sign-Up Page */}
-                    <SignUp error={props.searchParams?.error} callbackUrl={props.searchParams?.callbackUrl} />
+                    <SignUp error={searchParams?.error} callbackUrl={searchParams?.callbackUrl} />
                 </div>
             </Modal>
         </>
-    )
+    );
 }
 
 export default SignUpModal

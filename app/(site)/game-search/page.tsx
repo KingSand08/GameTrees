@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, use } from "react";
 import Game from "@/types/models/Game";
 import Image from "next/image";
 import Link from "next/link";
 // import WishListButton from "@/app/ui/components/buttons/WishListButton";
 
-export default function Page({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+export default function Page(props: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
+    const searchParams = use(props.searchParams);
     const query = searchParams.query;
     const [games, setGames] = useState<Game[]>([]);
     const [loading, setLoading] = useState(true);
